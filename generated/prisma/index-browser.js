@@ -120,25 +120,49 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UsuarioScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  sobrenome: 'sobrenome',
   email: 'email',
   password: 'password',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AdminScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sobrenome: 'sobrenome',
+  email: 'email',
+  password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EventScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  eventDate: 'eventDate',
+  ticketDeadline: 'ticketDeadline',
+  ticketPrice: 'ticketPrice',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  adminId: 'adminId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
+exports.EventStatus = exports.$Enums.EventStatus = {
+  ACTIVE: 'ACTIVE',
+  CLOSED: 'CLOSED'
 };
 
-
 exports.Prisma.ModelName = {
-  Usuario: 'Usuario'
+  Usuario: 'Usuario',
+  Admin: 'Admin',
+  Event: 'Event'
 };
 
 /**
