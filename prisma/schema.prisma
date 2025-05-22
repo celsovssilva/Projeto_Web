@@ -16,9 +16,44 @@ datasource db {
 
 model Usuario {
   id        Int   @id @default(autoincrement())
-  name      String?
-  email     String?  @unique
-  password  String?
+  name      String
+  sobrenome String
+  email     String  @unique
+  password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+
+
+model Admin {
+  id        Int     @id @default(autoincrement())
+  name      String
+  sobrenome String
+  email     String  @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events    Event[]
+}
+
+model Event {
+  id               Int      @id @default(autoincrement())
+  name             String
+  description      String
+  eventDate        DateTime
+  ticketDeadline   DateTime
+  ticketPrice      Float
+  status           EventStatus @default(ACTIVE)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  adminId          Int
+  admin            Admin       @relation(fields: [adminId], references: [id])
+}
+
+enum EventStatus {
+  ACTIVE
+  CLOSED
 }
