@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
+
 import userRoutes from "./src/routes/userRoutes.js";
 import adminRoutes from "./src/routes/adminRoutes.js";
-import loginRoutes from "./src/routes/loginRouters.js";
+import authRoutes from "./src/routes/authRoutes.js";
+
 
 const app = express();
 
@@ -12,6 +14,7 @@ app.use(express.json());
 app.use("/api", loginRoutes);
 app.use("/api", userRoutes);
 app.use("/api", adminRoutes);
+app.use("/api", authRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
