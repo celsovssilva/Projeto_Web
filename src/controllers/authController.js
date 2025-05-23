@@ -1,0 +1,44 @@
+import { PrismaClient } from "../../generated/prisma/index.js";
+import bcrypt from "bcryptjs";
+
+const prisma = new PrismaClient();
+
+export const login = async (req, res) => {
+  const { email, password, role } = req.body;
+
+  if (!email || !password || !role) {
+    return res.status(400).json({ error: "Email, password e role são obrigatórios" });
+  }
+
+  try {
+    let user;
+
+    if (role === "user") {
+      user = await prisma.usuario.findUnique({ where: { email } });
+    } else if (role === "admin") {
+      user = await prisma.admin.findUnique({ where: { email } });
+    } else {
+      return res.status(400).json({ error: "Role inválido. Use 'user' ou 'admin'" });
+    }
+
+    if (!user) {
+      return res.status(404).json({ error: "Usuário não encontrado" });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: "Senha incorreta" });
+    }
+
+    const { id, name, sobrenome, email: userEmail } = user;
+
+    res.json({
+      message: "Login realizado com sucesso",
+      user: { id, name, sobrenome, email: userEmail, role }
+    });
+
+  } catch (error) {
+    console.error("Erro no login:", error);
+    res.status(500).json({ error: "Erro interno do servidor" });
+  }
+};
