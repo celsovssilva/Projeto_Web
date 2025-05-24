@@ -1,16 +1,43 @@
 import { PrismaClient } from "../../generated/prisma/index.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-import jwt from "jsonwebtoken"; 
+import jwt from "jsonwebtoken";
+import nodemailer from 'nodemailer';
 
 const prisma = new PrismaClient();
+
+const transporter = nodemailer.createTransport({
+  host: "sandbox.smtp.mailtrap.io", // Host do Mailtrap
+  port: 2525,                      // Porta do Mailtrap
+  auth: {
+    user: "22792d5882d4d2", // Seu nome de usuário do Mailtrap
+    pass: "007c2247df9903"       
+  }
+});
 
 const generateResetToken = () => {
   return crypto.randomBytes(20).toString('hex');
 };
 
 const sendPasswordResetEmail = async (email, token, role) => {
-  console.log(`Enviando email de reset de senha para: ${email} com token: ${token} para ${role}`);
+  const resetLink = `http://seuprojeto.com/reset-password?token=${token}&role=${role}`;
+  const mailOptions = {
+    from: 'seuemail@seudominio.com', // Seu endereço de e-mail
+    to: email,
+    subject: 'Link para Redefinição de Senha',
+    html: `<p>Você solicitou a redefinição da sua senha para a role de <strong>${role}</strong>. Clique no link abaixo para continuar:</p>
+           <a href="${resetLink}">${resetLink}</a>
+           <p>Este link é válido por uma hora.</p>`
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('E-mail enviado:', info.messageId);
+    return true;
+  } catch (error) {
+    console.error('Erro ao enviar e-mail:', error);
+    return false;
+  }
 };
 
 export const forgotPassword = async (req, res) => {
@@ -39,7 +66,7 @@ export const forgotPassword = async (req, res) => {
 
     const resetToken = generateResetToken();
     const passwordResetExpires = new Date();
-    passwordResetExpires.setHours(passwordResetExpires.getHours() + 1); 
+    passwordResetExpires.setHours(passwordResetExpires.getHours() + 1);
 
     await model.update({
       where: { email: user.email },
@@ -104,7 +131,6 @@ export const resetPassword = async (req, res) => {
       },
     });
 
-    
 
     res.json({ message: "Senha redefinida com sucesso." });
 
@@ -123,7 +149,7 @@ export const resetPasswordWithoutToken = async (req, res) => {
 
   try {
     const user = await prisma.usuario.findUnique({ where: { email } });
-    const model = prisma.usuario; 
+    const model = prisma.usuario;
 
     if (!user) {
       return res.status(404).json({ error: "Usuário não encontrado." });
@@ -131,7 +157,7 @@ export const resetPasswordWithoutToken = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await prisma.usuario.update({ 
+    await prisma.usuario.update({
       where: { email: user.email },
       data: {
         password: hashedPassword,

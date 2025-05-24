@@ -124,7 +124,9 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   email: 'email',
   password: 'password',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  passwordResetToken: 'passwordResetToken',
+  passwordResetExpires: 'passwordResetExpires'
 };
 
 exports.Prisma.AdminScalarFieldEnum = {
@@ -134,7 +136,9 @@ exports.Prisma.AdminScalarFieldEnum = {
   email: 'email',
   password: 'password',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  passwordResetToken: 'passwordResetToken',
+  passwordResetExpires: 'passwordResetExpires'
 };
 
 exports.Prisma.EventScalarFieldEnum = {
@@ -153,6 +157,11 @@ exports.Prisma.EventScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.EventStatus = exports.$Enums.EventStatus = {
   ACTIVE: 'ACTIVE',
