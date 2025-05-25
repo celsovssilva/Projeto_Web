@@ -7,10 +7,10 @@ import nodemailer from 'nodemailer';
 const prisma = new PrismaClient();
 
 const transporter = nodemailer.createTransport({
-  host: "sandbox.smtp.mailtrap.io", // Host do Mailtrap
-  port: 2525,                      // Porta do Mailtrap
+  host: "sandbox.smtp.mailtrap.io", 
+  port: 2525,                      
   auth: {
-    user: "22792d5882d4d2", // Seu nome de usuário do Mailtrap
+    user: "22792d5882d4d2", 
     pass: "007c2247df9903"       
   }
 });
@@ -22,10 +22,10 @@ const generateResetToken = () => {
 const sendPasswordResetEmail = async (email, token, role) => {
   const resetLink = `http://seuprojeto.com/reset-password?token=${token}&role=${role}`;
   const mailOptions = {
-    from: 'seuemail@seudominio.com', // Seu endereço de e-mail
+    from: 'seuemail@seudominio.com', 
     to: email,
     subject: 'Link para Redefinição de Senha',
-    html: `<p>Você solicitou a redefinição da sua senha para a role de <strong>${role}</strong>. Clique no link abaixo para continuar:</p>
+    html: `<p>Você solicitou a redefinição da sua senha . Clique no link abaixo para continuar:</p>
            <a href="${resetLink}">${resetLink}</a>
            <p>Este link é válido por uma hora.</p>`
   };
