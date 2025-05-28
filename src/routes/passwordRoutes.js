@@ -1,6 +1,8 @@
 import express from 'express';
 
 import { forgotPassword, resetPassword } from '../controllers/passwordController.js';
+import { verificarToken } from '../middlewares/authMiddleware.js';
+
 
 const router = express.Router();
 
@@ -12,8 +14,8 @@ router.get("/reset-password", (req, res) => {
   res.render("recuperar"); 
 });
 
-router.post('/forgot-password', forgotPassword);
-router.post('/reset-password', resetPassword);
+router.post('/forgot-password', verificarToken, forgotPassword);
+router.post('/reset-password', verificarToken, resetPassword);
 
 
 export default router;

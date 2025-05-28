@@ -7,6 +7,6 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.post("/login", login);
+router.post("/login", verificarToken, login);
 
 export default router;
