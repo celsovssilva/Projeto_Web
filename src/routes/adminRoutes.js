@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.post("/admin", createAdmin);
-router.post("/admin/:adminId/events", createEvent);
-router.put("/admin/:adminId/events/:eventId", updateEvent);
-router.delete("/admin/:adminId/events/:eventId", deleteEvent);
+router.post("/admin",  verificarToken, createAdmin);
+router.post("/admin/:adminId/events",  verificarToken, createEvent);
+router.put("/admin/:adminId/events/:eventId", verificarToken, updateEvent);
+router.delete("/admin/:adminId/events/:eventId",  verificarToken, deleteEvent);
 
 export default router;

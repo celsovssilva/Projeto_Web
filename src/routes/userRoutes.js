@@ -14,11 +14,11 @@ router.get("/userCad", (req, res) => {
 });
 
 
-router.get("/user", getUsers);
-router.get("/user/:userId", getUserById);
-router.post("/userCad", createUser);
-router.put("/user/:userId", updateUser);
-router.delete("/user/:userId", deleteUser);
+router.get("/user",  verificarToken ,getUsers);
+router.get("/user/:userId",  verificarToken, getUserById);
+router.post("/userCad",  verificarToken, createUser);
+router.put("/user/:userId",  verificarToken, updateUser);
+router.delete("/user/:userId",  verificarToken,deleteUser);
 
 
 export default router;
