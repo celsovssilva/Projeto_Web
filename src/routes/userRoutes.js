@@ -9,9 +9,14 @@ import {
 
 const router = express.Router();
 
+router.get("/userCad", (req, res) => {
+  res.render("cadastro"); 
+});
+
+
 router.get("/user", getUsers);
 router.get("/user/:userId", getUserById);
-router.post("/user", createUser);
+router.post("/userCad", createUser);
 router.put("/user/:userId", updateUser);
 router.delete("/user/:userId", deleteUser);
 

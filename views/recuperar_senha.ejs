@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/autenticacao/recuperar_senha.css">
+    <title>Recuperar Senha</title>
+  </head>
+  <body>
+    <main>
+      <form id="formRecuperarSenha" action="/api/forgot-password" method="POST">
+        <fieldset>
+          <legend>Recuperar</legend>
+          <div class="input-group">
+            <input type="email" id="email" name="email" placeholder=" " required>
+            <label for="email">Digite seu email</label>
+          </div>
+          <div class="input-group">
+            <select id="role" name="role" required>
+              <option value="">Selecione</option>
+              <option value="user">Usuário</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <button type="submit">Enviar Link de Recuperação</button>
+        </fieldset>
+      </form>
+      <section>
+        <p>
+          Lembrou sua senha?
+          <a href="/api/login">Voltar para login</a>
+        </p>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2025 EntradaExpress. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="/js/resetPassword.js"></script>
+  </body>
+</html>

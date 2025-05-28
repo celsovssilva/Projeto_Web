@@ -17,10 +17,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-
-
-
- 
 export const forgotPassword = async (req, res) => {
   const { email, role } = req.body;
 
@@ -49,7 +45,7 @@ export const forgotPassword = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    const resetLink = `http://seuprojeto.com/reset-password?token=${resetToken}`;
+    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
     const mailOptions = {
       from: 'seuemail@seudominio.com',

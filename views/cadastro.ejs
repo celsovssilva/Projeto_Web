@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/autenticacao/cadastro.css">
+  <title>Cadastro</title>
+</head>
+<body>
+  <main>
+    <form action="/api/userCad" method="post" class="form-cadastro" id="formCadastro">
+
+      <fieldset class="form-step" id="step1">
+        <legend>Dados Pessoais</legend>
+        <div class="input-group">
+          <input type="email" name="email" id="email" placeholder=" " required>
+          <label for="email">E-mail</label>
+        </div>
+        <div class="input-group">
+          <input type="text" name="name" id="name" placeholder=" " required>
+          <label for="name">Nome</label>
+        </div>
+        <div class="input-group">
+          <input type="text" name="sobrenome" id="sobrenome" placeholder=" " required>
+          <label for="sobrenome">Sobrenome</label>
+        </div>
+        <button type="button" class="btn-cadastro" onclick="nextStep(2)">Próximo</button>
+      </fieldset>
+
+      <fieldset class="form-step" id="step2" style="display:none;">
+        <legend>Senha</legend>
+        <div class="input-group">
+          <input type="password" name="password" id="password" placeholder=" " required>
+          <label for="password">Senha</label>
+        </div>
+        <div class="input-group">
+          <input type="password" name="confirmarSenha" id="confirmarSenha" placeholder=" " required>
+          <label for="confirmarSenha">Confirmar Senha</label>
+        </div>
+        <button type="submit" class="btn-cadastro">Cadastrar</button>
+        <button type="button" class="btn-cadastro" onclick="prevStep(1)">Voltar</button>
+      </fieldset>
+    </form>
+    <section>
+      <p>Já tem cadastro? <a href="login">Faça login</a></p>
+      <p>Esqueceu a senha? <a href="/recuperarsenha">Recuperar senha</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 EntradaExpress. Todos os direitos reservados.</p>
+  </footer>
+
+<script src="/js/cadastro.js"></script>
+   
+</body>
+</html>

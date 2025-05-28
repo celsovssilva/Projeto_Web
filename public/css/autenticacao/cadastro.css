@@ -1,0 +1,172 @@
+body {
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+
+main {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  margin-top: 20px;
+}
+
+fieldset {
+  border: 2px solid #007BFF;
+  border-radius: 8px;
+  padding: 20px;
+  background: #f8f8f8;
+}
+
+legend {
+  font-size: 2.1rem;
+  font-weight: bold;
+  color: #007BFF;
+  padding: 0 10px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 10px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background: #f8f8f8;
+}
+
+.input-group input::placeholder {
+  color: transparent;
+}
+
+.input-group label {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: all 0.2s ease;
+  color: #aaa;
+  background: #f8f8f8;
+  padding: 0 2px;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: 0;
+  left: 12px;
+  font-size: 0.9rem;
+  color: #007BFF;
+  background: #f8f8f8;
+  padding: 0 2px;
+}
+
+button,
+.btn-cadastro {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 4px;
+  background: #007BFF;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover,
+.btn-cadastro:hover {
+  background: #005bb5;
+}
+
+section {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+section a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+section a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+  main {
+    padding: 25px;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 20px;
+  }
+  fieldset {
+    padding: 15px;
+  }
+  legend {
+    font-size: 1.5rem;
+  }
+  button,
+  .btn-cadastro {
+    font-size: 1rem;
+    padding: 8px;
+  }
+  section {
+    font-size: 0.8rem;
+  }
+  footer {
+    font-size: 0.7rem;
+  }
+  .input-group input {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+  .input-group label {
+    left: 10px;
+  }
+  .input-group input:focus + label,
+  .input-group input:not(:placeholder-shown) + label {
+    left: 10px;
+    font-size: 0.8rem;
+  }
+}

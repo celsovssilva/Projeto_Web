@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/autenticacao/login.css">
+    <title>Login</title>
+  </head>
+  <body>
+    <header>
+      <h1>Bem-vindo</h1>
+    </header>
+      
+    <main>
+      <form action="/api/login" method="post">
+        <fieldset>
+          <legend>Login</legend>
+
+          <div class="input-group">
+            <picture>
+              <source srcset="/img/login-cadastro/user.webp" type="image/webp">
+              <img src="/img/login-cadastro/user.png" alt="Boneco de login">
+            </picture>            
+          </div>
+
+          <% if (typeof erro !== "undefined") { %>
+                  <div class="erro" style="color: red; text-align: center;">
+                    <%= erro %>
+                  </div>
+              <% } %>
+
+          <div class="input-group">
+            <input type="email" id="email" name="email" placeholder=" " required>
+            <label for="usuario">Digite seu E-mail</label>
+          </div>
+          
+          <div class="input-group">
+            <input type="password" id="password" name="password" placeholder=" " required>
+            <label for="senha">Digite sua senha</label>
+          </div>
+  
+            <select id="role" name="role" required>
+              <option value="">Selecione</option>
+              <option value="user">Usuário</option>
+              <option value="admin">Admin</option>
+            </select>
+
+          <div>
+            <button type="submit">Entrar</button>
+          </div>
+        </fieldset>
+      </form>
+      
+      <section>
+        <p>
+          Ainda não possui uma conta?
+          <a href="/api/userCad">Cadastre-se</a>
+        </p>
+        <p>
+          Esqueceu sua senha?
+          <a href="/api/forgot-password">Recuperar senha</a>
+        </p>
+      </section>
+    </main>
+    
+    <footer>
+      <p>&copy; 2025 EntradaExpress. Todos os direitos reservados.</p>
+    </footer>
+  </body>
+</html>
