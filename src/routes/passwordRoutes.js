@@ -5,7 +5,11 @@ import { forgotPassword, resetPassword } from '../controllers/passwordController
 const router = express.Router();
 
 router.get("/forgot-password", (req, res) => {
-  res.render("recuperar_senha"); 
+  res.render("enviarEmail"); 
+});
+
+router.get("/reset-password", (req, res) => {
+  res.render("recuperar"); 
 });
 
 router.post('/forgot-password', forgotPassword);

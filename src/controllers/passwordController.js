@@ -29,7 +29,7 @@ export const forgotPassword = async (req, res) => {
     if (role === "user") {
       user = await prisma.usuario.findUnique({ where: { email } });
     } else if (role === "admin") {
-      user = await prisma.Admin.findUnique({ where: { email } });
+      user = await prisma.admin.findUnique({ where: { email } });
     } else {
       return res.status(400).json({ error: "Role inválido." });
     }
