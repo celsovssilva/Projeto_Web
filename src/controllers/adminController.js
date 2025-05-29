@@ -25,11 +25,21 @@ export const createEvent = async (req, res) => {
   const { adminId } = req.params;
   const { name, description, eventDate, ticketDeadline, ticketPrice, status } = req.body;
   try {
+    const parsedEventDate = new Date(eventDate);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    parsedEventDate.setHours(0, 0, 0, 0);
+
+    if (parsedEventDate < now) {
+      req.flash('error', 'A data do evento não pode ser anterior à data atual.');
+      return res.redirect(`/api/admin/${adminId}/events`);
+    }
+
     const newEvent = await prisma.Event.create({
       data: {
         name,
         description,
-        eventDate: new Date(eventDate),
+        eventDate: parsedEventDate,
         ticketDeadline: new Date(ticketDeadline),
         ticketPrice: parseFloat(ticketPrice),
         status,
