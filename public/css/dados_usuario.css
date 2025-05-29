@@ -1,4 +1,3 @@
-/* Variáveis de cores e fontes */
 :root {
   --primary: #2a9d8f;
   --secondary: #264653;
@@ -9,7 +8,6 @@
   --font: 'Poppins', sans-serif;
 }
 
-/* Reset e configurações globais */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -20,15 +18,15 @@ html {
 }
 body {
   font-family: var(--font);
-  background: linear-gradient(135deg, #6dd5ed, #2193b0); /* style.css */
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
   color: var(--dark);
   line-height: 1.6;
-  display: flex; /* style.css */
-  flex-direction: column; /* style.css */
-  align-items: center; /* style.css */
-  justify-content: center; /* style.css */
-  min-height: 100vh; /* style.css */
-  padding: 20px; /* style.css */
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  min-height: 100vh; 
+  padding: 20px; 
 }
 
 header {
