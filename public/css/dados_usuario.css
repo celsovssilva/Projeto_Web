@@ -1,0 +1,270 @@
+/* Variáveis de cores e fontes */
+:root {
+  --primary: #2a9d8f;
+  --secondary: #264653;
+  --accent: #e76f51;
+  --light: #f4f4f4;
+  --dark: #333;
+  --bg: #ffffff;
+  --font: 'Poppins', sans-serif;
+}
+
+/* Reset e configurações globais */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: var(--font);
+  background: linear-gradient(135deg, #6dd5ed, #2193b0); /* style.css */
+  color: var(--dark);
+  line-height: 1.6;
+  display: flex; /* style.css */
+  flex-direction: column; /* style.css */
+  align-items: center; /* style.css */
+  justify-content: center; /* style.css */
+  min-height: 100vh; /* style.css */
+  padding: 20px; /* style.css */
+}
+
+header {
+  background: linear-gradient(45deg, var(--secondary), var(--primary));
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--light);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.navbar {
+  margin-top: 1rem;
+  width: 100vw; 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  margin-bottom: 0; 
+  padding: 0; 
+  background: #007BFF; 
+  border-radius: 0; 
+  z-index: 1000; 
+}
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-direction: row; 
+  padding: 0; 
+  margin: 0; 
+  justify-content: flex-start;
+  gap: 2px; 
+}
+.navbar li {
+  margin: 0; 
+  padding: 0; 
+}
+.navbar li a, .navbar a {
+  text-decoration: none;
+  color: var(--light);
+  font-weight: 600;
+  transition: color 0.3s;
+  display: block; 
+  background: #007BFF; 
+  color: #fff; 
+  font-weight: bold; 
+  padding: 10px 18px; 
+  border-radius: 0; 
+  transition: background 0.2s
+}
+.navbar li a:hover, nav li a.active, .navbar a:hover {
+  color: var(--accent);
+  background: #005bb5; 
+}
+
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  width: 100%; 
+  max-width: 400px; 
+  background: #fff; 
+  border-radius: 8px; 
+  padding: 30px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  margin-top: 30px; 
+}
+
+/* Seção de eventos */
+section#eventos {
+  margin-bottom: 3rem;
+}
+section#eventos h2 {
+  font-size: 2rem;
+  color: var(--secondary);
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-align: center;
+  border-bottom: 3px solid var(--secondary);
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+footer {
+  background: var(--secondary);
+  color: var(--light);
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.9rem;
+  margin-top: 3rem;
+  margin-top: 30px; 
+  font-size: 0.8rem; 
+  color: #fff; 
+}
+
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+  nav ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  main {
+    padding: 1.5rem;
+    padding: 25px; 
+    max-width: 70%; 
+  }
+  body {
+    padding: 15px; 
+  }
+  section#eventos h2 {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 2rem;
+  }
+  main {
+    padding: 20px;
+  }
+  fieldset {
+    padding: 15px;
+  }
+  legend {
+    font-size: 2rem;
+  }
+  button {
+    font-size: 1rem;
+    padding: 8px;
+  }
+  section {
+    font-size: 0.8rem;
+  }
+  footer {
+    font-size: 0.7rem;
+  }
+  .input-group input {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+  .input-group label {
+    left: 10px;
+  }
+  .input-group input:focus + label,
+  .input-group input:not(:placeholder-shown) + label {
+    left: 10px;
+    font-size: 0.8rem;
+  }
+}
+
+.campo-dado {
+  border: 2px solid #007BFF;
+  border-radius: 12px;
+  padding: 8px 12px;
+  background: #f0f8ff;
+  font-weight: bold;
+  color: #007BFF;
+  text-align: center;
+}
+.dados-usuario {
+  border: 2px solid #007BFF;
+  border-radius: 16px;
+  padding: 24px;
+  background: #fff;
+  box-shadow: 0 2px 8px #0001;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.dados-usuario table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.dados-usuario td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+}
+.dados-usuario tr:last-child td {
+  border-bottom: none;
+}
+picture img {
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+}
+select#role {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #bdbdbd;
+  border-radius: 8px;
+  font-size: 0.97rem;
+  background: #f8f8f8;
+  color: #333;
+  transition: border-color 0.3s ease;
+  appearance: none;
+  outline: none;
+  margin-bottom: 15px;
+  margin-top: 2px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,<svg width='14' height='14' fill='gray' xmlns='http://www.w3.org/2000/svg'><path d='M4 6l3 3 3-3'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px 14px;
+  min-height: 30px;
+  max-height: 38px;
+}
+select#role:focus {
+  border-color: #007BFF;
+  background: #e6f0fa;
+}
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 4px;
+  background: #007BFF;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+button:hover {
+  background: #005bb5;
+}
+section {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+}

@@ -4,7 +4,7 @@ import { listEventsForUser } from '../controllers/eventsController.js';
 
 const router = express.Router();
 
-router.get("/events/user", (req, res) => {
+router.get("/events", (req, res) => {
     res.render("eventos")
 })
 

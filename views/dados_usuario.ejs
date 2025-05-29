@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/dados-usuario.css">
+    <title>Dados do Usuário/Gestor</title>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="">Pagina 1</a></li>
+            <li><a href="">Pagina 2</a></li>
+            <li><a href="">Pagina 3</a></li>
+            <li><a href="">Pagina 4</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="dados-usuario">
+           <table>
+                 <tr>
+                    <td><strong>Nome</strong></td>
+                    <td class="campo-dado"><%= usuario.nome %></td>
+                </tr>
+                 <tr>
+                    <td><strong>Sobrenome</strong></td>
+                    <td class="campo-dado"><%= usuario.sobrenome %></td>
+                </tr>
+                 <tr>
+                    <td><strong>Email</strong></td>
+                    <td class="campo-dado"><%= usuario.email %></td>
+                </tr>
+                 <tr>
+                    <td><strong>Senha</strong></td>
+                    <td class="campo-dado"><%= usuario.senha %></td>
+                </tr>
+           </table>
+        </div>
+    </main>
+    <footer>
+      <p>&copy; 2025 Entrada Express. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

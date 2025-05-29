@@ -13,6 +13,10 @@ router.get("/userCad", (req, res) => {
   res.render("cadastro"); 
 });
 
+router.get("/dataUser", (req, res) => {
+  res.render("dados_usuario")
+})
+
 
 router.get("/user" ,getUsers);
 router.get("/user/:userId", getUserById);
