@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel de Gerenciamento de Eventos - Admin</title>
+  <link rel="stylesheet" href="/css/addEvent.css" />
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"
+  />
+</head>
+<body>
+  <header>
+    <h1>Painel Gerenciamento de Eventos</h1>
+  </header>
+
+  <main>
+    <section id="admin-events">
+      <h2>Gerenciamento de Eventos</h2>
+
+      <% if (messages && messages.success && messages.success.length > 0) { %>
+      <div
+        class="alert alert-success alert-dismissible fade show"
+        role="alert"
+      >
+        <%= messages.success[0] %>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <% } %>
+      <% if (messages && messages.error && messages.error.length > 0) { %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= messages.error[0] %>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <% } %>
+
+      <button id="toggleAddForm" onclick="toggleAddEventFormForNew()">
+        Adicionar Evento
+      </button>
+
+      <div id="addEventForm" style="display: none;">
+        <h3 id="formTitle">Adicionar Novo Evento</h3>
+        <form
+          id="eventForm"
+          action="/api/admin/<%= adminId %>/events"
+          method="POST"
+        >
+          <input type="hidden" id="eventId" name="eventId" value="" />
+
+          <div class="input-group">
+            <input type="text" id="name" name="name" placeholder=" " required />
+            <label for="name">Título</label>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="datetime-local"
+              id="eventDate"
+              name="eventDate"
+              placeholder=" "
+              required
+            />
+            <label for="eventDate">Data do Evento</label>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="datetime-local"
+              id="ticketDeadline"
+              name="ticketDeadline"
+              placeholder=" "
+              required
+            />
+            <label for="ticketDeadline">Data Limite para Compra</label>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="number"
+              step="0.01"
+              id="ticketPrice"
+              name="ticketPrice"
+              placeholder=" "
+              required
+            />
+            <label for="ticketPrice">Valor do Ingresso</label>
+          </div>
+
+          <div class="input-group">
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              placeholder=" "
+              required
+            ></textarea>
+            <label for="description">Descrição</label>
+          </div>
+
+          <div class="input-group">
+            <select id="status" name="status" required>
+              <option value="ACTIVE" selected>Ativo</option>
+              <option value="CLOSED">Fechado</option>
+            </select>
+            <label for="status">Status do Evento</label>
+          </div>
+
+          <button type="submit" id="formSubmitBtn">Salvar Evento</button>
+          <button type="button" onclick="cancelEdit()">Cancelar</button>
+        </form>
+      </div>
+
+      <h3>Eventos Cadastrados</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Data do Evento</th>
+            <th>Data Limite</th>
+            <th>Valor</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (events && events.length > 0) { %>
+          <% events.forEach(function(event) { %>
+          <tr>
+            <td><%= event.name %></td>
+            <td><%= new Date(event.eventDate).toLocaleString("pt-BR") %></td>
+            <td><%= new Date(event.ticketDeadline).toLocaleString("pt-BR") %></td>
+            <td
+              ><%= parseFloat(event.ticketPrice).toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }) %></td
+            >
+            <td><%= event.status %></td>
+            <td>
+              <button class="btn btn-sm btn-info mr-1" onclick="abrirModalEditar(<%- JSON.stringify(event.id) %>)">Editar</button>
+              <button class="btn btn-sm btn-danger" onclick="excluirEvento(<%- JSON.stringify(event.id) %>)">Excluir</button>
+            </td>
+          </tr>
+          <% }); %>
+          <% } else { %>
+          <tr>
+            <td colspan="6">Nenhum evento cadastrado.</td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Entrada Express. Todos os direitos reservados.</p>
+  </footer>
+
+  <div
+    class="modal fade"
+    id="editEventModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="editEventModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editEventModalLabel">Editar Evento</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Fechar"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="modalEventId" />
+          <div class="input-group">
+            <input type="text" id="modalName" placeholder=" " required />
+            <label for="modalName">Título</label>
+          </div>
+          <div class="input-group">
+            <input
+              type="datetime-local"
+              id="modalEventDate"
+              placeholder=" "
+              required
+            />
+            <label for="modalEventDate">Data do Evento</label>
+          </div>
+          <div class="input-group">
+            <input
+              type="datetime-local"
+              id="modalTicketDeadline"
+              placeholder=" "
+              required
+            />
+            <label for="modalTicketDeadline">Data Limite para Compra</label>
+          </div>
+          <div class="input-group">
+            <input
+              type="number"
+              step="0.01"
+              id="modalTicketPrice"
+              placeholder=" "
+              required
+            />
+            <label for="modalTicketPrice">Valor do Ingresso</label>
+          </div>
+          <div class="input-group">
+            <textarea
+              id="modalDescription"
+              rows="4"
+              placeholder=" "
+              required
+            ></textarea>
+            <label for="modalDescription">Descrição</label>
+          </div>
+          <div class="input-group">
+            <select id="modalStatus" required>
+              <option value="ACTIVE">Ativo</option>
+              <option value="CLOSED">Fechado</option>
+            </select>
+            <label for="modalStatus">Status do Evento</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="salvarEdicaoEvento()"
+          >
+            Salvar Edição
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const eventsData = <%- JSON.stringify(events || []) %>;
+    const CURRENT_ADMIN_ID = <%= adminId %>;
+  </script>
+  <script src="/js/addEvento.js"></script> 
+</body>
+</html>

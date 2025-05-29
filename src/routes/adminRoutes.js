@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createAdmin,
+  listEvents,
   createEvent,
   updateEvent,
   deleteEvent
@@ -8,9 +9,13 @@ import {
 
 const router = express.Router();
 
-router.post("/admin",  verificarToken, createAdmin);
-router.post("/admin/:adminId/events",  verificarToken, createEvent);
-router.put("/admin/:adminId/events/:eventId", verificarToken, updateEvent);
-router.delete("/admin/:adminId/events/:eventId",  verificarToken, deleteEvent);
+// Em vez de criar uma função anônima que só renderiza uma tela,
+// você chama a função listEvents que faz a consulta e passa os dados.
+router.get("/admin/:adminId/events", listEvents);
+
+router.post("/admin", createAdmin);
+router.post("/admin/:adminId/events", createEvent);
+router.patch("/admin/:adminId/events/:eventId", updateEvent);
+router.delete("/admin/:adminId/events/:eventId", deleteEvent);
 
 export default router;

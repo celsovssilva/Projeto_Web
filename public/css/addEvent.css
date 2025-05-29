@@ -1,0 +1,226 @@
+:root {
+  --primary: #2a9d8f;
+  --secondary: #264653;
+  --accent: #e76f51;
+  --light: #f4f4f4;
+  --dark: #333;
+  --bg: #ffffff;
+  --font: 'Poppins', sans-serif;
+}
+
+/* Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+/* Cabeçalho */
+header {
+  background: linear-gradient(45deg, var(--secondary), var(--primary));
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--light);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Container */
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+/* Seção Admin */
+#admin-events h2 {
+  font-size: 2rem;
+  color: var(--secondary);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+#admin-events button {
+  background: var(--primary);
+  color: var(--light);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#admin-events button:hover {
+  background: var(--accent);
+}
+
+/* Formulário */
+#addEventForm {
+  background: var(--light);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  display: none;
+}
+
+#addEventForm h3 {
+  margin-bottom: 1.5rem;
+  color: var(--secondary);
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+#addEventForm form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 12px 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #f8f8f8;
+  transition: border-color 0.3s ease;
+}
+
+.input-group textarea {
+  resize: vertical;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: var(--primary);
+  outline: none;
+  background: #e6f0fa;
+}
+
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+  color: transparent;
+}
+
+.input-group label {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  background: var(--light);
+  padding: 0 4px;
+  transition: 0.2s ease;
+  color: #999;
+  font-weight: 500;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label,
+.input-group textarea:focus + label,
+.input-group textarea:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 10px;
+  font-size: 0.8rem;
+  color: var(--primary);
+}
+
+#addEventForm button[type="submit"] {
+  align-self: center;
+  background: var(--primary);
+  color: var(--light);
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#addEventForm button[type="submit"]:hover {
+  background: var(--accent);
+}
+
+/* Tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+}
+
+table th, table td {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table th {
+  background: var(--light);
+}
+
+table td button {
+  margin-right: 0.5rem;
+  background: var(--primary);
+  color: var(--light);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+table td button:hover {
+  background: var(--accent);
+}
+
+/* Rodapé */
+footer {
+  background: var(--secondary);
+  color: var(--light);
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.9rem;
+  margin-top: 3rem;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+  main {
+    padding: 1.5rem;
+  }
+  #admin-events h2 {
+    font-size: 1.75rem;
+  }
+  table th, table td {
+    font-size: 0.9rem;
+  }
+}
