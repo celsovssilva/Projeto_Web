@@ -6,8 +6,6 @@ export const listEventsForUser = async (req, res) => {
     try {
         const agora = new Date();
 
-        const seteDiasAtras = new Date(agora.getTime() - 7 * 24 * 60 * 60 * 1000);
-
         const todosOsEventos = await prisma.event.findMany({
             orderBy: {
                 eventDate: 'asc',
@@ -17,43 +15,33 @@ export const listEventsForUser = async (req, res) => {
         const eventosCategorizados = {
             novos: [],
             disponiveis: [],
-            fechados: []
+            encerrados: []
         };
 
         todosOsEventos.forEach(evento => {
             const dataEventoObj = new Date(evento.eventDate);
             const prazoIngressoObj = new Date(evento.ticketDeadline);
-            const dataCriacaoObj = new Date(evento.createdAt);
 
+            const eventoFuturo = dataEventoObj > agora; // Evento que ainda vai acontecer
+            const prazoAberto = prazoIngressoObj >= agora; // Ingressos ainda disponíveis
+            const eventoEncerrado = evento.status === "CLOSED" || !prazoAberto;
 
-            const estaFechado = evento.status === "CLOSED" ||
-                                dataEventoObj < agora ||
-                                prazoIngressoObj < agora;
-
-            const estaAtivoEAberto = evento.status === "ACTIVE" &&
-                                     prazoIngressoObj >= agora &&
-                                     dataEventoObj >= agora;
-
-
-            const ehNovo = estaAtivoEAberto && dataCriacaoObj >= seteDiasAtras;
-
-            if (estaFechado) {
-                eventosCategorizados.fechados.push(evento);
-            } else if (ehNovo) {
-
+            if (eventoEncerrado) {
+                eventosCategorizados.encerrados.push(evento);
+            } else if (eventoFuturo && prazoAberto) {
+                // Novo: evento no futuro com ingressos ainda abertos
                 eventosCategorizados.novos.push(evento);
-            } else if (estaAtivoEAberto) {
-
+            } else if (!eventoFuturo && prazoAberto) {
+                // Disponível: evento em andamento ou já passou, mas com ingressos ainda abertos
                 eventosCategorizados.disponiveis.push(evento);
             }
+            // Eventos passados e com prazo fechado já são tratados como encerrados acima
         });
 
-        // Correção: Envia os eventos categorizados como JSON
-        res.json(eventosCategorizados);
+        res.render('events', { eventos: eventosCategorizados });
 
     } catch (error) {
         console.error("Erro ao listar eventos para o usuário:", error);
-        // Correção: Envia uma resposta de erro em JSON
         res.status(500).json({ message: "Erro interno do servidor ao buscar eventos.", error: error.message });
     }
 };

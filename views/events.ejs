@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Check-in</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/css/eventos.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>Tela de eventos</h1>
+    <nav>
+      <ul>
+        <div>
+          <ul>
+            <li><a>Pagina 1</a></li>
+            <li><a>Pagina 2</a></li>
+            <li><a>Pagina 3</a></li>
+            <li><a>Pagina 4</a></li>
+          </ul>
+        </div>
+      </ul>
+    </nav>
+    <div class="icone">
+      <img src="" alt="Icone de perfil">
+    </div>
+  </header>
+
+  <main>
+    <section id="eventos">
+      <%
+        // Helper function to format date to DD/MM/YYYY
+        const formatDate = (dateString) => {
+          const date = new Date(dateString);
+          return date.toLocaleDateString('pt-BR');
+        };
+      %>
+
+      <% if (eventos.novos && eventos.novos.length > 0) { %>
+        <div>
+          <h2>Novos Eventos</h2>
+          <div class="events-container">
+            <% eventos.novos.forEach(event => { %>
+              <div class="event-card novo">
+                <h3><%= event.eventName %></h3>
+                <p class="date"><%= formatDate(event.eventDate) %></p>
+                <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
+                <button>Mais informações</button>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      <% } %>
+
+      <% if (eventos.disponiveis && eventos.disponiveis.length > 0) { %>
+        <div>
+          <h2>Inscrições abertas</h2>
+          <div class="events-container">
+            <% eventos.disponiveis.forEach(event => { %>
+              <div class="event-card disponivel">
+                <h3><%= event.eventName %></h3>
+                <p class="date"><%= formatDate(event.eventDate) %></p>
+                <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
+                <button>Mais informações</button>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      <% } %>
+
+      <% if (eventos.encerrados && eventos.encerrados.length > 0) { %>
+        <div>
+          <h2>Eventos encerrados</h2>
+          <div class="events-container">
+            <% eventos.encerrados.forEach(event => { %>
+              <div class="event-card encerrado">
+                <h3><%= event.eventName %></h3>
+                <p class="date"><%= formatDate(event.eventDate) %></p>
+                <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
+                <button disabled>Encerrado</button>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      <% } %>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Entrada Express. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>

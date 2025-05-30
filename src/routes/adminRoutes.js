@@ -9,8 +9,7 @@ import {
 
 const router = express.Router();
 
-// Em vez de criar uma função anônima que só renderiza uma tela,
-// você chama a função listEvents que faz a consulta e passa os dados.
+
 router.get("/admin/:adminId/events", listEvents);
 
 router.post("/admin", createAdmin);
