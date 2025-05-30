@@ -4,7 +4,10 @@ import { login } from "../controllers/authController.js";
 const router = express.Router();
 
 router.get("/login", (req, res) => {
-  res.render("login");
+  const errorMessages = req.flash('error');
+  res.render("login", {
+    erro: errorMessages.length > 0 ? errorMessages[0] : undefined
+  });
 });
 
 router.post("/login", login);

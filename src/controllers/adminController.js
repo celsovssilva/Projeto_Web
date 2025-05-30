@@ -8,7 +8,7 @@ export const createAdmin = async (req, res) => {
   const { name, sobrenome, email, password } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newAdmin = await prisma.Admin.create({
+    const newAdmin = await prisma.admin.create({
       data: { name, sobrenome, email, password: hashedPassword },
     });
     res.status(201).json(newAdmin);
@@ -23,7 +23,11 @@ export const createAdmin = async (req, res) => {
 };
 
 export const createEvent = async (req, res) => {
-  const { adminId } = req.params;
+  const adminIdFromToken = req.user.id;
+  if (!adminIdFromToken) {
+    req.flash('error', 'Não foi possível identificar o administrador. Faça login novamente.');
+    return res.redirect('/api/login');
+  }
   const { name, description, eventDate, ticketDeadline, ticketPrice, status } = req.body;
   try {
     const parsedEventDate = new Date(eventDate);
@@ -33,10 +37,14 @@ export const createEvent = async (req, res) => {
 
     if (parsedEventDate < now) {
       req.flash('error', 'A data do evento não pode ser anterior à data atual.');
-      return res.redirect(`/api/admin/${adminId}/events`);
+      return res.redirect(`/api/admin/events`);
+    }
+    if (!name || !description || !eventDate || !ticketDeadline || ticketPrice === undefined || ticketPrice === null || !status) {
+      req.flash('error', 'Todos os campos são obrigatórios e devem ser válidos.');
+      return res.redirect(`/api/admin/events`);
     }
 
-    const newEvent = await prisma.Event.create({
+    const newEvent = await prisma.event.create({
       data: {
         name,
         description,
@@ -44,38 +52,42 @@ export const createEvent = async (req, res) => {
         ticketDeadline: new Date(ticketDeadline),
         ticketPrice: parseFloat(ticketPrice),
         status,
-        admin: { connect: { id: parseInt(adminId) } },
+        admin: { connect: { id: adminIdFromToken } },
       },
     });
     req.flash('success', 'Evento criado com sucesso!');
-    res.redirect(`/api/admin/${adminId}/events`);
+    res.redirect(`/api/admin/events`);
   } catch (error) {
     console.error("Error creating event:", error);
     req.flash('error', 'Erro ao criar o evento. Verifique os dados e tente novamente.');
-    res.redirect(`/api/admin/${adminId}/events`);
+    res.redirect(`/api/admin/events`);
   }
 };
 
 export const listEvents = async (req, res) => {
-  const { adminId } = req.params;
+  const adminIdFromToken = req.user.id;
+  if (!adminIdFromToken) {
+    req.flash('error', 'Não foi possível identificar o administrador. Faça login novamente.');
+    return res.redirect('/api/login');
+  }
   try {
-    const events = await prisma.Event.findMany({
+    const events = await prisma.event.findMany({
       where: {
-        adminId: parseInt(adminId),
+        adminId: adminIdFromToken,
       },
       orderBy: {
-        eventDate: 'desc', // Ou qualquer ordem que preferir
+        eventDate: 'desc',
       },
     });
     const messages = {
       success: req.flash('success'),
       error: req.flash('error')
     };
-    // Passe o adminId para a view, para que possa ser usado nas actions dos formulários e no JS
     res.render("admin/adicionar_evento", {
       events: events,
-      adminId: parseInt(adminId),
-      messages: messages
+      adminId: adminIdFromToken,
+      messages: messages,
+      user: req.user
     });
   } catch (error) {
     req.flash('error', 'Erro ao carregar a página de eventos.');
@@ -85,19 +97,17 @@ export const listEvents = async (req, res) => {
 };
 
 export const updateEvent = async (req, res) => {
-  const { adminId: adminIdParam, eventId: eventIdParam } = req.params;
+  const adminIdFromToken = req.user.id;
+  const { eventId: eventIdParam } = req.params;
   const { name, description, eventDate, ticketDeadline, ticketPrice, status } = req.body;
 
-  const adminId = parseInt(adminIdParam);
   const eventId = parseInt(eventIdParam);
 
-  if (isNaN(adminId) || isNaN(eventId)) {
-    return res.status(400).json({ error: 'IDs de administrador e evento devem ser números inteiros válidos.' });
+   if (!adminIdFromToken) {
+    return res.status(401).json({ error: 'Administrador não autenticado.' });
   }
-
-  // Validação básica dos dados
-  if (!name || !description || !eventDate || !ticketDeadline || ticketPrice === undefined || ticketPrice === null || !status) {
-    return res.status(400).json({ error: 'Todos os campos são obrigatórios e devem ser válidos.' });
+  if (isNaN(eventId)) {
+    return res.status(400).json({ error: 'IDs de administrador e evento devem ser números inteiros válidos.' });
   }
 
   try {
@@ -109,7 +119,8 @@ export const updateEvent = async (req, res) => {
       return res.status(404).json({ error: 'Evento não encontrado.' });
     }
 
-    if (event.adminId !== adminId) {
+    if (event.adminId !== adminIdFromToken) {
+      req.flash('error', 'Você não tem permissão para editar este evento.');
       return res.status(403).json({ error: 'Você não tem permissão para editar este evento.' });
     }
 
@@ -125,12 +136,12 @@ export const updateEvent = async (req, res) => {
       },
     });
     
-    // Define a mensagem flash de sucesso
     req.flash('success', 'Evento atualizado com sucesso!');
     res.status(200).json({ message: 'Evento atualizado com sucesso!', event: updatedEvent });
   } catch (error) {
     console.error("Erro ao atualizar evento:", error);
-    if (error.code === 'P2025') { // Prisma error: Record to update not found
+    req.flash('error', 'Erro interno ao atualizar o evento. Tente novamente.');
+    if (error.code === 'P2025') {
         return res.status(404).json({ error: 'Erro ao atualizar: Evento não encontrado na base de dados.' });
     }
     res.status(500).json({ error: 'Erro interno ao atualizar o evento. Tente novamente.' });
@@ -139,19 +150,31 @@ export const updateEvent = async (req, res) => {
 
 
 export const deleteEvent = async (req, res) => {
-  const { adminId, eventId } = req.params;
+  const adminIdFromToken = req.user.id;
+  const { eventId: eventIdParam } = req.params;
+  const eventId = parseInt(eventIdParam);
+
+  if (!adminIdFromToken) {
+    return res.status(401).json({ error: 'Administrador não autenticado.', success: false });
+  }
+  if (isNaN(eventId)) {
+    req.flash('error', 'ID do evento inválido.');
+    return res.status(400).json({ error: "ID do evento inválido.", success: false });
+  }
   try {
     const event = await prisma.Event.findUnique({
       where: { id: parseInt(eventId) },
     });
-    if (!event || event.adminId !== parseInt(adminId)) {
-      req.flash('error', 'Evento não encontrado ou você não tem permissão para excluí-lo.');
-      // Para a API fetch, é melhor enviar uma resposta JSON indicando falha,
-      // mas o reload da página pegará a mensagem flash.
-      return res.status(404).json({ error: "Event not found for this admin", success: false });
+    if (!event) {
+      req.flash('error', 'Evento não encontrado.');
+      return res.status(404).json({ error: "Evento não encontrado.", success: false });
     }
-    await prisma.Event.delete({
-      where: { id: parseInt(eventId) },
+    if (event.adminId !== adminIdFromToken) {
+      req.flash('error', 'Evento não encontrado ou você não tem permissão para excluí-lo.');
+      return res.status(403).json({ error: "Você não tem permissão para excluir este evento.", success: false });
+    }
+    await prisma.event.delete({
+      where: { id: eventId },
     });
     req.flash('success', 'Evento excluído com sucesso!');
     res.json({ message: "Event deleted successfully", success: true });

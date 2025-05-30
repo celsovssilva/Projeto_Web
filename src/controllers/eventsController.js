@@ -48,12 +48,10 @@ export const listEventsForUser = async (req, res) => {
             }
         });
 
-        // Correção: Envia os eventos categorizados como JSON
         res.json(eventosCategorizados);
 
     } catch (error) {
         console.error("Erro ao listar eventos para o usuário:", error);
-        // Correção: Envia uma resposta de erro em JSON
         res.status(500).json({ message: "Erro interno do servidor ao buscar eventos.", error: error.message });
     }
 };

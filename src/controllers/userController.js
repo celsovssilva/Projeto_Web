@@ -82,7 +82,6 @@ export const updateUser = async (req, res) => {
   }
 
   try {
-    // Prepara os dados a serem atualizados
     let data = { name, email, sobrenome };
 
     if (password) {

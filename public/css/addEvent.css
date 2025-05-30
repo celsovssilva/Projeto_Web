@@ -151,6 +151,7 @@ main {
   color: var(--primary);
 }
 
+
 #addEventForm button[type="submit"] {
   align-self: center;
   background: var(--primary);

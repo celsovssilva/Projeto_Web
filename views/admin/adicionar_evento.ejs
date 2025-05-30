@@ -61,7 +61,7 @@
         <h3 id="formTitle">Adicionar Novo Evento</h3>
         <form
           id="eventForm"
-          action="/api/admin/<%= adminId %>/events"
+          action="/api/admin/events"
           method="POST"
         >
           <input type="hidden" id="eventId" name="eventId" value="" />
@@ -116,12 +116,12 @@
             <label for="description">Descrição</label>
           </div>
 
-          <div class="input-group">
+          <div class="input-select">
+            <label for="status">Status do Evento</label>
             <select id="status" name="status" required>
               <option value="ACTIVE" selected>Ativo</option>
               <option value="CLOSED">Fechado</option>
             </select>
-            <label for="status">Status do Evento</label>
           </div>
 
           <button type="submit" id="formSubmitBtn">Salvar Evento</button>
@@ -239,12 +239,12 @@
             ></textarea>
             <label for="modalDescription">Descrição</label>
           </div>
-          <div class="input-group">
+          <div class="input-select">
+            <label for="modalStatus">Status do Evento</label>
             <select id="modalStatus" required>
               <option value="ACTIVE">Ativo</option>
               <option value="CLOSED">Fechado</option>
             </select>
-            <label for="modalStatus">Status do Evento</label>
           </div>
         </div>
         <div class="modal-footer">

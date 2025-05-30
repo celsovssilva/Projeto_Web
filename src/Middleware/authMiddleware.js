@@ -1,27 +1,52 @@
-// import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
-// export function verificarJWT(req, res, next) {
-//   const token = req.body.token || req.headers['authorization'];
+const JWT_SECRET = process.env.JWT_SECRET;
 
-//   if (!token) {
-//     return res.status(401).json({ mensagem: 'Token ausente.' });
-//   }
+export const authenticateToken = (req, res, next) => {
+  if (req.session && req.session.user) {
+    req.user = req.session.user;
+    return next();
+  }
 
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = decoded; 
-//     next();
-//   } catch (err) {
-//     return res.status(401).json({ mensagem: 'Token inválido ou expirado.' });
-//   }
-// }
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-// export function verificarToken(req, res, next) {
-//   const token = req.body.token || req.headers['authorization'];
+  if (token == null) {
+    req.flash('error', 'Acesso não autorizado. Faça login.');
+    if (req.accepts('html')) {
+      return res.redirect('/api/login');
+    }
+    return res.status(401).json({ message: 'Token não fornecido ou sessão inválida. Acesso não autorizado.' });
+  }
 
-//   if (!token || token !== "seu-token-valido") {
-//     return res.status(401).json({ mensagem: 'Token inválido ou ausente.' });
-//   }
+  jwt.verify(token, JWT_SECRET, (err, decodedUser) => {
+    if (err) {
+      console.error('Erro na verificação do JWT:', err.message);
+      if (req.session) {
+        req.session.destroy();
+      }
+      req.flash('error', 'Sessão inválida ou expirada. Faça login novamente.');
+      if (req.accepts('html')) {
+        return res.redirect('/api/login');
+      }
+      if (err.name === 'TokenExpiredError') {
+        return res.status(401).json({ message: 'Token expirado. Faça login novamente.' });
+      }
+      return res.status(403).json({ message: 'Token inválido.' });
+    }
+    req.user = decodedUser;
+    next();
+  });
+};
 
-//   next(); 
-// }
+export const isAdmin = (req, res, next) => {
+  if (req.user && req.user.type === 'admin') {
+    next();
+  } else {
+    req.flash('error', 'Acesso negado. Somente administradores.');
+    if (req.accepts('html')) {
+      return res.redirect('/api/login');
+    }
+    return res.status(403).json({ message: 'Acesso negado. Somente administradores podem realizar esta ação.' });
+  }
+};

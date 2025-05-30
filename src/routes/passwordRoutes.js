@@ -1,8 +1,5 @@
 import express from 'express';
-
 import { forgotPassword, resetPassword } from '../controllers/passwordController.js';
-// import { verificarToken } from '../middlewares/authMiddleware.js';
-
 
 const router = express.Router();
 

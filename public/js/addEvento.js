@@ -3,7 +3,7 @@
       document.getElementById("eventId").value = "";
       document.getElementById("formTitle").innerText = "Adicionar Novo Evento";
       document.getElementById("formSubmitBtn").innerText = "Salvar Evento";
-      document.getElementById("eventForm").action = `/api/admin/${CURRENT_ADMIN_ID}/events`;
+      document.getElementById("eventForm").action = `/api/admin/events`;
       document.getElementById("addEventForm").style.display = "block";
     }
 
@@ -37,47 +37,58 @@
       $("#editEventModal").modal("show");
     }
 
-    function salvarEdicaoEvento() {
-      const eventId = document.getElementById("modalEventId").value;
-      const data = {
-        name: document.getElementById("modalName").value,
-        eventDate: document.getElementById("modalEventDate").value,
-        ticketDeadline: document.getElementById("modalTicketDeadline").value,
-        ticketPrice: parseFloat(
-          document.getElementById("modalTicketPrice").value
-        ),
-        description: document.getElementById("modalDescription").value,
-        status: document.getElementById("modalStatus").value,
-      };
+  function salvarEdicaoEvento() {
+  const token = localStorage.getItem('authToken');
+  if (!token) {
+    alert('Sessão expirada ou inválida. Faça login novamente.');
+    window.location.href = '/api/login';
+    return;
+  }
 
-      fetch(`/api/admin/${CURRENT_ADMIN_ID}/events/${eventId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((response) => {
-          if (response.ok) {
-            $("#editEventModal").modal("hide");
-            location.reload();
-          } else {
-            response.json().then((res) => {
-              alert("Erro: " + (res.error || "Erro ao atualizar evento."));
-            });
-          }
-        })
-        .catch((error) => {
-          console.error("Erro na requisição:", error);
-          alert("Erro de rede");
-        });
+  const eventId = document.getElementById("modalEventId").value;
+  const data = {
+    name: document.getElementById("modalName").value,
+    status: document.getElementById("modalStatus").value,
+  };
+
+  fetch(`/api/admin/events/${eventId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify(data),
+  })
+  .then(async response => {
+    if (response.ok) {
+      const result = await response.json();
+      $("#editEventModal").modal("hide");
+      location.reload();
+    } else {
+      const res = await response.json();
+      alert("Erro: " + (res.error || "Erro ao atualizar evento."));
     }
+  })
+  .catch((error) => {
+    console.error("Erro na requisição:", error);
+    alert("Erro de rede ao tentar atualizar o evento.");
+  });
+}
 
     function excluirEvento(id) {
       if (!confirm("Deseja realmente excluir este evento?")) return;
+const token = localStorage.getItem('authToken');
 
-      fetch(`/api/admin/${CURRENT_ADMIN_ID}/events/${id}`, {
+      if (!token) {
+        alert('Sessão expirada ou inválida. Faça login novamente.');
+        window.location.href = '/api/login';
+        return;
+      }
+      fetch(`/api/admin/events/${id}`, {
         method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
       })
         .then((response) => {
           if (response.ok) {

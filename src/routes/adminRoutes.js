@@ -6,16 +6,15 @@ import {
   updateEvent,
   deleteEvent
 } from "../controllers/adminController.js";
+import { authenticateToken, isAdmin } from "../Middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Em vez de criar uma função anônima que só renderiza uma tela,
-// você chama a função listEvents que faz a consulta e passa os dados.
-router.get("/admin/:adminId/events", listEvents);
-
 router.post("/admin", createAdmin);
-router.post("/admin/:adminId/events", createEvent);
-router.patch("/admin/:adminId/events/:eventId", updateEvent);
-router.delete("/admin/:adminId/events/:eventId", deleteEvent);
+
+router.get("/admin/events", authenticateToken, isAdmin, listEvents);
+router.post("/admin/events", authenticateToken, isAdmin, createEvent);
+router.patch("/admin/events/:eventId", authenticateToken, isAdmin, updateEvent);
+router.delete("/admin/events/:eventId", authenticateToken, isAdmin, deleteEvent);
 
 export default router;
