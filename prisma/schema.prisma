@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -15,46 +12,66 @@ datasource db {
 }
 
 model Usuario {
-  id          Int      @id @default(autoincrement())
-  name        String
-  sobrenome   String
-  email       String   @unique
-  password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                   Int       @id @default(autoincrement())
+  name                 String
+  sobrenome            String
+  email                String    @unique
+  password             String
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
   passwordResetToken   String?   @unique
   passwordResetExpires DateTime?
+  tickets              Ticket[] // Campo de relação para os tickets do usuário
 }
 
 model Admin {
-  id          Int      @id @default(autoincrement())
-  name        String
-  sobrenome   String
-  email       String   @unique
-  password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  events      Event[]
+  id                   Int       @id @default(autoincrement())
+  name                 String
+  sobrenome            String
+  email                String    @unique
+  password             String
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  events               Event[]
   passwordResetToken   String?   @unique
   passwordResetExpires DateTime?
 }
 
 model Event {
-  id               Int      @id @default(autoincrement())
-  name             String
-  description      String
-  eventDate        DateTime
-  ticketDeadline   DateTime
-  ticketPrice      Float
-  status           EventStatus @default(ACTIVE)
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
+  id             Int         @id @default(autoincrement())
+  name           String
+  description    String
+  eventDate      DateTime
+  ticketDeadline DateTime
+  ticketPrice    Float
+  status         EventStatus @default(ACTIVE)
+  endereco       String?
+  maxTickets     Int?
+  ticketsSold    Int         @default(0)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 
-  adminId          Int
-  admin            Admin       @relation(fields: [adminId], references: [id])
+  adminId Int
+  admin   Admin    @relation(fields: [adminId], references: [id])
+  tickets Ticket[]
 }
 
 enum EventStatus {
   ACTIVE
   CLOSED
+}
+
+model Ticket {
+  id           String    @id @default(uuid())
+  qrCodeString String    @unique
+  isValid      Boolean   @default(true)
+  checkInDate  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  eventId Int
+  event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  userId  Int?
+  usuario Usuario? @relation(fields: [userId], references: [id], onDelete: SetNull)
 }

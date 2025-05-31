@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -24,6 +21,7 @@ model Usuario {
   updatedAt            DateTime  @updatedAt
   passwordResetToken   String?   @unique
   passwordResetExpires DateTime?
+  tickets              Ticket[] // Campo de relação para os tickets do usuário
 }
 
 model Admin {
@@ -47,14 +45,33 @@ model Event {
   ticketDeadline DateTime
   ticketPrice    Float
   status         EventStatus @default(ACTIVE)
+  endereco       String?
+  maxTickets     Int?
+  ticketsSold    Int         @default(0)
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 
   adminId Int
-  admin   Admin @relation(fields: [adminId], references: [id])
+  admin   Admin    @relation(fields: [adminId], references: [id])
+  tickets Ticket[]
 }
 
 enum EventStatus {
   ACTIVE
   CLOSED
+}
+
+model Ticket {
+  id           String    @id @default(uuid())
+  qrCodeString String    @unique
+  isValid      Boolean   @default(true)
+  checkInDate  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  eventId Int
+  event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  userId  Int?
+  usuario Usuario? @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
