@@ -22,20 +22,18 @@ export const listEventsForUser = async (req, res) => {
             const dataEventoObj = new Date(evento.eventDate);
             const prazoIngressoObj = new Date(evento.ticketDeadline);
 
-            const eventoFuturo = dataEventoObj > agora; // Evento que ainda vai acontecer
-            const prazoAberto = prazoIngressoObj >= agora; // Ingressos ainda disponíveis
+            const eventoFuturo = dataEventoObj > agora;
+            const prazoAberto = prazoIngressoObj >= agora;
             const eventoEncerrado = evento.status === "CLOSED" || !prazoAberto;
 
             if (eventoEncerrado) {
                 eventosCategorizados.encerrados.push(evento);
-            } else if (eventoFuturo && prazoAberto) {
-                // Novo: evento no futuro com ingressos ainda abertos
+            } else if (eventoFuturo) {
                 eventosCategorizados.novos.push(evento);
-            } else if (!eventoFuturo && prazoAberto) {
-                // Disponível: evento em andamento ou já passou, mas com ingressos ainda abertos
+            } else if (!eventoFuturo && prazoAberto && dataEventoObj <= agora) {
                 eventosCategorizados.disponiveis.push(evento);
             }
-            // Eventos passados e com prazo fechado já são tratados como encerrados acima
+
         });
 
         res.render('events', { eventos: eventosCategorizados });
