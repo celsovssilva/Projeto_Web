@@ -172,7 +172,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\Lucas\\Arquivos Projetos\\Faculdades\\Web_Web_U\\Projeto_Web\\generated\\prisma",
+      "value": "E:\\Lucas\\Arquivos Projetos\\Faculdades\\Projeto_Web\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -186,7 +186,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\Lucas\\Arquivos Projetos\\Faculdades\\Web_Web_U\\Projeto_Web\\prisma\\schema.prisma",
+    "sourceFilePath": "E:\\Lucas\\Arquivos Projetos\\Faculdades\\Projeto_Web\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
