@@ -8,15 +8,20 @@ dotenv.config();
 
 const prisma = new PrismaClient();
 
+// Configuração do transporter de e-mail (usando Mailtrap)
 const transporter = nodemailer.createTransport({
-  host: "sandbox.smtp.mailtrap.io", 
-  port: 2525,                      
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  secure: false, // Mailtrap usa STARTTLS
   auth: {
-    user: "22792d5882d4d2", 
-    pass: "007c2247df9903"       
+    user: process.env.EMAIL_USER, // Seu username do Mailtrap
+    pass: process.env.EMAIL_PASS  // Sua senha do Mailtrap
   }
 });
 
+/**
+ * @function forgotPassword
+ */
 export const forgotPassword = async (req, res) => {
   const { email, role } = req.body;
 
@@ -38,7 +43,6 @@ export const forgotPassword = async (req, res) => {
       return res.status(404).json({ error: "Usuário não encontrado." });
     }
 
-   
     const resetToken = jwt.sign(
       { userId: user.id, role },
       process.env.JWT_SECRET,
@@ -48,8 +52,8 @@ export const forgotPassword = async (req, res) => {
     const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
     const mailOptions = {
-      from: 'seuemail@seudominio.com',
-      to: user.email,
+      from: process.env.EMAIL_USER, // Seu e-mail do Mailtrap será o remetente
+      to: user.email,             // O e-mail do usuário que solicitou o reset será o destinatário
       subject: 'Link para Redefinição de Senha',
       html: `<p>Você solicitou a redefinição da sua senha. Clique no link abaixo para continuar:</p>
              <a href="${resetLink}">${resetLink}</a>
@@ -62,10 +66,14 @@ export const forgotPassword = async (req, res) => {
 
   } catch (error) {
     console.error("Erro ao solicitar reset de senha:", error);
+    console.error("Detalhes do erro:", error.message);
     res.status(500).json({ error: "Erro interno do servidor." });
   }
 };
 
+/**
+ * @function resetPassword
+ */
 export const resetPassword = async (req, res) => {
   const { token, password } = req.body;
 
@@ -81,7 +89,7 @@ export const resetPassword = async (req, res) => {
     if (role === "user") {
       model = prisma.usuario;
     } else if (role === "admin") {
-      model = prisma.Admin;
+      model = prisma.admin;
     } else {
       return res.status(400).json({ error: "Role inválido." });
     }
@@ -97,6 +105,7 @@ export const resetPassword = async (req, res) => {
 
   } catch (error) {
     console.error("Erro ao redefinir senha:", error);
+    console.error("Detalhes do erro:", error.message);
     if (error.name === "TokenExpiredError") {
       return res.status(400).json({ error: "Token expirado." });
     } else if (error.name === "JsonWebTokenError") {
@@ -105,4 +114,3 @@ export const resetPassword = async (req, res) => {
     res.status(500).json({ error: "Erro interno do servidor." });
   }
 };
-

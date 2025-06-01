@@ -154,9 +154,23 @@ exports.Prisma.EventScalarFieldEnum = {
   ticketDeadline: 'ticketDeadline',
   ticketPrice: 'ticketPrice',
   status: 'status',
+  endereco: 'endereco',
+  maxTickets: 'maxTickets',
+  ticketsSold: 'ticketsSold',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   adminId: 'adminId'
+};
+
+exports.Prisma.TicketScalarFieldEnum = {
+  id: 'id',
+  qrCodeString: 'qrCodeString',
+  isValid: 'isValid',
+  checkInDate: 'checkInDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  eventId: 'eventId',
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
@@ -176,7 +190,8 @@ exports.EventStatus = exports.$Enums.EventStatus = {
 exports.Prisma.ModelName = {
   Usuario: 'Usuario',
   Admin: 'Admin',
-  Event: 'Event'
+  Event: 'Event',
+  Ticket: 'Ticket'
 };
 
 /**
