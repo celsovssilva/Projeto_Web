@@ -50,8 +50,14 @@ model Event {
   ticketDeadline DateTime
   ticketPrice    Float
   status         EventStatus @default(ACTIVE)
-  endereco       String?
-  maxTickets     Int?
+  street         String
+  number         Int
+  complement     String?
+  neighborhood   String
+  city           String
+  state          String
+  cep            String
+  maxTickets     Int
   ticketsSold    Int         @default(0)
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt

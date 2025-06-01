@@ -1577,6 +1577,12 @@ export namespace Prisma {
   }
 
   export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sobrenome" | "email" | "cpf" | "telefone" | "atuacao" | "empresa" | "faculdade" | "password" | "createdAt" | "updatedAt" | "passwordResetToken" | "passwordResetExpires", ExtArgs["result"]["usuario"]>
+  export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tickets?: boolean | Usuario$ticketsArgs<ExtArgs>
+    _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UsuarioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UsuarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Usuario"
@@ -3633,6 +3639,7 @@ export namespace Prisma {
   export type EventAvgAggregateOutputType = {
     id: number | null
     ticketPrice: number | null
+    number: number | null
     maxTickets: number | null
     ticketsSold: number | null
     adminId: number | null
@@ -3641,6 +3648,7 @@ export namespace Prisma {
   export type EventSumAggregateOutputType = {
     id: number | null
     ticketPrice: number | null
+    number: number | null
     maxTickets: number | null
     ticketsSold: number | null
     adminId: number | null
@@ -3654,7 +3662,13 @@ export namespace Prisma {
     ticketDeadline: Date | null
     ticketPrice: number | null
     status: $Enums.EventStatus | null
-    endereco: string | null
+    street: string | null
+    number: number | null
+    complement: string | null
+    neighborhood: string | null
+    city: string | null
+    state: string | null
+    cep: string | null
     maxTickets: number | null
     ticketsSold: number | null
     createdAt: Date | null
@@ -3670,7 +3684,13 @@ export namespace Prisma {
     ticketDeadline: Date | null
     ticketPrice: number | null
     status: $Enums.EventStatus | null
-    endereco: string | null
+    street: string | null
+    number: number | null
+    complement: string | null
+    neighborhood: string | null
+    city: string | null
+    state: string | null
+    cep: string | null
     maxTickets: number | null
     ticketsSold: number | null
     createdAt: Date | null
@@ -3686,7 +3706,13 @@ export namespace Prisma {
     ticketDeadline: number
     ticketPrice: number
     status: number
-    endereco: number
+    street: number
+    number: number
+    complement: number
+    neighborhood: number
+    city: number
+    state: number
+    cep: number
     maxTickets: number
     ticketsSold: number
     createdAt: number
@@ -3699,6 +3725,7 @@ export namespace Prisma {
   export type EventAvgAggregateInputType = {
     id?: true
     ticketPrice?: true
+    number?: true
     maxTickets?: true
     ticketsSold?: true
     adminId?: true
@@ -3707,6 +3734,7 @@ export namespace Prisma {
   export type EventSumAggregateInputType = {
     id?: true
     ticketPrice?: true
+    number?: true
     maxTickets?: true
     ticketsSold?: true
     adminId?: true
@@ -3720,7 +3748,13 @@ export namespace Prisma {
     ticketDeadline?: true
     ticketPrice?: true
     status?: true
-    endereco?: true
+    street?: true
+    number?: true
+    complement?: true
+    neighborhood?: true
+    city?: true
+    state?: true
+    cep?: true
     maxTickets?: true
     ticketsSold?: true
     createdAt?: true
@@ -3736,7 +3770,13 @@ export namespace Prisma {
     ticketDeadline?: true
     ticketPrice?: true
     status?: true
-    endereco?: true
+    street?: true
+    number?: true
+    complement?: true
+    neighborhood?: true
+    city?: true
+    state?: true
+    cep?: true
     maxTickets?: true
     ticketsSold?: true
     createdAt?: true
@@ -3752,7 +3792,13 @@ export namespace Prisma {
     ticketDeadline?: true
     ticketPrice?: true
     status?: true
-    endereco?: true
+    street?: true
+    number?: true
+    complement?: true
+    neighborhood?: true
+    city?: true
+    state?: true
+    cep?: true
     maxTickets?: true
     ticketsSold?: true
     createdAt?: true
@@ -3855,8 +3901,14 @@ export namespace Prisma {
     ticketDeadline: Date
     ticketPrice: number
     status: $Enums.EventStatus
-    endereco: string | null
-    maxTickets: number | null
+    street: string
+    number: number
+    complement: string | null
+    neighborhood: string
+    city: string
+    state: string
+    cep: string
+    maxTickets: number
     ticketsSold: number
     createdAt: Date
     updatedAt: Date
@@ -3890,7 +3942,13 @@ export namespace Prisma {
     ticketDeadline?: boolean
     ticketPrice?: boolean
     status?: boolean
-    endereco?: boolean
+    street?: boolean
+    number?: boolean
+    complement?: boolean
+    neighborhood?: boolean
+    city?: boolean
+    state?: boolean
+    cep?: boolean
     maxTickets?: boolean
     ticketsSold?: boolean
     createdAt?: boolean
@@ -3909,7 +3967,13 @@ export namespace Prisma {
     ticketDeadline?: boolean
     ticketPrice?: boolean
     status?: boolean
-    endereco?: boolean
+    street?: boolean
+    number?: boolean
+    complement?: boolean
+    neighborhood?: boolean
+    city?: boolean
+    state?: boolean
+    cep?: boolean
     maxTickets?: boolean
     ticketsSold?: boolean
     createdAt?: boolean
@@ -3926,7 +3990,13 @@ export namespace Prisma {
     ticketDeadline?: boolean
     ticketPrice?: boolean
     status?: boolean
-    endereco?: boolean
+    street?: boolean
+    number?: boolean
+    complement?: boolean
+    neighborhood?: boolean
+    city?: boolean
+    state?: boolean
+    cep?: boolean
     maxTickets?: boolean
     ticketsSold?: boolean
     createdAt?: boolean
@@ -3943,7 +4013,13 @@ export namespace Prisma {
     ticketDeadline?: boolean
     ticketPrice?: boolean
     status?: boolean
-    endereco?: boolean
+    street?: boolean
+    number?: boolean
+    complement?: boolean
+    neighborhood?: boolean
+    city?: boolean
+    state?: boolean
+    cep?: boolean
     maxTickets?: boolean
     ticketsSold?: boolean
     createdAt?: boolean
@@ -3951,7 +4027,7 @@ export namespace Prisma {
     adminId?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "eventDate" | "ticketDeadline" | "ticketPrice" | "status" | "endereco" | "maxTickets" | "ticketsSold" | "createdAt" | "updatedAt" | "adminId", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "eventDate" | "ticketDeadline" | "ticketPrice" | "status" | "street" | "number" | "complement" | "neighborhood" | "city" | "state" | "cep" | "maxTickets" | "ticketsSold" | "createdAt" | "updatedAt" | "adminId", ExtArgs["result"]["event"]>
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admin?: boolean | AdminDefaultArgs<ExtArgs>
     tickets?: boolean | Event$ticketsArgs<ExtArgs>
@@ -3978,8 +4054,14 @@ export namespace Prisma {
       ticketDeadline: Date
       ticketPrice: number
       status: $Enums.EventStatus
-      endereco: string | null
-      maxTickets: number | null
+      street: string
+      number: number
+      complement: string | null
+      neighborhood: string
+      city: string
+      state: string
+      cep: string
+      maxTickets: number
       ticketsSold: number
       createdAt: Date
       updatedAt: Date
@@ -4416,7 +4498,13 @@ export namespace Prisma {
     readonly ticketDeadline: FieldRef<"Event", 'DateTime'>
     readonly ticketPrice: FieldRef<"Event", 'Float'>
     readonly status: FieldRef<"Event", 'EventStatus'>
-    readonly endereco: FieldRef<"Event", 'String'>
+    readonly street: FieldRef<"Event", 'String'>
+    readonly number: FieldRef<"Event", 'Int'>
+    readonly complement: FieldRef<"Event", 'String'>
+    readonly neighborhood: FieldRef<"Event", 'String'>
+    readonly city: FieldRef<"Event", 'String'>
+    readonly state: FieldRef<"Event", 'String'>
+    readonly cep: FieldRef<"Event", 'String'>
     readonly maxTickets: FieldRef<"Event", 'Int'>
     readonly ticketsSold: FieldRef<"Event", 'Int'>
     readonly createdAt: FieldRef<"Event", 'DateTime'>
@@ -6072,7 +6160,13 @@ export namespace Prisma {
     ticketDeadline: 'ticketDeadline',
     ticketPrice: 'ticketPrice',
     status: 'status',
-    endereco: 'endereco',
+    street: 'street',
+    number: 'number',
+    complement: 'complement',
+    neighborhood: 'neighborhood',
+    city: 'city',
+    state: 'state',
+    cep: 'cep',
     maxTickets: 'maxTickets',
     ticketsSold: 'ticketsSold',
     createdAt: 'createdAt',
@@ -6220,6 +6314,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Usuario"> | Date | string
     updatedAt?: DateTimeFilter<"Usuario"> | Date | string
     passwordResetExpires?: DateTimeNullableFilter<"Usuario"> | Date | string | null
+    tickets?: TicketListRelationFilter
   }, "id" | "email" | "cpf" | "passwordResetToken">
 
   export type UsuarioOrderByWithAggregationInput = {
@@ -6352,8 +6447,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFilter<"Event"> | Date | string
     ticketPrice?: FloatFilter<"Event"> | number
     status?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
-    endereco?: StringNullableFilter<"Event"> | string | null
-    maxTickets?: IntNullableFilter<"Event"> | number | null
+    street?: StringFilter<"Event"> | string
+    number?: IntFilter<"Event"> | number
+    complement?: StringNullableFilter<"Event"> | string | null
+    neighborhood?: StringFilter<"Event"> | string
+    city?: StringFilter<"Event"> | string
+    state?: StringFilter<"Event"> | string
+    cep?: StringFilter<"Event"> | string
+    maxTickets?: IntFilter<"Event"> | number
     ticketsSold?: IntFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
@@ -6370,8 +6471,14 @@ export namespace Prisma {
     ticketDeadline?: SortOrder
     ticketPrice?: SortOrder
     status?: SortOrder
-    endereco?: SortOrderInput | SortOrder
-    maxTickets?: SortOrderInput | SortOrder
+    street?: SortOrder
+    number?: SortOrder
+    complement?: SortOrderInput | SortOrder
+    neighborhood?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    cep?: SortOrder
+    maxTickets?: SortOrder
     ticketsSold?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6391,8 +6498,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFilter<"Event"> | Date | string
     ticketPrice?: FloatFilter<"Event"> | number
     status?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
-    endereco?: StringNullableFilter<"Event"> | string | null
-    maxTickets?: IntNullableFilter<"Event"> | number | null
+    street?: StringFilter<"Event"> | string
+    number?: IntFilter<"Event"> | number
+    complement?: StringNullableFilter<"Event"> | string | null
+    neighborhood?: StringFilter<"Event"> | string
+    city?: StringFilter<"Event"> | string
+    state?: StringFilter<"Event"> | string
+    cep?: StringFilter<"Event"> | string
+    maxTickets?: IntFilter<"Event"> | number
     ticketsSold?: IntFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
@@ -6409,8 +6522,14 @@ export namespace Prisma {
     ticketDeadline?: SortOrder
     ticketPrice?: SortOrder
     status?: SortOrder
-    endereco?: SortOrderInput | SortOrder
-    maxTickets?: SortOrderInput | SortOrder
+    street?: SortOrder
+    number?: SortOrder
+    complement?: SortOrderInput | SortOrder
+    neighborhood?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    cep?: SortOrder
+    maxTickets?: SortOrder
     ticketsSold?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6433,8 +6552,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     ticketPrice?: FloatWithAggregatesFilter<"Event"> | number
     status?: EnumEventStatusWithAggregatesFilter<"Event"> | $Enums.EventStatus
-    endereco?: StringNullableWithAggregatesFilter<"Event"> | string | null
-    maxTickets?: IntNullableWithAggregatesFilter<"Event"> | number | null
+    street?: StringWithAggregatesFilter<"Event"> | string
+    number?: IntWithAggregatesFilter<"Event"> | number
+    complement?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    neighborhood?: StringWithAggregatesFilter<"Event"> | string
+    city?: StringWithAggregatesFilter<"Event"> | string
+    state?: StringWithAggregatesFilter<"Event"> | string
+    cep?: StringWithAggregatesFilter<"Event"> | string
+    maxTickets?: IntWithAggregatesFilter<"Event"> | number
     ticketsSold?: IntWithAggregatesFilter<"Event"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
@@ -6728,8 +6853,14 @@ export namespace Prisma {
     ticketDeadline: Date | string
     ticketPrice: number
     status?: $Enums.EventStatus
-    endereco?: string | null
-    maxTickets?: number | null
+    street: string
+    number: number
+    complement?: string | null
+    neighborhood: string
+    city: string
+    state: string
+    cep: string
+    maxTickets: number
     ticketsSold?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6745,8 +6876,14 @@ export namespace Prisma {
     ticketDeadline: Date | string
     ticketPrice: number
     status?: $Enums.EventStatus
-    endereco?: string | null
-    maxTickets?: number | null
+    street: string
+    number: number
+    complement?: string | null
+    neighborhood: string
+    city: string
+    state: string
+    cep: string
+    maxTickets: number
     ticketsSold?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6761,8 +6898,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketPrice?: FloatFieldUpdateOperationsInput | number
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
-    endereco?: NullableStringFieldUpdateOperationsInput | string | null
-    maxTickets?: NullableIntFieldUpdateOperationsInput | number | null
+    street?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    maxTickets?: IntFieldUpdateOperationsInput | number
     ticketsSold?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6778,8 +6921,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketPrice?: FloatFieldUpdateOperationsInput | number
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
-    endereco?: NullableStringFieldUpdateOperationsInput | string | null
-    maxTickets?: NullableIntFieldUpdateOperationsInput | number | null
+    street?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    maxTickets?: IntFieldUpdateOperationsInput | number
     ticketsSold?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6795,8 +6944,14 @@ export namespace Prisma {
     ticketDeadline: Date | string
     ticketPrice: number
     status?: $Enums.EventStatus
-    endereco?: string | null
-    maxTickets?: number | null
+    street: string
+    number: number
+    complement?: string | null
+    neighborhood: string
+    city: string
+    state: string
+    cep: string
+    maxTickets: number
     ticketsSold?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6810,8 +6965,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketPrice?: FloatFieldUpdateOperationsInput | number
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
-    endereco?: NullableStringFieldUpdateOperationsInput | string | null
-    maxTickets?: NullableIntFieldUpdateOperationsInput | number | null
+    street?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    maxTickets?: IntFieldUpdateOperationsInput | number
     ticketsSold?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6825,8 +6986,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketPrice?: FloatFieldUpdateOperationsInput | number
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
-    endereco?: NullableStringFieldUpdateOperationsInput | string | null
-    maxTickets?: NullableIntFieldUpdateOperationsInput | number | null
+    street?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    maxTickets?: IntFieldUpdateOperationsInput | number
     ticketsSold?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7193,17 +7360,6 @@ export namespace Prisma {
     not?: NestedEnumEventStatusFilter<$PrismaModel> | $Enums.EventStatus
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type AdminScalarRelationFilter = {
     is?: AdminWhereInput
     isNot?: AdminWhereInput
@@ -7217,7 +7373,13 @@ export namespace Prisma {
     ticketDeadline?: SortOrder
     ticketPrice?: SortOrder
     status?: SortOrder
-    endereco?: SortOrder
+    street?: SortOrder
+    number?: SortOrder
+    complement?: SortOrder
+    neighborhood?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    cep?: SortOrder
     maxTickets?: SortOrder
     ticketsSold?: SortOrder
     createdAt?: SortOrder
@@ -7228,6 +7390,7 @@ export namespace Prisma {
   export type EventAvgOrderByAggregateInput = {
     id?: SortOrder
     ticketPrice?: SortOrder
+    number?: SortOrder
     maxTickets?: SortOrder
     ticketsSold?: SortOrder
     adminId?: SortOrder
@@ -7241,7 +7404,13 @@ export namespace Prisma {
     ticketDeadline?: SortOrder
     ticketPrice?: SortOrder
     status?: SortOrder
-    endereco?: SortOrder
+    street?: SortOrder
+    number?: SortOrder
+    complement?: SortOrder
+    neighborhood?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    cep?: SortOrder
     maxTickets?: SortOrder
     ticketsSold?: SortOrder
     createdAt?: SortOrder
@@ -7257,7 +7426,13 @@ export namespace Prisma {
     ticketDeadline?: SortOrder
     ticketPrice?: SortOrder
     status?: SortOrder
-    endereco?: SortOrder
+    street?: SortOrder
+    number?: SortOrder
+    complement?: SortOrder
+    neighborhood?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    cep?: SortOrder
     maxTickets?: SortOrder
     ticketsSold?: SortOrder
     createdAt?: SortOrder
@@ -7268,6 +7443,7 @@ export namespace Prisma {
   export type EventSumOrderByAggregateInput = {
     id?: SortOrder
     ticketPrice?: SortOrder
+    number?: SortOrder
     maxTickets?: SortOrder
     ticketsSold?: SortOrder
     adminId?: SortOrder
@@ -7299,7 +7475,12 @@ export namespace Prisma {
     _max?: NestedEnumEventStatusFilter<$PrismaModel>
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
     notIn?: number[] | null
@@ -7307,17 +7488,7 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type EventScalarRelationFilter = {
@@ -7379,6 +7550,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type TicketCreateNestedManyWithoutUsuarioInput = {
@@ -7521,14 +7708,6 @@ export namespace Prisma {
     set?: $Enums.EventStatus
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type AdminUpdateOneRequiredWithoutEventsNestedInput = {
     create?: XOR<AdminCreateWithoutEventsInput, AdminUncheckedCreateWithoutEventsInput>
     connectOrCreate?: AdminCreateOrConnectWithoutEventsInput
@@ -7597,6 +7776,14 @@ export namespace Prisma {
     delete?: UsuarioWhereInput | boolean
     connect?: UsuarioWhereUniqueInput
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutTicketsInput, UsuarioUpdateWithoutTicketsInput>, UsuarioUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -7793,6 +7980,19 @@ export namespace Prisma {
     _max?: NestedEnumEventStatusFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -7818,19 +8018,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type TicketCreateWithoutUsuarioInput = {
@@ -7899,8 +8086,14 @@ export namespace Prisma {
     ticketDeadline: Date | string
     ticketPrice: number
     status?: $Enums.EventStatus
-    endereco?: string | null
-    maxTickets?: number | null
+    street: string
+    number: number
+    complement?: string | null
+    neighborhood: string
+    city: string
+    state: string
+    cep: string
+    maxTickets: number
     ticketsSold?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7915,8 +8108,14 @@ export namespace Prisma {
     ticketDeadline: Date | string
     ticketPrice: number
     status?: $Enums.EventStatus
-    endereco?: string | null
-    maxTickets?: number | null
+    street: string
+    number: number
+    complement?: string | null
+    neighborhood: string
+    city: string
+    state: string
+    cep: string
+    maxTickets: number
     ticketsSold?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7959,8 +8158,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFilter<"Event"> | Date | string
     ticketPrice?: FloatFilter<"Event"> | number
     status?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
-    endereco?: StringNullableFilter<"Event"> | string | null
-    maxTickets?: IntNullableFilter<"Event"> | number | null
+    street?: StringFilter<"Event"> | string
+    number?: IntFilter<"Event"> | number
+    complement?: StringNullableFilter<"Event"> | string | null
+    neighborhood?: StringFilter<"Event"> | string
+    city?: StringFilter<"Event"> | string
+    state?: StringFilter<"Event"> | string
+    cep?: StringFilter<"Event"> | string
+    maxTickets?: IntFilter<"Event"> | number
     ticketsSold?: IntFilter<"Event"> | number
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
@@ -8081,8 +8286,14 @@ export namespace Prisma {
     ticketDeadline: Date | string
     ticketPrice: number
     status?: $Enums.EventStatus
-    endereco?: string | null
-    maxTickets?: number | null
+    street: string
+    number: number
+    complement?: string | null
+    neighborhood: string
+    city: string
+    state: string
+    cep: string
+    maxTickets: number
     ticketsSold?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8097,8 +8308,14 @@ export namespace Prisma {
     ticketDeadline: Date | string
     ticketPrice: number
     status?: $Enums.EventStatus
-    endereco?: string | null
-    maxTickets?: number | null
+    street: string
+    number: number
+    complement?: string | null
+    neighborhood: string
+    city: string
+    state: string
+    cep: string
+    maxTickets: number
     ticketsSold?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8114,6 +8331,11 @@ export namespace Prisma {
     name: string
     sobrenome: string
     email: string
+    cpf: string
+    telefone: string
+    atuacao?: string | null
+    empresa?: string | null
+    faculdade?: string | null
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8126,6 +8348,11 @@ export namespace Prisma {
     name: string
     sobrenome: string
     email: string
+    cpf: string
+    telefone: string
+    atuacao?: string | null
+    empresa?: string | null
+    faculdade?: string | null
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8156,8 +8383,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketPrice?: FloatFieldUpdateOperationsInput | number
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
-    endereco?: NullableStringFieldUpdateOperationsInput | string | null
-    maxTickets?: NullableIntFieldUpdateOperationsInput | number | null
+    street?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    maxTickets?: IntFieldUpdateOperationsInput | number
     ticketsSold?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8172,8 +8405,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketPrice?: FloatFieldUpdateOperationsInput | number
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
-    endereco?: NullableStringFieldUpdateOperationsInput | string | null
-    maxTickets?: NullableIntFieldUpdateOperationsInput | number | null
+    street?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    maxTickets?: IntFieldUpdateOperationsInput | number
     ticketsSold?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8195,6 +8434,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    atuacao?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    faculdade?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8207,6 +8451,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    atuacao?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    faculdade?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8262,8 +8511,14 @@ export namespace Prisma {
     ticketDeadline: Date | string
     ticketPrice: number
     status?: $Enums.EventStatus
-    endereco?: string | null
-    maxTickets?: number | null
+    street: string
+    number: number
+    complement?: string | null
+    neighborhood: string
+    city: string
+    state: string
+    cep: string
+    maxTickets: number
     ticketsSold?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8276,8 +8531,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketPrice?: FloatFieldUpdateOperationsInput | number
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
-    endereco?: NullableStringFieldUpdateOperationsInput | string | null
-    maxTickets?: NullableIntFieldUpdateOperationsInput | number | null
+    street?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    maxTickets?: IntFieldUpdateOperationsInput | number
     ticketsSold?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8292,8 +8553,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketPrice?: FloatFieldUpdateOperationsInput | number
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
-    endereco?: NullableStringFieldUpdateOperationsInput | string | null
-    maxTickets?: NullableIntFieldUpdateOperationsInput | number | null
+    street?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    maxTickets?: IntFieldUpdateOperationsInput | number
     ticketsSold?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8308,8 +8575,14 @@ export namespace Prisma {
     ticketDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     ticketPrice?: FloatFieldUpdateOperationsInput | number
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
-    endereco?: NullableStringFieldUpdateOperationsInput | string | null
-    maxTickets?: NullableIntFieldUpdateOperationsInput | number | null
+    street?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    cep?: StringFieldUpdateOperationsInput | string
+    maxTickets?: IntFieldUpdateOperationsInput | number
     ticketsSold?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

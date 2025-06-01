@@ -5,14 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Painel de Gerenciamento de Eventos - Admin</title>
   <link rel="stylesheet" href="/css/addEvent.css" />
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
   <header>
@@ -24,111 +20,89 @@
       <h2>Gerenciamento de Eventos</h2>
 
       <% if (messages && messages.success && messages.success.length > 0) { %>
-      <div
-        class="alert alert-success alert-dismissible fade show"
-        role="alert"
-      >
-        <%= messages.success[0] %>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="alert"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= messages.success[0] %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       <% } %>
       <% if (messages && messages.error && messages.error.length > 0) { %>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <%= messages.error[0] %>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="alert"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= messages.error[0] %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       <% } %>
 
-      <button id="toggleAddForm" onclick="toggleAddEventFormForNew()">
-        Adicionar Evento
-      </button>
+      <button id="toggleAddForm" onclick="toggleAddEventFormForNew()">Adicionar Evento</button>
 
       <div id="addEventForm" style="display: none;">
-        <h3 id="formTitle">Adicionar Novo Evento</h3>
-        <form
-          id="eventForm"
-          action="/api/admin/events"
-          method="POST"
-        >
-          <input type="hidden" id="eventId" name="eventId" value="" />
+  <h3 id="formTitle">Adicionar Novo Evento</h3>
+  <form id="eventForm" action="/api/admin/events" method="POST">
+    <input type="hidden" id="eventId" name="eventId" value="" />
 
-          <div class="input-group">
-            <input type="text" id="name" name="name" placeholder=" " required />
-            <label for="name">Título</label>
-          </div>
+    <div class="input-group">
+      <input type="text" id="name" name="name" placeholder=" " required />
+      <label for="name">Título</label>
+    </div>
 
-          <div class="input-group">
-            <input
-              type="datetime-local"
-              id="eventDate"
-              name="eventDate"
-              placeholder=" "
-              required
-            />
-            <label for="eventDate">Data do Evento</label>
-          </div>
+    <div class="input-group">
+      <input type="datetime-local" id="eventDate" name="eventDate" placeholder=" " required max="9999-12-31T23:59" />
+      <label for="eventDate">Data do Evento</label>
+    </div>
 
-          <div class="input-group">
-            <input
-              type="datetime-local"
-              id="ticketDeadline"
-              name="ticketDeadline"
-              placeholder=" "
-              required
-            />
-            <label for="ticketDeadline">Data Limite para Compra</label>
-          </div>
+    <div class="input-group">
+      <input type="datetime-local" id="ticketDeadline" name="ticketDeadline" placeholder=" " required max="9999-12-31T23:59" />
+      <label for="ticketDeadline">Data Limite para Compra</label>
+    </div>
 
-          <div class="input-group">
-            <input
-              type="number"
-              step="0.01"
-              id="ticketPrice"
-              name="ticketPrice"
-              placeholder=" "
-              required
-            />
-            <label for="ticketPrice">Valor do Ingresso</label>
-          </div>
+    <div class="input-group">
+      <input type="text" id="ticketPrice" name="ticketPrice" placeholder=" " required />
+      <label for="ticketPrice">Valor do Ingresso</label>
+    </div>
 
-          <div class="input-group">
-            <textarea
-              id="description"
-              name="description"
-              rows="4"
-              placeholder=" "
-              required
-            ></textarea>
-            <label for="description">Descrição</label>
-          </div>
+    <div class="input-group">
+      <textarea id="description" name="description" rows="4" placeholder=" " required></textarea>
+      <label for="description">Descrição</label>
+    </div>
 
-          <div class="input-select">
-            <label for="status">Status do Evento</label>
-            <select id="status" name="status" required>
-              <option value="ACTIVE" selected>Ativo</option>
-              <option value="CLOSED">Fechado</option>
-            </select>
-          </div>
+    <!-- Input que mostrará o resumo do endereço. Ao clicar, abre o modal -->
+    <div class="input-group">
+      <input type="text" id="addressSummary" name="addressSummary" placeholder=" " readonly data-toggle="modal" data-target="#addressModal" required />
+      <label for="addressSummary">Endereço</label>
+    </div>
 
-          <button type="submit" id="formSubmitBtn">Salvar Evento</button>
-          <button type="button" onclick="cancelEdit()">Cancelar</button>
-        </form>
-      </div>
+    <!-- Campos ocultos para armazenar os dados detalhados do endereço -->
+    <input type="hidden" id="street" name="street" />
+    <input type="hidden" id="number" name="number" />
+    <input type="hidden" id="complement" name="complement" />
+    <input type="hidden" id="neighborhood" name="neighborhood" />
+    <input type="hidden" id="city" name="city" />
+    <input type="hidden" id="state" name="state" />
+    <input type="hidden" id="cep" name="cep" />
 
+    <div class="input-group">
+      <input type="number" id="maxTickets" name="maxTickets" placeholder=" " required min="1" />
+      <label for="maxTickets">Qtd. Máxima de Ingressos</label>
+    </div>
+
+    <div class="input-select">
+      <label for="status">Status do Evento</label>
+      <select id="status" name="status" required>
+        <option value="ACTIVE" selected>Ativo</option>
+        <option value="CLOSED">Fechado</option>
+      </select>
+    </div>
+
+    <!-- Container para os botões com alinhamento semelhante ao modal -->
+    <div class="button-group">
+  <button type="button" onclick="cancelEdit()" class="btn btn-secondary">Cancelar</button>
+  <button type="submit" id="formSubmitBtn" class="btn btn-primary">Salvar Evento</button>
+</div>
+  </form>
+</div>
       <h3>Eventos Cadastrados</h3>
       <table>
         <thead>
@@ -143,28 +117,28 @@
         </thead>
         <tbody>
           <% if (events && events.length > 0) { %>
-          <% events.forEach(function(event) { %>
-          <tr>
-            <td><%= event.name %></td>
-            <td><%= new Date(event.eventDate).toLocaleString("pt-BR") %></td>
-            <td><%= new Date(event.ticketDeadline).toLocaleString("pt-BR") %></td>
-            <td
-              ><%= parseFloat(event.ticketPrice).toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              }) %></td
-            >
-            <td><%= event.status %></td>
-            <td>
-              <button class="btn btn-sm btn-info mr-1" onclick="abrirModalEditar(<%- JSON.stringify(event.id) %>)">Editar</button>
-              <button class="btn btn-sm btn-danger" onclick="excluirEvento(<%- JSON.stringify(event.id) %>)">Excluir</button>
-            </td>
-          </tr>
-          <% }); %>
+            <% events.forEach(function(event) { %>
+              <tr>
+                <td><%= event.name %></td>
+                <td><%= new Date(event.eventDate).toLocaleString("pt-BR") %></td>
+                <td><%= new Date(event.ticketDeadline).toLocaleString("pt-BR") %></td>
+                <td>
+                  <%= parseFloat(event.ticketPrice).toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }) %>
+                </td>
+                <td><%= event.status %></td>
+                <td>
+                  <button class="btn btn-sm btn-info mr-1" onclick="abrirModalEditar(<%- JSON.stringify(event.id) %>)">Editar</button>
+                  <button class="btn btn-sm btn-danger" onclick="excluirEvento(<%- JSON.stringify(event.id) %>)">Excluir</button>
+                </td>
+              </tr>
+            <% }); %>
           <% } else { %>
-          <tr>
-            <td colspan="6">Nenhum evento cadastrado.</td>
-          </tr>
+            <tr>
+              <td colspan="6">Nenhum evento cadastrado.</td>
+            </tr>
           <% } %>
         </tbody>
       </table>
@@ -175,105 +149,152 @@
     <p>&copy; 2025 Entrada Express. Todos os direitos reservados.</p>
   </footer>
 
-  <div
-    class="modal fade"
-    id="editEventModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="editEventModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog" role="document">
+  <!-- Modal para Editar Evento -->
+  <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editEventModalLabel">Editar Evento</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Fechar"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <input type="hidden" id="modalEventId" />
-          <div class="input-group">
-            <input type="text" id="modalName" placeholder=" " required />
-            <label for="modalName">Título</label>
-          </div>
-          <div class="input-group">
-            <input
-              type="datetime-local"
-              id="modalEventDate"
-              placeholder=" "
-              required
-            />
-            <label for="modalEventDate">Data do Evento</label>
-          </div>
-          <div class="input-group">
-            <input
-              type="datetime-local"
-              id="modalTicketDeadline"
-              placeholder=" "
-              required
-            />
-            <label for="modalTicketDeadline">Data Limite para Compra</label>
-          </div>
-          <div class="input-group">
-            <input
-              type="number"
-              step="0.01"
-              id="modalTicketPrice"
-              placeholder=" "
-              required
-            />
-            <label for="modalTicketPrice">Valor do Ingresso</label>
-          </div>
-          <div class="input-group">
-            <textarea
-              id="modalDescription"
-              rows="4"
-              placeholder=" "
-              required
-            ></textarea>
-            <label for="modalDescription">Descrição</label>
-          </div>
-          <div class="input-select">
-            <label for="modalStatus">Status do Evento</label>
-            <select id="modalStatus" required>
-              <option value="ACTIVE">Ativo</option>
-              <option value="CLOSED">Fechado</option>
-            </select>
-          </div>
+          <form id="editEventForm">
+            <input type="hidden" id="modalEventId" name="modalEventId" />
+
+            <div class="input-group">
+              <input type="text" id="modalName" name="name" placeholder=" " required />
+              <label for="modalName">Título</label>
+            </div>
+
+            <div class="input-group">
+              <input type="datetime-local" id="modalEventDate" name="eventDate" placeholder=" " required max="9999-12-31T23:59" />
+              <label for="modalEventDate">Data do Evento</label>
+            </div>
+
+            <div class="input-group">
+              <input type="datetime-local" id="modalTicketDeadline" name="ticketDeadline" placeholder=" " required max="9999-12-31T23:59" />
+              <label for="modalTicketDeadline">Data Limite para Compra</label>
+            </div>
+
+            <div class="input-group">
+              <input type="text" id="modalTicketPrice" name="ticketPrice" placeholder=" " required />
+              <label for="modalTicketPrice">Valor do Ingresso</label>
+            </div>
+
+            <div class="input-group">
+              <textarea id="modalDescription" name="description" rows="4" placeholder=" " required></textarea>
+              <label for="modalDescription">Descrição</label>
+            </div>
+
+            <h6 class="mt-3 modal-address-heading">Endereço do Evento</h6>
+            <div class="input-group">
+              <input type="text" id="modalStreet" name="street" placeholder=" " required />
+              <label for="modalStreet">Rua</label>
+            </div>
+            <div class="input-group">
+              <input type="text" id="modalNumber" name="number" placeholder=" " required inputmode="numeric" pattern="[0-9]*" />
+              <label for="modalNumber">Número</label>
+            </div>
+            <div class="input-group">
+              <input type="text" id="modalComplement" name="complement" placeholder=" " />
+              <label for="modalComplement">Complemento</label>
+            </div>
+            <div class="input-group">
+              <input type="text" id="modalNeighborhood" name="neighborhood" placeholder=" " required />
+              <label for="modalNeighborhood">Bairro</label>
+            </div>
+            <div class="input-group">
+              <input type="text" id="modalCity" name="city" placeholder=" " required />
+              <label for="modalCity">Cidade</label>
+            </div>
+            <div class="input-group">
+              <input type="text" id="modalState" name="state" placeholder=" " required />
+              <label for="modalState">Estado</label>
+            </div>
+            <div class="input-group">
+              <input type="text" id="modalCep" name="cep" placeholder=" " required maxlength="9" />
+              <label for="modalCep">CEP</label>
+            </div>
+
+            <div class="input-group">
+              <input type="number" id="modalMaxTickets" name="maxTickets" placeholder=" " required min="1" />
+              <label for="modalMaxTickets">Qtd. Máxima de Ingressos</label>
+            </div>
+
+            <div class="input-select">
+              <label for="modalStatus">Status do Evento</label>
+              <select id="modalStatus" name="status" required>
+                <option value="ACTIVE">Ativo</option>
+                <option value="CLOSED">Fechado</option>
+              </select>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-dismiss="modal"
-          >
-            Cancelar
-          </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            onclick="salvarEdicaoEvento()"
-          >
-            Salvar Edição
-          </button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="salvarEdicaoEvento()">Salvar Alterações</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Modal para preencher os detalhes do endereço -->
+  <div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addressModalLabel">Detalhes do Endereço</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <input type="text" id="addressFormStreet" placeholder=" " required />
+            <label for="addressFormStreet">Rua</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="addressFormNumber" placeholder=" " required inputmode="numeric" pattern="[0-9]*" />
+            <label for="addressFormNumber">Número</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="addressFormComplement" placeholder=" " />
+            <label for="addressFormComplement">Complemento(opcional)</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="addressFormNeighborhood" placeholder=" " required />
+            <label for="addressFormNeighborhood">Bairro</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="addressFormCity" placeholder=" " required />
+            <label for="addressFormCity">Cidade</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="addressFormState" placeholder=" " required />
+            <label for="addressFormState">Estado</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="addressFormCep" placeholder=" " required maxlength="9" />
+            <label for="addressFormCep">CEP</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-primary" onclick="saveAddress()">Salvar Endereço</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts externos -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
     const eventsData = <%- JSON.stringify(events || []) %>;
     const CURRENT_ADMIN_ID = <%= adminId %>;
   </script>
-  <script src="/js/addEvento.js"></script> 
+  <script src="/js/addEvento.js"></script>
 </body>
 </html>

@@ -8,7 +8,6 @@
   --font: 'Poppins', sans-serif;
 }
 
-/* Reset */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -26,7 +25,6 @@ body {
   line-height: 1.6;
 }
 
-/* Cabeçalho */
 header {
   background: linear-gradient(45deg, var(--secondary), var(--primary));
   padding: 2rem 1rem;
@@ -43,14 +41,12 @@ header h1 {
   margin-bottom: 0.5rem;
 }
 
-/* Container */
 main {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 2rem;
 }
 
-/* Seção Admin */
 #admin-events h2 {
   font-size: 2rem;
   color: var(--secondary);
@@ -74,7 +70,6 @@ main {
   background: var(--accent);
 }
 
-/* Formulário */
 #addEventForm {
   background: var(--light);
   padding: 2rem;
@@ -151,24 +146,43 @@ main {
   color: var(--primary);
 }
 
-
-#addEventForm button[type="submit"] {
-  align-self: center;
-  background: var(--primary);
-  color: var(--light);
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
+#addressModal .input-group {
+  margin-bottom: 20px;
 }
 
-#addEventForm button[type="submit"]:hover {
-  background: var(--accent);
+#editEventModal .modal-body .input-group {
+  margin-bottom: 1rem;
 }
 
-/* Tabela */
+#editEventModal .modal-address-heading {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn.btn-primary {
+  background-color: #007bff !important;
+  color: #ffffff !important;
+}
+
+.btn.btn-primary:hover {
+  background-color: #0069d9 !important;
+}
+
+.btn.btn-secondary {
+  background-color: #6c757d !important;
+  color: #ffffff !important;
+}
+
+.btn.btn-secondary:hover {
+  background-color: #5a6268 !important;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -200,7 +214,6 @@ table td button:hover {
   background: var(--accent);
 }
 
-/* Rodapé */
 footer {
   background: var(--secondary);
   color: var(--light);
@@ -210,7 +223,6 @@ footer {
   margin-top: 3rem;
 }
 
-/* Responsivo */
 @media (max-width: 768px) {
   header h1 {
     font-size: 2rem;
