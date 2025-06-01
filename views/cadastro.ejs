@@ -13,10 +13,7 @@
 
       <fieldset class="form-step" id="step1">
         <legend>Dados Pessoais</legend>
-        <div class="input-group">
-          <input type="email" name="email" id="email" placeholder=" " required>
-          <label for="email">E-mail</label>
-        </div>
+        <div id="step1Error" class="step-error-message" style="display:none;"></div>
         <div class="input-group">
           <input type="text" name="name" id="name" placeholder=" " required>
           <label for="name">Nome</label>
@@ -25,24 +22,74 @@
           <input type="text" name="sobrenome" id="sobrenome" placeholder=" " required>
           <label for="sobrenome">Sobrenome</label>
         </div>
+        <div class="input-group">
+          <input type="text" name="cpf" id="cpf" placeholder=" " required>
+          <label for="cpf">Cpf</label>
+        </div>
         <button type="button" class="btn-cadastro" onclick="nextStep(2)">Próximo</button>
       </fieldset>
-
       <fieldset class="form-step" id="step2" style="display:none;">
+        <legend>Contato</legend>
+        <div id="step2Error" class="step-error-message" style="display:none;"></div>
+        <div class="input-group">
+          <input type="email" name="email" id="email" placeholder=" " required>
+          <label for="email">E-mail</label>
+        </div>
+        <div class="input-group">
+          <input type="text" name="telefone" id="telefone" placeholder=" " required>
+          <label for="telefone">Telefone</label>
+        </div>
+        <button type="button" class="btn-cadastro" onclick="nextStep(3)">Próximo</button>
+        <button type="button" class="btn-cadastro" onclick="prevStep(1)">Voltar</button>
+      </fieldset>
+      <fieldset class="form-step" id="step3" style="display:none;">
+        <legend>Vínculo</legend>
+        <div class="input-group">
+          <input type="text" name="empresa" id="empresa" placeholder=" ">
+          <label for="empresa">Empresa</label>
+        </div>
+        <div class="input-group">
+          <input type="text" name="faculdade" id="faculdade" placeholder=" ">
+          <label for="faculdade">Faculdade</label>
+        </div>
+        <div class="input-group">
+          <input type="text" name="atuacao" id="atuacao" placeholder=" ">
+          <label for="atuacao">Area de Atuação</label>
+        </div>
+        <button type="button" class="btn-cadastro" onclick="nextStep(4)">Próximo</button>
+        <button type="button" class="btn-cadastro" onclick="prevStep(2)">Voltar</button>
+      </fieldset>
+      <fieldset class="form-step" id="step4" style="display:none;">
         <legend>Senha</legend>
+        <div id="step4Error" class="step-error-message" style="display:none;"></div>
         <div class="input-group">
           <input type="password" name="password" id="password" placeholder=" " required>
           <label for="password">Senha</label>
+          <div class="validation-criteria" id="passwordCriteriaContainer" style="display:none;">
+            <div id="lengthCrit" class="criterion">Mínimo 8 caracteres</div>
+            <div id="upperCrit" class="criterion">Uma letra maiúscula</div>
+            <div id="lowerCrit" class="criterion">Uma letra minúscula</div>
+            <div id="numberCrit" class="criterion">Um número</div>
+            <div id="specialCrit" class="criterion">Um caractere especial</div>
+          </div>
         </div>
         <div class="input-group">
           <input type="password" name="confirmarSenha" id="confirmarSenha" placeholder=" " required>
           <label for="confirmarSenha">Confirmar Senha</label>
+          <div class="validation-criteria" id="confirmPasswordCriteriaContainer" style="display:none;">
+            <div id="matchCrit" class="criterion">As senhas devem coincidir</div>
+          </div>
         </div>
         <button type="submit" class="btn-cadastro">Cadastrar</button>
-        <button type="button" class="btn-cadastro" onclick="prevStep(1)">Voltar</button>
+        <button type="button" class="btn-cadastro" onclick="prevStep(3)">Voltar</button>
       </fieldset>
     </form>
+
     <section>
+      <div id="toastNotification" class="toast-notification">
+        <span id="toastMessage"></span>
+      </div>
+
       <p>Já tem cadastro? <a href="login">Faça login</a></p>
       <p>Esqueceu a senha? <a href="/api/forgot-password">Recuperar senha</a></p>
     </section>

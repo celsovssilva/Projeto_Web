@@ -30,17 +30,21 @@ export const getUserById = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  const { name, sobrenome, email, password } = req.body;
+  const { name, sobrenome, email, password, cpf, telefone, atuacao, empresa, faculdade } = req.body;
 
-  if (!name || !sobrenome || !email || !password) {
-    return res.status(400).json({ error: "Este Usuário já está cadastrado. Por favor, faça login para continuar." });
+  if (!name || !sobrenome || !email || !password || !cpf || !telefone) {
+    return res.status(400).json({ error: "Campos obrigatórios (Nome, Sobrenome, Email, Senha, CPF, Telefone) não foram preenchidos." });
   }
 
   try {
  
-    const userExists = await prisma.usuario.findUnique({ where: { email } });
-    if (userExists) {
+    const emailExists = await prisma.usuario.findUnique({ where: { email } });
+    if (emailExists) {
       return res.status(409).json({ error: "Usuário já existente, por favor realize o login" });
+    }
+    const cpfExists = await prisma.usuario.findUnique({ where: { cpf } });
+    if (cpfExists) {
+      return res.status(409).json({ error: "Dados de cadastro inválidos ou já existentes. Verifique as informações ou tente fazer login." });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -49,6 +53,11 @@ export const createUser = async (req, res) => {
         name,
         sobrenome,
         email,
+        cpf,
+        telefone,
+        atuacao,
+        empresa,
+        faculdade,
         password: hashedPassword,
       },
     });

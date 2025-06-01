@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (data.user && data.user.type === 'admin') {
             window.location.href = '/api/admin/events'
           } else if (data.user && data.user.type === 'usuario') {
-            window.location.href = '/dashboard-usuario';
+            window.location.href = '/api/events/user';
           } else {
             window.location.href = '/'; 
           }
