@@ -41,3 +41,24 @@ export const listEventsForUser = async (req, res) => {
           res.status(500).json({ message: "Erro interno do servidor ao buscar eventos.", error: error.message });
       }
 };
+export const getEventById = async (req, res) => {
+    try {
+        const eventId = parseInt(req.params.id);
+        if (isNaN(eventId)) {
+            return res.status(400).json({ message: "ID inválido." });
+        }
+
+        const evento = await prisma.event.findUnique({
+            where: { id: eventId }
+        });
+
+        if (!evento) {
+            return res.status(404).json({ message: "Evento não encontrado." });
+        }
+
+        res.json(evento);
+    } catch (error) {
+        console.error("Erro ao buscar evento:", error);
+        res.status(500).json({ message: "Erro interno do servidor." });
+    }
+};

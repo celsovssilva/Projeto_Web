@@ -15,7 +15,7 @@
   <header>
     <h1>Tela de eventos</h1>
     <div class="icone_perfil">
-      <button>Perfil</button>
+      <button class="icone_perfil">Perfil</button>
     </div>
   </header>
 
@@ -38,7 +38,12 @@
                 <h3><%= event.eventName %></h3>
                 <p class="date"><%= formatDate(event.eventDate) %></p>
                 <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
-                <button>Mais informações</button>
+                <button onclick="mostrarModal(this)"
+                    data-name="<%= event.eventName %>"
+                    data-date="<%= formatDate(event.eventDate) %>"
+                    data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= event.cep %>"
+                    data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>">
+                      Mais informações</button>
               </div>
             <% }); %>
           </div>
@@ -53,9 +58,12 @@
               <div class="event-card disponivel">
                 <h3><%= event.eventName %></h3>
                 <p class="date"><%= formatDate(event.eventDate) %></p>
-                <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
-                <button>Mais informações</button>
-              </div>
+                <button onclick="mostrarModal(this)"
+                  data-name="<%= event.eventName %>"
+                  data-date="<%= formatDate(event.eventDate) %>"
+                  data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= event.cep %>"
+                  data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>">
+                    Mais informações</button>
             <% }); %>
           </div>
         </div>
@@ -70,7 +78,12 @@
                 <h3><%= event.eventName %></h3>
                 <p class="date"><%= formatDate(event.eventDate) %></p>
                 <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
-                <button disabled>Encerrado</button>
+                <button onclick="mostrarModal(this)"
+                      data-name="<%= event.eventName %>"
+                      data-date="<%= formatDate(event.eventDate) %>"
+                      data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= event.cep %>"
+                      data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>"
+                      >Encerrado</button>
               </div>
             <% }); %>
           </div>
@@ -82,5 +95,35 @@
   <footer>
     <p>&copy; 2025 Entrada Express. Todos os direitos reservados.</p>
   </footer>
+
+  <div class="modal-overlay" id="modalOverlay" style="display:none;"></div>
+  <div class="modal" id="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close-modal" onclick="fecharModal()">&times;</span>
+      <h2 id="eventName"></h2>
+      <p><strong>Data:</strong> <span id="eventDate"></span></p>
+      <p><strong>Local:</strong> <span id="eventLocation"></span></p>
+      <p><strong>Preço:</strong> R$ <span id="eventPrice"></span></p>
+    </div>
+  </div>
+</div>
 </body>
+<script>
+    function mostrarModal(btn) {
+      document.getElementById('eventName').textContent = btn.dataset.name;
+      document.getElementById('eventDate').textContent = btn.dataset.date;
+      document.getElementById('eventLocation').textContent = btn.dataset.location;
+      document.getElementById('eventPrice').textContent = btn.dataset.price;
+
+      document.getElementById('modal').style.display = 'block';
+      document.getElementById('modalOverlay').style.display = 'block';
+    }
+
+    function fecharModal() {
+      document.getElementById('modal').style.display = 'none';
+      document.getElementById('modalOverlay').style.display = 'none';
+    }
+
+    document.getElementById('modalOverlay').onclick = fecharModal;
+  </script>
 </html>

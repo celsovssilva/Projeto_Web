@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { listEventsForUser } from '../controllers/eventsController.js'; 
+import { listEventsForUser, getEventById } from '../controllers/eventsController.js'; 
 
 const router = express.Router();
 
@@ -9,5 +9,6 @@ router.get("/events", (req, res) => {
 })
 
 router.get('/events/user', listEventsForUser);
+router.get("/evento/:id", getEventById);
 
 export default router;
