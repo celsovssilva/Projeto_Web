@@ -1,32 +1,16 @@
 import { PrismaClient } from "../../generated/prisma/index.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 dotenv.config();
 
-
 const prisma = new PrismaClient();
 
-// Configuração do transporter de e-mail (usando Mailtrap)
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: false, // Mailtrap usa STARTTLS
-  auth: {
-    user: process.env.EMAIL_USER, // Seu username do Mailtrap
-    pass: process.env.EMAIL_PASS  // Sua senha do Mailtrap
-  }
-});
-
-/**
- * @function forgotPassword
- */
 export const forgotPassword = async (req, res) => {
   const { email, role } = req.body;
 
   if (!email || !role) {
-    return res.status(400).json({ error: "Email e role são obrigatórios." });
+    return res.status(400).json({ error: "Por favor, informe seu e-mail e o tipo de conta (usuário ou administrador)." });
   }
 
   try {
@@ -36,11 +20,11 @@ export const forgotPassword = async (req, res) => {
     } else if (role === "admin") {
       user = await prisma.admin.findUnique({ where: { email } });
     } else {
-      return res.status(400).json({ error: "Role inválido." });
+      return res.status(400).json({ error: "Tipo de conta inválido." });
     }
 
     if (!user) {
-      return res.status(404).json({ error: "Usuário não encontrado." });
+      return res.status(404).json({ error: "Usuário não encontrado com este e-mail." });
     }
 
     const resetToken = jwt.sign(
@@ -49,36 +33,59 @@ export const forgotPassword = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
+    const resetLink = `${process.env.APP_URL}/reset-password?token=${resetToken}`;
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER, // Seu e-mail do Mailtrap será o remetente
-      to: user.email,             // O e-mail do usuário que solicitou o reset será o destinatário
-      subject: 'Link para Redefinição de Senha',
-      html: `<p>Você solicitou a redefinição da sua senha. Clique no link abaixo para continuar:</p>
-             <a href="${resetLink}">${resetLink}</a>
-             <p>Este link é válido por uma hora.</p>`
+   
+    if (!process.env.EMAILJS_SERVICE_ID || !process.env.EMAILJS_TEMPLATE_ID || !process.env.EMAILJS_PUBLIC_KEY || !process.env.EMAILJS_PRIVATE_KEY) {
+      console.error("Erro: Variáveis de ambiente do EmailJS não configuradas corretamente.");
+      return res.status(500).json({ error: "Houve um problema na configuração do envio de e-mail." });
+    }
+
+    const emailJsPayload = {
+      service_id: String(process.env.EMAILJS_SERVICE_ID),
+      template_id: String(process.env.EMAILJS_TEMPLATE_ID),
+      user_id: String(process.env.EMAILJS_PUBLIC_KEY),
+      accessToken: String(process.env.EMAILJS_PRIVATE_KEY),
+      template_params: {
+        email: user.email,
+        link: resetLink,
+      }
     };
 
-    await transporter.sendMail(mailOptions);
+    const emailJsResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(emailJsPayload)
+    });
 
-    res.json({ message: "Um link para redefinir sua senha foi enviado para o seu email." });
+    if (emailJsResponse.ok) {
+      res.json({ message: "Enviamos um link para redefinir sua senha para o seu e-mail." });
+    } else {
+      const responseText = await emailJsResponse.text();
+      let errorData;
+      try {
+        errorData = JSON.parse(responseText);
+      } catch (jsonError) {
+        errorData = responseText;
+      }
+      console.error(`Erro ao enviar e-mail de redefinição (Status: ${emailJsResponse.status}):`, errorData);
+      res.status(emailJsResponse.status).json({ error: "Houve uma falha ao enviar o e-mail de redefinição de senha." });
+    }
 
   } catch (error) {
-    console.error("Erro ao solicitar reset de senha:", error);
+    console.error("Erro inesperado ao processar a solicitação de redefinição de senha:", error);
     console.error("Detalhes do erro:", error.message);
-    res.status(500).json({ error: "Erro interno do servidor." });
+    res.status(500).json({ error: "Ocorreu um erro interno no servidor." });
   }
 };
 
-/**
- * @function resetPassword
- */
 export const resetPassword = async (req, res) => {
   const { token, password } = req.body;
 
   if (!token || !password) {
-    return res.status(400).json({ error: "Token e nova senha são obrigatórios." });
+    return res.status(400).json({ error: "Por favor, forneça o token de redefinição e a nova senha." });
   }
 
   try {
@@ -91,7 +98,7 @@ export const resetPassword = async (req, res) => {
     } else if (role === "admin") {
       model = prisma.admin;
     } else {
-      return res.status(400).json({ error: "Role inválido." });
+      return res.status(400).json({ error: "Tipo de conta inválido no token." });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -101,16 +108,16 @@ export const resetPassword = async (req, res) => {
       data: { password: hashedPassword }
     });
 
-    res.json({ message: "Senha redefinida com sucesso." });
+    res.json({ message: "Sua senha foi redefinida com sucesso." });
 
   } catch (error) {
-    console.error("Erro ao redefinir senha:", error);
+    console.error("Erro ao redefinir a senha:", error);
     console.error("Detalhes do erro:", error.message);
     if (error.name === "TokenExpiredError") {
-      return res.status(400).json({ error: "Token expirado." });
+      return res.status(400).json({ error: "Este link de redefinição expirou." });
     } else if (error.name === "JsonWebTokenError") {
-      return res.status(400).json({ error: "Token inválido." });
+      return res.status(400).json({ error: "Este token de redefinição é inválido." });
     }
-    res.status(500).json({ error: "Erro interno do servidor." });
+    res.status(500).json({ error: "Ocorreu um erro interno ao tentar redefinir sua senha." });
   }
 };
