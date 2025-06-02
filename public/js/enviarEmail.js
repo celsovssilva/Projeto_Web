@@ -1,33 +1,41 @@
-document.getElementById('formRecuperarSenha').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value.trim();
-        const role = document.getElementById('role').value;
-        if (!email) {
-          alert("Por favor, informe um email válido.");
-          return;
-        }
-        if (!role) {
-          alert("Por favor, selecione um role.");
-          return;
-        }
-        
-        const data = { email, role };
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('formRecuperarSenha');
+  const popup = document.getElementById('popupErro');
 
-        try {
-          const response = await fetch(this.action, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-          });
-          const result = await response.json();
-          if (!response.ok) {
-            alert(result.error || "Erro ao solicitar recuperação de senha.");
-          } else {
-            alert(result.message || "Um link para redefinir sua senha foi enviado para o seu email.");
-            window.location.href = "/api/reset-password";
-          }
-        } catch (error) {
-          console.error("Erro ao enviar formulário:", error);
-          alert("Erro na conexão com o servidor. Tente novamente.");
-        }
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const role = document.getElementById('role').value;
+
+    try {
+      const response = await fetch('/api/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, role })
       });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        popup.textContent = data.message || "E-mail enviado com sucesso!";
+        popup.classList.add("success");
+      } else {
+        popup.textContent = data.error || "Erro ao enviar e-mail.";
+        popup.classList.remove("success");
+      }
+      popup.style.display = "block";
+      setTimeout(() => {
+        popup.style.display = "none";
+      }, 4000);
+
+    } catch (err) {
+      popup.textContent = "Erro inesperado ao enviar e-mail.";
+      popup.classList.remove("success");
+      popup.style.display = "block";
+      setTimeout(() => {
+        popup.style.display = "none";
+      }, 4000);
+    }
+  });
+});

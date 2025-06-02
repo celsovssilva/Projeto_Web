@@ -12,34 +12,36 @@ datasource db {
 }
 
 model Usuario {
-  id                   Int       @id @default(autoincrement())
-  name                 String
-  sobrenome            String
-  email                String    @unique
-  cpf                  String    @unique
-  telefone             String
-  atuacao              String?
-  empresa              String?
-  faculdade            String?
-  password             String
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
-  passwordResetToken   String?   @unique
-  passwordResetExpires DateTime?
-  tickets              Ticket[] // Campo de relação para os tickets do usuário
+  id                       Int       @id @default(autoincrement())
+  name                     String
+  sobrenome                String
+  email                    String    @unique
+  cpf                      String    @unique
+  telefone                 String
+  atuacao                  String?
+  empresa                  String?
+  faculdade                String?
+  password                 String
+  resetPasswordRequestedAt DateTime?
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+  passwordResetToken       String?   @unique
+  passwordResetExpires     DateTime?
+  tickets                  Ticket[] // Campo de relação para os tickets do usuário
 }
 
 model Admin {
-  id                   Int       @id @default(autoincrement())
-  name                 String
-  sobrenome            String
-  email                String    @unique
-  password             String
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
-  events               Event[]
-  passwordResetToken   String?   @unique
-  passwordResetExpires DateTime?
+  id                       Int       @id @default(autoincrement())
+  name                     String
+  sobrenome                String
+  email                    String    @unique
+  password                 String
+  resetPasswordRequestedAt DateTime?
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+  events                   Event[]
+  passwordResetToken       String?   @unique
+  passwordResetExpires     DateTime?
 }
 
 model Event {

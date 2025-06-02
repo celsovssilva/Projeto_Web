@@ -8,6 +8,7 @@
     <title>Recuperar Senha</title>
   </head>
   <body>
+    <div id="popupErro" class="toast-notification" style="display:none;"></div>
     <main>
       <form id="formRecuperarSenha" action="/api/forgot-password" method="POST">
         <fieldset>
@@ -20,7 +21,7 @@
             <select id="role" name="role" required>
               <option value="">Selecione</option>
               <option value="user">Usuário</option>
-              <option value="admin">Admin</option>
+              <option value="admin">Gestor</option>
             </select>
           </div>
           <button type="submit">Enviar Link de Recuperação</button>

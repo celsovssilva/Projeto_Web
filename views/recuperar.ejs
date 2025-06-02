@@ -8,6 +8,7 @@
     <title>Recuperar Senha</title>
   </head>
   <body>
+    <div id="popupReset" class="toast-notification" style="display:none;"></div>
     <main>
       <form id="formRecuperarSenha" action="/api/reset-password" method="POST">
         <fieldset>
@@ -15,11 +16,23 @@
           <div class="input-group">
             <input type="password" id="password" name="password" placeholder=" " required>
             <label for="password">Digite sua senha</label>
+            <div class="validation-criteria" id="passwordCriteriaContainer" style="display:none;">
+              <div id="lengthCrit" class="criterion">Mínimo 8 caracteres</div>
+              <div id="upperCrit" class="criterion">Uma letra maiúscula</div>
+              <div id="lowerCrit" class="criterion">Uma letra minúscula</div>
+              <div id="numberCrit" class="criterion">Um número</div>
+              <div id="specialCrit" class="criterion">Um caractere especial</div>
+            </div>
           </div>
           <div class="input-group">
             <input type="password" name="confirmarSenha" id="confirmarSenha" placeholder=" " required>
             <label for="confirmarSenha">Digite a senha novamente</label>
+            <div class="validation-criteria" id="confirmPasswordCriteriaContainer" style="display:none;">
+              <div id="matchCrit" class="criterion">As senhas devem coincidir</div>
+            </div>
           </div>
+          <!-- Campo oculto para o token -->
+          <input type="hidden" id="token" name="token">
           <button type="submit">Redefinir senha</button>
         </fieldset>
       </form>
