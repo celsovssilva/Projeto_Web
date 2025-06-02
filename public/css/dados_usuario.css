@@ -1,13 +1,12 @@
 :root {
-  --primary: #2a9d8f;
-  --secondary: #264653;
+  --primary: #007bff;
+  --secondary: #343a40;
   --accent: #e76f51;
-  --light: #f4f4f4;
-  --dark: #333;
+  --light: #f8f9fa;
+  --dark: #222;
   --bg: #ffffff;
   --font: 'Poppins', sans-serif;
 }
-
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -56,6 +55,13 @@ header h1 {
   top: 20px;
   right: 30px;
   z-index: 10;
+}
+
+ .icone_perfil img {
+    width: 24px;          
+    height: 24px;          
+    vertical-align: middle;
+    margin-right: 8px;  
 }
 
 .icone_perfil button {
