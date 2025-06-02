@@ -1,5 +1,5 @@
     :root {
-      --primary: #2a9d8f;
+      --primary:  #2193b0;
       --secondary: #264653;
       --accent: #e76f51;
       --light: #f4f4f4;
@@ -23,19 +23,21 @@
       line-height: 1.6;
     }
     
-    .icone {
+    .icone_perfil {
         position: absolute;
         top: 10px;
         right: 10px;
     }
 
-    .icone img {
-        width: 40px; 
-        height: auto;
+    .icone_perfil img {
+        width: 24px;          
+        height: 24px;          
+        vertical-align: middle;
+        margin-right: 8px;  
     }
 
     header {
-      background: linear-gradient(45deg, var(--secondary), var(--primary));
+      background: linear-gradient(135deg, #6dd5ed, #2193b0);
       padding: 2rem 1rem;
       text-align: center;
       color: var(--light);

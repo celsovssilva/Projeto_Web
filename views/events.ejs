@@ -15,7 +15,7 @@
   <header>
     <h1>Tela de eventos</h1>
     <div class="icone_perfil">
-      <button class="icone_perfil">Perfil</button>
+      <button class="icone_perfil"><img src="/public/img/login-cadastro/user.png"></button>
     </div>
   </header>
 
@@ -35,11 +35,11 @@
           <div class="events-container">
             <% eventos.novos.forEach(event => { %>
               <div class="event-card novo">
-                <h3><%= event.eventName %></h3>
+                <h3><%= event.name %></h3>
                 <p class="date"><%= formatDate(event.eventDate) %></p>
                 <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
                 <button onclick="mostrarModal(this)"
-                    data-name="<%= event.eventName %>"
+                    data-name="<%= event.name %>"
                     data-date="<%= formatDate(event.eventDate) %>"
                     data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= event.cep %>"
                     data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>">
@@ -56,10 +56,10 @@
           <div class="events-container">
             <% eventos.disponiveis.forEach(event => { %>
               <div class="event-card disponivel">
-                <h3><%= event.eventName %></h3>
+                <h3><%= event.name %></h3>
                 <p class="date"><%= formatDate(event.eventDate) %></p>
                 <button onclick="mostrarModal(this)"
-                  data-name="<%= event.eventName %>"
+                  data-name="<%= event.name %>"
                   data-date="<%= formatDate(event.eventDate) %>"
                   data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= event.cep %>"
                   data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>">
@@ -75,11 +75,11 @@
           <div class="events-container">
             <% eventos.encerrados.forEach(event => { %>
               <div class="event-card encerrado">
-                <h3><%= event.eventName %></h3>
+                <h3><%= event.name %></h3>
                 <p class="date"><%= formatDate(event.eventDate) %></p>
                 <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
                 <button onclick="mostrarModal(this)"
-                      data-name="<%= event.eventName %>"
+                      data-name="<%= event.name %>"
                       data-date="<%= formatDate(event.eventDate) %>"
                       data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= event.cep %>"
                       data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>"
