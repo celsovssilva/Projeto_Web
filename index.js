@@ -44,7 +44,7 @@ app.use("/api", passwordRoutes);
 app.use("/api",eventsRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.render("landingPage");
 });
 
 app.listen(3000, () => {

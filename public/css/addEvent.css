@@ -1,17 +1,11 @@
 :root {
-  --primary: #2a9d8f;
-  --secondary: #264653;
+  --primary: #007bff;
+  --secondary: #343a40;
   --accent: #e76f51;
-  --light: #f4f4f4;
-  --dark: #333;
+  --light: #f8f9fa;
+  --dark: #222;
   --bg: #ffffff;
   --font: 'Poppins', sans-serif;
-}
-
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 html {
@@ -19,7 +13,7 @@ html {
 }
 
 body {
-  font-family: var(--font);
+  font-family: var(--font); 
   background: var(--bg);
   color: var(--dark);
   line-height: 1.6;
