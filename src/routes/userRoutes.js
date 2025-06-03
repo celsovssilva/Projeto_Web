@@ -4,7 +4,8 @@ import {
   getUserById,
   createUser,
   deleteUser,
-  updateUser
+  updateUser,
+  dataUser
 } from "../controllers/userController.js";
 
 const router = express.Router();
@@ -13,9 +14,7 @@ router.get("/userCad", (req, res) => {
   res.render("cadastro"); 
 });
 
-router.get("/dataUser", (req, res) => {
-  res.render("dados_usuario")
-})
+router.get("/dataUser", dataUser)
 
 
 router.get("/user" ,getUsers);

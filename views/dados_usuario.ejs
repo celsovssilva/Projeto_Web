@@ -18,20 +18,42 @@
            <table>
                  <tr>
                     <td><strong>Nome</strong></td>
-                    <td class="campo-dado"></td>
+                    <td class="campo-dado"><%= usuario?.name %></td>
                 </tr>
                  <tr>
                     <td><strong>Sobrenome</strong></td>
-                    <td class="campo-dado"></td>
+                    <td class="campo-dado"><%= usuario.sobrenome %></td>
                 </tr>
                  <tr>
                     <td><strong>Email</strong></td>
-                    <td class="campo-dado"></td>
+                    <td class="campo-dado"><%= usuario?.email %></td>
                 </tr>
-                 <tr>
+                <tr>
                     <td><strong>Senha</strong></td>
-                    <td class="campo-dado"></td>
+                    <td class="campo-dado"><%= usuario?.password ? '*'.repeat(usuario.password.length) : '' %></td>
                 </tr>
+                <tr>
+                    <% if (!isAdmin) { %>
+                    <td><strong>CPF</strong></td>
+                    <td class="campo-dado"><%= usuario?.cpf %></td>
+                </tr>
+                <tr>
+                    <td><strong>Telefone</strong></td>
+                    <td class="campo-dado"><%= usuario?.telefone %></td>
+                </tr>
+                <tr>
+                    <td><strong>Atuação</strong></td>
+                    <td class="campo-dado"><%= usuario?.atuacao %></td>
+                </tr>
+                <tr>
+                    <td><strong>Empresa</strong></td>
+                    <td class="campo-dado"><%= usuario?.empresa %></td>
+                </tr>
+                <tr>
+                    <td><strong>Faculdade</strong></td>
+                    <td class="campo-dado"><%= usuario?.faculdade %></td>
+                </tr>
+                <% } %>
            </table>
         </div>
     </main>

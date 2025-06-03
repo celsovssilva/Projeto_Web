@@ -313,3 +313,25 @@ export const deleteEvent = async (req, res) => {
     res.status(500).json({ error: "Internal server error", success: false });
   }
 };
+
+export const loginAdmin = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const admin = await prisma.admin.findUnique({ where: { email } });
+    if (!admin) {
+      return res.status(401).send('Admin não encontrado');
+    }
+
+    const senhaCorreta = await bcrypt.compare(password, admin.password);
+    if (!senhaCorreta) {
+      return res.status(401).send('Senha incorreta');
+    }
+
+    req.session.tipo = 'admin';
+    req.session.adminId = admin.id;
+
+    res.redirect('/dataUser'); 
+  } catch (error) {
+    res.status(500).send('Erro ao fazer login');
+  }
+};

@@ -107,3 +107,52 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
+
+export const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const usuario = await prisma.usuario.findUnique({ where: { email } });
+    if (!usuario) {
+      return res.status(401).send('Usuário não encontrado');
+    }
+
+    const senhaCorreta = await bcrypt.compare(password, usuario.password);
+    if (!senhaCorreta) {
+      return res.status(401).send('Senha incorreta');
+    }
+
+    req.session.tipo = 'usuario';
+    req.session.userId = usuario.id;
+
+    res.redirect('/dataUser'); 
+  } catch (error) {
+    res.status(500).send('Erro ao fazer login');
+  }
+};
+
+export const dataUser = async (req, res) => {
+  console.log('Sessão atual:', req.session);
+  try {
+    let usuario = null;
+    let isAdmin = false;
+
+    if (req.session.tipo === 'admin' && req.session.adminId) {
+      usuario = await prisma.admin.findUnique({
+        where: { id: req.session.adminId }
+      });
+      isAdmin = true;
+    } else if (req.session.tipo === 'usuario' && req.session.userId) {
+      usuario = await prisma.usuario.findUnique({
+        where: { id: req.session.userId }
+      });
+    }
+
+    if (!usuario) {
+      return res.status(404).send('Usuário não encontrado');
+    }
+
+    res.render('dados_usuario', { usuario, isAdmin });
+  } catch (error) {
+    res.status(500).send('Erro ao buscar dados do usuário');
+  }
+};

@@ -45,7 +45,12 @@ export const login = async (req, res) => {
       { expiresIn: "12h" }
     );
 
-    req.session.user = { id: user.id, email: user.email, name: user.name, type: userType };
+   req.session.tipo = userType;
+    if (userType === "admin") {
+      req.session.adminId = user.id;
+    } else {
+      req.session.userId = user.id;
+    }
 
     const { password: _, ...userWithoutPassword } = user;
 
