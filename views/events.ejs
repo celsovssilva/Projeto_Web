@@ -1,130 +1,165 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Check-in</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/css/eventos.css">
-  <link rel="stylesheet" href="/css/reset.css">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
-    rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Check-in</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/eventos.css">
 </head>
 <body>
-  <header>
-    <h1>Tela de eventos</h1>
-    <div class="icone_perfil">
-      <button class="icone_perfil"><img src="/public/img/login-cadastro/user.png"></button>
-    </div>
-  </header>
+    <header>
+        <h1>Tela de eventos</h1>
+        <div class="icone_perfil">
+            <button><img src="/img/login-cadastro/user.png" alt="Ícone do usuário"></button>
+        </div>
+    </header>
 
-  <main>
-    <section id="eventos">
-      <%
-        // Helper function to format date to DD/MM/YYYY
-        const formatDate = (dateString) => {
-          const date = new Date(dateString);
-          return date.toLocaleDateString('pt-BR');
+    <main>
+        <section id="eventos">
+          <%
+          const formatDate = (dateString) => {
+            const date = new Date(dateString);
+            return date.toLocaleString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
         };
-      %>
 
-      <% if (eventos.novos && eventos.novos.length > 0) { %>
-        <div>
-          <h2>Novos Eventos</h2>
-          <div class="events-container">
-            <% eventos.novos.forEach(event => { %>
-              <div class="event-card novo">
-                <h3><%= event.name %></h3>
-                <p class="date"><%= formatDate(event.eventDate) %></p>
-                <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
-                <button onclick="mostrarModal(this)"
-                    data-name="<%= event.name %>"
-                    data-date="<%= formatDate(event.eventDate) %>"
-                    data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= event.cep %>"
-                    data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>">
-                      Mais informações</button>
-              </div>
-            <% }); %>
-          </div>
-        </div>
-      <% } %>
+          const formatCEP = (cep) => {
+          return cep.replace(/(\d{5})(\d{3})/, '$1-$2');
+        };
+          %>
 
-      <% if (eventos.disponiveis && eventos.disponiveis.length > 0) { %>
-        <div>
-          <h2>Inscrições abertas</h2>
-          <div class="events-container">
-            <% eventos.disponiveis.forEach(event => { %>
-              <div class="event-card disponivel">
-                <h3><%= event.name %></h3>
-                <p class="date"><%= formatDate(event.eventDate) %></p>
-                <button onclick="mostrarModal(this)"
-                  data-name="<%= event.name %>"
-                  data-date="<%= formatDate(event.eventDate) %>"
-                  data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= event.cep %>"
-                  data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>">
-                    Mais informações</button>
-            <% }); %>
-          </div>
-        </div>
-      <% } %>
-
-      <% if (eventos.encerrados && eventos.encerrados.length > 0) { %>
-        <div>
-          <h2>Eventos encerrados</h2>
-          <div class="events-container">
-            <% eventos.encerrados.forEach(event => { %>
-              <div class="event-card encerrado">
-                <h3><%= event.name %></h3>
-                <p class="date"><%= formatDate(event.eventDate) %></p>
-                <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
-                <button onclick="mostrarModal(this)"
+          <% if (eventos.novos && eventos.novos.length > 0) { %>
+            <div>
+              <h2>Novos Eventos</h2>
+              <div class="events-container">
+                <% eventos.novos.forEach(event => { %>
+                  <div class="event-card novo">
+                    <h3><%= event.name %></h3>
+                    <p class="date"><%= formatDate(event.eventDate) %></p>
+                    <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
+                    <button onclick="mostrarModal(this)"
                       data-name="<%= event.name %>"
                       data-date="<%= formatDate(event.eventDate) %>"
-                      data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= event.cep %>"
+                      data-deadline="<%= formatDate(event.ticketDeadline) %>"
+                      data-description="<%= event.description %>"
+                      data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= formatCEP(event.cep) %>"
                       data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>"
-                      >Encerrado</button>
+                      data-max-tickets="<%= event.maxTickets %>"
+                      class="btn btn-primary">
+                      Mais informações
+                  </button>
+                  </div>
+                <% }); %>
               </div>
-            <% }); %>
+            </div>
+          <% } %>
+
+          <% if (eventos.disponiveis && eventos.disponiveis.length > 0) { %>
+            <div>
+              <h2>Inscrições abertas</h2>
+              <div class="events-container">
+                <% eventos.disponiveis.forEach(event => { %>
+                  <div class="event-card disponivel">
+                    <h3><%= event.name %></h3>
+                    <p class="date"><%= formatDate(event.eventDate) %></p>
+                    <button onclick="mostrarModal(this)"
+                      data-name="<%= event.name %>"
+                      data-date="<%= formatDate(event.eventDate) %>"
+                      data-deadline="<%= formatDate(event.ticketDeadline) %>"
+                      data-description="<%= event.description %>"
+                      data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= formatCEP(event.cep) %>"
+                      data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>"
+                      data-max-tickets="<%= event.maxTickets %>"
+                      class="btn btn-primary">
+                      Mais informações
+                    </button>
+                <% }); %>
+              </div>
+            </div>
+          <% } %>
+
+          <% if (eventos.encerrados && eventos.encerrados.length > 0) { %>
+            <div>
+              <h2>Eventos encerrados</h2>
+              <div class="events-container">
+                <% eventos.encerrados.forEach(event => { %>
+                  <div class="event-card encerrado">
+                    <h3><%= event.name %></h3>
+                    <p class="date"><%= formatDate(event.eventDate) %></p>
+                    <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
+                    <button>Encerrado</button>
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          <% } %>
+        </section>
+      </main>
+
+      <footer>
+        <p>&copy; 2025 Entrada Express. Todos os direitos reservados.</p>
+      </footer>
+
+      <!-- Modal -->
+      <div class="modal-overlay" id="modalOverlay"></div>
+      <div class="modal" id="modal">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h2 id="eventName"></h2>
+                  <button class="close-modal" onclick="fecharModal()">&times;</button>
+              </div>
+              
+              <div class="modal-body">
+                  <div class="event-info">
+                      <div class="info-item">
+                          <strong>Data do Evento:</strong>
+                          <span id="eventDate"></span>
+                      </div>
+
+                      <div class="info-item">
+                          <strong>Inscrições até:</strong>
+                          <span id="ticketDeadline"></span>
+                      </div>
+
+                      <div class="info-item">
+                          <strong>Descrição:</strong>
+                          <p id="eventDescription"></p>
+                      </div>
+
+                      <div class="info-item">
+                          <strong>Local:</strong>
+                          <span id="eventLocation"></span>
+                      </div>
+
+                      <div class="info-item">
+                          <strong>Valor:</strong>
+                          <span id="eventPrice"></span>
+                      </div>
+
+                      <div class="info-item">
+                          <strong>Ingressos Disponíveis:</strong>
+                          <span id="availableTickets"></span>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="modal-footer">
+                  <button class="btn btn-secondary" onclick="fecharModal()">Fechar</button>
+                  <button class="btn btn-primary" id="buyButton" onclick="comprarIngresso()">
+                    Comprar Ingresso
+                  </button>
+              </div>
           </div>
-        </div>
-      <% } %>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Entrada Express. Todos os direitos reservados.</p>
-  </footer>
-
-  <div class="modal-overlay" id="modalOverlay" style="display:none;"></div>
-  <div class="modal" id="modal" style="display:none;">
-    <div class="modal-content">
-      <span class="close-modal" onclick="fecharModal()">&times;</span>
-      <h2 id="eventName"></h2>
-      <p><strong>Data:</strong> <span id="eventDate"></span></p>
-      <p><strong>Local:</strong> <span id="eventLocation"></span></p>
-      <p><strong>Preço:</strong> R$ <span id="eventPrice"></span></p>
-    </div>
-  </div>
-</div>
-</body>
-<script>
-    function mostrarModal(btn) {
-      document.getElementById('eventName').textContent = btn.dataset.name;
-      document.getElementById('eventDate').textContent = btn.dataset.date;
-      document.getElementById('eventLocation').textContent = btn.dataset.location;
-      document.getElementById('eventPrice').textContent = btn.dataset.price;
-
-      document.getElementById('modal').style.display = 'block';
-      document.getElementById('modalOverlay').style.display = 'block';
-    }
-
-    function fecharModal() {
-      document.getElementById('modal').style.display = 'none';
-      document.getElementById('modalOverlay').style.display = 'none';
-    }
-
-    document.getElementById('modalOverlay').onclick = fecharModal;
-  </script>
-</html>
+      </div>
+      <script src="/js/eventos.js"></script>
+    </body>
+    </html>
