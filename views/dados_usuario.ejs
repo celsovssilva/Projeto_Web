@@ -9,49 +9,66 @@
 <body>
     <header>
         <h1>Dados do Usuário</h1>
-    <div class="icone_perfil">
-        <button><img src="/public/img/login-cadastro/user.png"></button>
-    </div>
     </header>
     <main>
         <div class="dados-usuario">
-           <table>
+            <table>
                  <tr>
                     <td><strong>Nome</strong></td>
-                    <td class="campo-dado"><%= usuario?.name %></td>
+                    <td class="campo-dado">
+                        <%= usuario?.name %>
+                        <button class="editar_campo" onclick="abrirModalEditar('name', '<%= usuario?.name %>')">Editar</button>
+                    </td>
                 </tr>
                  <tr>
                     <td><strong>Sobrenome</strong></td>
-                    <td class="campo-dado"><%= usuario.sobrenome %></td>
+                    <td class="campo-dado">
+                        <%= usuario.sobrenome %>
+                        <button class="editar_campo" onclick="abrirModalEditar('sobrenome', '<%= usuario.sobrenome %>')">Editar</button>
+                    </td>
                 </tr>
                  <tr>
                     <td><strong>Email</strong></td>
-                    <td class="campo-dado"><%= usuario?.email %></td>
+                    <td class="campo-dado">
+                        <%= usuario?.email %>
+                        <button class="editar_campo" onclick="abrirModalEditar('email', '<%= usuario?.email %>')">Editar</button>
+                    </td>
                 </tr>
+                <% if (!isAdmin) { %>
                 <tr>
-                    <td><strong>Senha</strong></td>
-                    <td class="campo-dado"><%= usuario?.password ? '*'.repeat(usuario.password.length) : '' %></td>
-                </tr>
-                <tr>
-                    <% if (!isAdmin) { %>
                     <td><strong>CPF</strong></td>
-                    <td class="campo-dado"><%= usuario?.cpf %></td>
+                    <td class="campo-dado">
+                        <%= usuario?.cpf %>
+                        <button class="editar_campo" onclick="abrirModalEditar('cpf', '<%= usuario?.cpf %>')">Editar</button>
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>Telefone</strong></td>
-                    <td class="campo-dado"><%= usuario?.telefone %></td>
+                    <td class="campo-dado">
+                        <%= usuario?.telefone %>
+                        <button class="editar_campo" onclick="abrirModalEditar('telefone', '<%= usuario?.telefone %>')">Editar</button>
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>Atuação</strong></td>
-                    <td class="campo-dado"><%= usuario?.atuacao %></td>
+                    <td class="campo-dado">
+                        <%= usuario?.atuacao %>
+                        <button class="editar_campo" onclick="abrirModalEditar('atuacao', '<%= usuario?.atuacao %>')">Editar</button>
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>Empresa</strong></td>
-                    <td class="campo-dado"><%= usuario?.empresa %></td>
+                    <td class="campo-dado">
+                        <%= usuario?.empresa %>
+                        <button class="editar_campo" onclick="abrirModalEditar('empresa', '<%= usuario?.empresa %>')">Editar</button>
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>Faculdade</strong></td>
-                    <td class="campo-dado"><%= usuario?.faculdade %></td>
+                    <td class="campo-dado">
+                        <%= usuario?.faculdade %>
+                        <button class="editar_campo" onclick="abrirModalEditar('faculdade', '<%= usuario?.faculdade %>')">Editar</button>
+                    </td>
                 </tr>
                 <% } %>
            </table>
@@ -60,5 +77,60 @@
     <footer>
       <p>&copy; 2025 Entrada Express. Todos os direitos reservados.</p>
     </footer>
+
+     <div id="modalEditarCampo" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span class="close" id="fecharModalCampo">&times;</span>
+        <h2>Editar <span id="campoTitulo"></span></h2>
+        <form id="formEditarCampo" method="POST" action="/api/user/<%= usuario.id %>?_method=PUT">
+          <input type="hidden" name="_method" value="PUT">
+          <input type="hidden" name="campo" id="campoNome">
+          <label id="labelCampo"></label>
+          <input type="text" name="valor" id="campoValor" required>
+          <div style="margin-top:20px; display:flex; gap:10px;">
+            <button type="submit" id="btnSalvar" class="btn-salvar">Salvar</button>
+            <button type="button" id="btnCancelar" class="btn-cancelar">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+        <div id="popupSucesso" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:2000; align-items:center; justify-content:center;">
+        <div class="popup-content">
+            <span id="fecharPopupSucesso" class="close">&times;</span>
+            <p style="font-size:18px; margin:0;">Edição confirmada com sucesso!</p>
+        </div>
+        </div>
 </body>
+<script>
+    function abrirModalEditar(campo, valor) {
+      document.getElementById('modalEditarCampo').style.display = 'flex';
+      document.getElementById('campoTitulo').innerText = campo.charAt(0).toUpperCase() + campo.slice(1);
+      document.getElementById('labelCampo').innerText = campo.charAt(0).toUpperCase() + campo.slice(1) + ':';
+      document.getElementById('campoNome').value = campo;
+      document.getElementById('campoValor').value = valor || '';
+      document.getElementById('formEditarCampo').action = "/api/user/<%= usuario.id %>?_method=PUT";
+    }
+    document.getElementById('fecharModalCampo').onclick = fecharModalEditar;
+    document.getElementById('btnCancelar').onclick = function(e) {
+      e.preventDefault();
+      fecharModalEditar();
+    };
+    function fecharModalEditar() {
+      document.getElementById('modalEditarCampo').style.display = 'none';
+    }
+    window.onclick = function(event) {
+      if (event.target == document.getElementById('modalEditarCampo')) {
+        fecharModalEditar();
+      }
+    };
+    function fecharPopupSucesso() {
+      document.getElementById('popupSucesso').style.display = 'none';
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    document.getElementById('fecharPopupSucesso').onclick = fecharPopupSucesso;
+    if (window.location.search.includes('msg=sucesso')) {
+      document.getElementById('popupSucesso').style.display = 'flex';
+    }
+    </script>
 </html>

@@ -84,24 +84,40 @@ export const deleteUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const { userId } = req.params;
-  const { name, email, sobrenome, password } = req.body;
-
-  if (!name && !email && !sobrenome && !password) {
+  const { name, email, sobrenome, cpf, telefone, atuacao, empresa, faculdade, campo, valor} = req.body;
+    const camposAtualizados = (campo && valor)
+    ? (() => {
+        const camposValidos = ["name", "email", "sobrenome", "cpf", "telefone", "atuacao", "empresa", "faculdade"];
+        if (!camposValidos.includes(campo)) {
+          return res.status(400).json({ error: "Campo inválido para atualização" });
+        }
+        return { [campo]: valor };
+      })()
+    : { name, email, sobrenome, cpf, telefone, atuacao, empresa, faculdade };
+  if (
+    !camposAtualizados.name && !camposAtualizados.email && !camposAtualizados.sobrenome &&
+    !camposAtualizados.cpf && !camposAtualizados.telefone && !camposAtualizados.atuacao &&
+    !camposAtualizados.empresa && !camposAtualizados.faculdade
+  ) {
     return res.status(400).json({ error: "Informe ao menos um campo para atualização" });
   }
 
   try {
-    let data = { name, email, sobrenome };
-
-    if (password) {
-      data.password = await bcrypt.hash(password, 10);
-    }
+    const data = {};
+    if (camposAtualizados.name !== undefined) data.name = camposAtualizados.name;
+    if (camposAtualizados.email !== undefined) data.email = camposAtualizados.email;
+    if (camposAtualizados.sobrenome !== undefined) data.sobrenome = camposAtualizados.sobrenome;
+    if (camposAtualizados.cpf !== undefined) data.cpf = camposAtualizados.cpf;
+    if (camposAtualizados.telefone !== undefined) data.telefone = camposAtualizados.telefone;
+    if (camposAtualizados.atuacao !== undefined) data.atuacao = camposAtualizados.atuacao;
+    if (camposAtualizados.empresa !== undefined) data.empresa = camposAtualizados.empresa;
+    if (camposAtualizados.faculdade !== undefined) data.faculdade = camposAtualizados.faculdade;
 
     const updatedUser = await prisma.usuario.update({
       where: { id: parseInt(userId, 10) },
       data,
     });
-    res.json(updatedUser);
+    res.redirect('/api/dataUser?msg=sucesso');
   } catch (error) {
     console.error("Erro ao atualizar usuário:", error);
     res.status(500).json({ error: "Erro interno do servidor" });
