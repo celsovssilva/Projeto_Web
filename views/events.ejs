@@ -14,13 +14,16 @@
     <header>
         <h1>Tela de eventos</h1>
         <div class="icone_perfil">
-            <button><img src="/img/login-cadastro/user.png" alt="Ícone do usuário"></button>
+            <a href="/api/user/:userId">
+                <button><img src="/img/login-cadastro/user.png" alt="Ícone do usuário"></button>
+            </a>
         </div>
     </header>
 
     <main>
         <section id="eventos">
           <%
+
           const formatDate = (dateString) => {
             const date = new Date(dateString);
             return date.toLocaleString('pt-BR', {
@@ -37,16 +40,26 @@
         };
           %>
 
+          <form id="filtroEventos" style="margin-bottom:2rem;">
+            <input type="text" id="buscaNome" placeholder="Buscar por nome do evento">
+            <input type="text" id="buscaCidade" placeholder="Buscar por cidade">
+            <button type="submit">Filtrar</button>
+          </form>
+
           <% if (eventos.novos && eventos.novos.length > 0) { %>
             <div>
               <h2>Novos Eventos</h2>
               <div class="events-container">
                 <% eventos.novos.forEach(event => { %>
-                  <div class="event-card novo">
+                  <div class="event-card novo" data-cidade="<%= event.city %>">
+                    <% if (event.maxTickets - event.ticketsSold <= 10) { %>
+                      <span class="badge-urgente">Últimos ingressos!</span>
+                    <% } %>
                     <h3><%= event.name %></h3>
                     <p class="date"><%= formatDate(event.eventDate) %></p>
                     <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
                     <button onclick="mostrarModal(this)"
+                    data-id="<%= event.id %>"
                       data-name="<%= event.name %>"
                       data-date="<%= formatDate(event.eventDate) %>"
                       data-deadline="<%= formatDate(event.ticketDeadline) %>"
@@ -54,6 +67,7 @@
                       data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= formatCEP(event.cep) %>"
                       data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>"
                       data-max-tickets="<%= event.maxTickets %>"
+                      data-tickets-sold="<%= event.ticketsSold %>"
                       class="btn btn-primary">
                       Mais informações
                   </button>
@@ -68,10 +82,14 @@
               <h2>Inscrições abertas</h2>
               <div class="events-container">
                 <% eventos.disponiveis.forEach(event => { %>
-                  <div class="event-card disponivel">
+                  <div class="event-card disponivel" data-cidade="<%= event.city %>">
                     <h3><%= event.name %></h3>
                     <p class="date"><%= formatDate(event.eventDate) %></p>
+                    <% if (event.maxTickets - event.ticketsSold <= 10) { %>
+                      <span class="badge-urgente">Últimos ingressos!</span>
+                    <% } %>
                     <button onclick="mostrarModal(this)"
+                      data-id="<%= event.id %>"
                       data-name="<%= event.name %>"
                       data-date="<%= formatDate(event.eventDate) %>"
                       data-deadline="<%= formatDate(event.ticketDeadline) %>"
@@ -79,9 +97,26 @@
                       data-location="<%= event.street %>, <%= event.number %> - <%= event.neighborhood %>, <%= event.city %> - <%= event.state %>, CEP: <%= formatCEP(event.cep) %>"
                       data-price="<%= event.ticketPrice.toFixed(2).replace('.', ',') %>"
                       data-max-tickets="<%= event.maxTickets %>"
+                      data-tickets-sold="<%= event.ticketsSold %>"
                       class="btn btn-primary">
                       Mais informações
                     </button>
+                <% }); %>
+              </div>
+            </div>
+          <% } %>
+          
+          <% if (eventos.esgotados && eventos.esgotados.length > 0) { %>
+            <div>
+              <h2>Eventos Esgotados</h2>
+              <div class="events-container">
+                <% eventos.esgotados.forEach(event => { %>
+                  <div class="event-card esgotado" data-cidade="<%= event.city %>">
+                    <h3><%= event.name %></h3>
+                    <p class="date"><%= formatDate(event.eventDate) %></p>
+                    <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
+                    <button disabled class="btn btn-disabled">Esgotado</button>
+                  </div>
                 <% }); %>
               </div>
             </div>
@@ -92,7 +127,7 @@
               <h2>Eventos encerrados</h2>
               <div class="events-container">
                 <% eventos.encerrados.forEach(event => { %>
-                  <div class="event-card encerrado">
+                  <div class="event-card encerrado" data-cidade="<%= event.city %>">
                     <h3><%= event.name %></h3>
                     <p class="date"><%= formatDate(event.eventDate) %></p>
                     <p>R$ <%= event.ticketPrice.toFixed(2).replace('.', ',') %></p>
@@ -106,7 +141,9 @@
       </main>
 
       <footer>
-        <p>&copy; 2025 Entrada Express. Todos os direitos reservados.</p>
+      <div class="copyright">
+         &copy; <%= new Date().getFullYear() %> Entrada Express. Todos os direitos reservados.
+      </div>
       </footer>
 
       <!-- Modal -->
@@ -154,12 +191,38 @@
 
               <div class="modal-footer">
                   <button class="btn btn-secondary" onclick="fecharModal()">Fechar</button>
-                  <button class="btn btn-primary" id="buyButton" onclick="comprarIngresso()">
+                  <button class="btn btn-primary" id="comprarIngressoBtn" onclick="comprarIngresso()">
                     Comprar Ingresso
                   </button>
               </div>
           </div>
       </div>
       <script src="/js/eventos.js"></script>
+      <script>
+    // Adicione isso no seu JavaScript
+    function setupProfileLink() {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            const profileLink = document.querySelector('.icone_perfil a');
+            profileLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                fetch('/api/perfil', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        window.location.href = '/api/perfil';
+                    }
+                });
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', setupProfileLink);
+</script>
     </body>
     </html>

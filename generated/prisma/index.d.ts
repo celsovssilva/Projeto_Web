@@ -2509,7 +2509,6 @@ export namespace Prisma {
     sobrenome: string | null
     email: string | null
     password: string | null
-    resetPasswordRequestedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     passwordResetToken: string | null
@@ -2522,7 +2521,6 @@ export namespace Prisma {
     sobrenome: string | null
     email: string | null
     password: string | null
-    resetPasswordRequestedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     passwordResetToken: string | null
@@ -2535,7 +2533,6 @@ export namespace Prisma {
     sobrenome: number
     email: number
     password: number
-    resetPasswordRequestedAt: number
     createdAt: number
     updatedAt: number
     passwordResetToken: number
@@ -2558,7 +2555,6 @@ export namespace Prisma {
     sobrenome?: true
     email?: true
     password?: true
-    resetPasswordRequestedAt?: true
     createdAt?: true
     updatedAt?: true
     passwordResetToken?: true
@@ -2571,7 +2567,6 @@ export namespace Prisma {
     sobrenome?: true
     email?: true
     password?: true
-    resetPasswordRequestedAt?: true
     createdAt?: true
     updatedAt?: true
     passwordResetToken?: true
@@ -2584,7 +2579,6 @@ export namespace Prisma {
     sobrenome?: true
     email?: true
     password?: true
-    resetPasswordRequestedAt?: true
     createdAt?: true
     updatedAt?: true
     passwordResetToken?: true
@@ -2684,7 +2678,6 @@ export namespace Prisma {
     sobrenome: string
     email: string
     password: string
-    resetPasswordRequestedAt: Date | null
     createdAt: Date
     updatedAt: Date
     passwordResetToken: string | null
@@ -2716,7 +2709,6 @@ export namespace Prisma {
     sobrenome?: boolean
     email?: boolean
     password?: boolean
-    resetPasswordRequestedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     passwordResetToken?: boolean
@@ -2731,7 +2723,6 @@ export namespace Prisma {
     sobrenome?: boolean
     email?: boolean
     password?: boolean
-    resetPasswordRequestedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     passwordResetToken?: boolean
@@ -2744,7 +2735,6 @@ export namespace Prisma {
     sobrenome?: boolean
     email?: boolean
     password?: boolean
-    resetPasswordRequestedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     passwordResetToken?: boolean
@@ -2757,14 +2747,13 @@ export namespace Prisma {
     sobrenome?: boolean
     email?: boolean
     password?: boolean
-    resetPasswordRequestedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     passwordResetToken?: boolean
     passwordResetExpires?: boolean
   }
 
-  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sobrenome" | "email" | "password" | "resetPasswordRequestedAt" | "createdAt" | "updatedAt" | "passwordResetToken" | "passwordResetExpires", ExtArgs["result"]["admin"]>
+  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sobrenome" | "email" | "password" | "createdAt" | "updatedAt" | "passwordResetToken" | "passwordResetExpires", ExtArgs["result"]["admin"]>
   export type AdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     events?: boolean | Admin$eventsArgs<ExtArgs>
     _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
@@ -2783,7 +2772,6 @@ export namespace Prisma {
       sobrenome: string
       email: string
       password: string
-      resetPasswordRequestedAt: Date | null
       createdAt: Date
       updatedAt: Date
       passwordResetToken: string | null
@@ -3217,7 +3205,6 @@ export namespace Prisma {
     readonly sobrenome: FieldRef<"Admin", 'String'>
     readonly email: FieldRef<"Admin", 'String'>
     readonly password: FieldRef<"Admin", 'String'>
-    readonly resetPasswordRequestedAt: FieldRef<"Admin", 'DateTime'>
     readonly createdAt: FieldRef<"Admin", 'DateTime'>
     readonly updatedAt: FieldRef<"Admin", 'DateTime'>
     readonly passwordResetToken: FieldRef<"Admin", 'String'>
@@ -6170,7 +6157,6 @@ export namespace Prisma {
     sobrenome: 'sobrenome',
     email: 'email',
     password: 'password',
-    resetPasswordRequestedAt: 'resetPasswordRequestedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     passwordResetToken: 'passwordResetToken',
@@ -6401,7 +6387,6 @@ export namespace Prisma {
     sobrenome?: StringFilter<"Admin"> | string
     email?: StringFilter<"Admin"> | string
     password?: StringFilter<"Admin"> | string
-    resetPasswordRequestedAt?: DateTimeNullableFilter<"Admin"> | Date | string | null
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     passwordResetToken?: StringNullableFilter<"Admin"> | string | null
@@ -6415,7 +6400,6 @@ export namespace Prisma {
     sobrenome?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    resetPasswordRequestedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     passwordResetToken?: SortOrderInput | SortOrder
@@ -6433,7 +6417,6 @@ export namespace Prisma {
     name?: StringFilter<"Admin"> | string
     sobrenome?: StringFilter<"Admin"> | string
     password?: StringFilter<"Admin"> | string
-    resetPasswordRequestedAt?: DateTimeNullableFilter<"Admin"> | Date | string | null
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     passwordResetExpires?: DateTimeNullableFilter<"Admin"> | Date | string | null
@@ -6446,7 +6429,6 @@ export namespace Prisma {
     sobrenome?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    resetPasswordRequestedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     passwordResetToken?: SortOrderInput | SortOrder
@@ -6467,7 +6449,6 @@ export namespace Prisma {
     sobrenome?: StringWithAggregatesFilter<"Admin"> | string
     email?: StringWithAggregatesFilter<"Admin"> | string
     password?: StringWithAggregatesFilter<"Admin"> | string
-    resetPasswordRequestedAt?: DateTimeNullableWithAggregatesFilter<"Admin"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
     passwordResetToken?: StringNullableWithAggregatesFilter<"Admin"> | string | null
@@ -6811,7 +6792,6 @@ export namespace Prisma {
     sobrenome: string
     email: string
     password: string
-    resetPasswordRequestedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     passwordResetToken?: string | null
@@ -6825,7 +6805,6 @@ export namespace Prisma {
     sobrenome: string
     email: string
     password: string
-    resetPasswordRequestedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     passwordResetToken?: string | null
@@ -6838,7 +6817,6 @@ export namespace Prisma {
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6852,7 +6830,6 @@ export namespace Prisma {
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6866,7 +6843,6 @@ export namespace Prisma {
     sobrenome: string
     email: string
     password: string
-    resetPasswordRequestedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     passwordResetToken?: string | null
@@ -6878,7 +6854,6 @@ export namespace Prisma {
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6891,7 +6866,6 @@ export namespace Prisma {
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7359,7 +7333,6 @@ export namespace Prisma {
     sobrenome?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    resetPasswordRequestedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     passwordResetToken?: SortOrder
@@ -7376,7 +7349,6 @@ export namespace Prisma {
     sobrenome?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    resetPasswordRequestedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     passwordResetToken?: SortOrder
@@ -7389,7 +7361,6 @@ export namespace Prisma {
     sobrenome?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    resetPasswordRequestedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     passwordResetToken?: SortOrder
@@ -8235,7 +8206,6 @@ export namespace Prisma {
     sobrenome: string
     email: string
     password: string
-    resetPasswordRequestedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     passwordResetToken?: string | null
@@ -8248,7 +8218,6 @@ export namespace Prisma {
     sobrenome: string
     email: string
     password: string
-    resetPasswordRequestedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     passwordResetToken?: string | null
@@ -8305,7 +8274,6 @@ export namespace Prisma {
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8318,7 +8286,6 @@ export namespace Prisma {
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
