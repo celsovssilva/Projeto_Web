@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/dados_usuario.css">
+    <link rel="stylesheet" href="/css/reset.css">
     <title>Dados do Usuário/Gestor</title>
 </head>
 <body>
@@ -75,7 +76,9 @@
         </div>
     </main>
     <footer>
-      <p>&copy; 2025 Entrada Express. Todos os direitos reservados.</p>
+      <div class="copyright">
+         &copy; <%= new Date().getFullYear() %> Entrada Express. Todos os direitos reservados.
+      </div>
     </footer>
 
      <div id="modalEditarCampo" class="modal" style="display:none;">

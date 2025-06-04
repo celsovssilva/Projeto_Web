@@ -141,7 +141,6 @@ exports.Prisma.AdminScalarFieldEnum = {
   sobrenome: 'sobrenome',
   email: 'email',
   password: 'password',
-  resetPasswordRequestedAt: 'resetPasswordRequestedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   passwordResetToken: 'passwordResetToken',

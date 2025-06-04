@@ -11,11 +11,6 @@
   --radius: 8px;
 }
     
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     html {
       scroll-behavior: smooth;
     }
@@ -187,6 +182,7 @@
     background: #e0e0e0;
 }
 
+
 @keyframes modalIn {
     from {
         opacity: 0;
@@ -356,4 +352,100 @@
 #eventPrice {
     color: var(--primary);
     font-weight: 600;
+}
+.custom-toast {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 99999;
+    padding: 16px 28px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    color: #721c24;
+    background: #f8d7da;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+}
+.custom-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.custom-toast-success {
+    background: #28a745;
+    color: #fff;
+}
+.custom-toast-error {
+    background: #dc3545;
+    color: #fff;
+}
+.custom-toast-warning {
+    background: #ffc107;
+    color: #222;
+}
+
+.event-card.esgotado {
+    background: #ffeaea;
+    opacity: 0.92;
+    filter: grayscale(10%);
+    border: 1.5px solid #ff4d4f;
+}
+
+.badge-urgente {
+  background: #ff9800;
+  color: #fff;
+  padding: 0.2em 0.7em;
+  border-radius: 5px;
+  font-size: 0.9em;
+  margin-left: 8px;
+  font-weight: bold;
+}
+
+#filtroEventos {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+    background: #fff;
+    padding: 1.2rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+}
+
+#filtroEventos input[type="text"] {
+    padding: 0.7rem 1.1rem;
+    border: 1.5px solid var(--primary);
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s;
+    background: #f8f9fa;
+    color: var(--dark);
+}
+
+#filtroEventos input[type="text"]:focus {
+    border: 2px solid var(--accent);
+    background: #fff;
+}
+
+#filtroEventos button[type="submit"] {
+    padding: 0.7rem 1.5rem;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+#filtroEventos button[type="submit"]:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px) scale(1.04);
 }
