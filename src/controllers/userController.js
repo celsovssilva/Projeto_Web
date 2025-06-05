@@ -115,6 +115,7 @@ export const updateUser = async (req, res) => {
       data,
     });
 
+    req.session.showEditMessage = true;
     req.flash("success", "Dados atualizados com sucesso!");
     res.redirect("/api/dataUser");
   } catch (error) {
@@ -147,7 +148,6 @@ export const loginUser = async (req, res) => {
 };
 
 export const dataUser = async (req, res) => {
-  console.log('Sessão atual:', req.session);
   try {
     let usuario = null;
     let isAdmin = false;
@@ -163,14 +163,12 @@ export const dataUser = async (req, res) => {
       });
     }
 
-    if (!usuario) {
-      req.flash("error", "Usuário não encontrado");
-      return res.render('dados_usuario', { usuario: {}, isAdmin, messages: req.flash() });
-    }
+    const showEditMessage = req.session.showEditMessage || false;
+    req.session.showEditMessage = false; // Limpa para não mostrar de novo
 
-    res.render('dados_usuario', { usuario, isAdmin, messages: req.flash() });
+    res.render('dados_usuario', { usuario, isAdmin, messages: req.flash(), showEditMessage });
   } catch (error) {
     req.flash("error", "Erro ao buscar dados do usuário");
-    res.render('dados_usuario', { usuario: {}, isAdmin: false, messages: req.flash() });
+    res.render('dados_usuario', { usuario: {}, isAdmin: false, messages: req.flash(), showEditMessage: false });
   }
 };

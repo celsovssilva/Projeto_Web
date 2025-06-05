@@ -316,3 +316,76 @@ export const deleteEvent = async (req, res) => {
     res.status(500).json({ error: "Internal server error", success: false });
   }
 };
+export const updateAdminProfile = async (req, res) => {
+  const { adminId: adminIdFromParams } = req.params; // ID do admin vindo da URL
+  const { name, email, sobrenome, password, currentPassword, cpf, telefone, atuacao, empresa, faculdade } = req.body;
+  const loggedInAdminId = req.user?.id; // ID do admin logado (do token/sessão)
+
+  if (!loggedInAdminId) {
+    req.flash("error", "Administrador não autenticado.");
+    return res.status(401).redirect('/api/login');
+  }
+
+  if (parseInt(adminIdFromParams, 10) !== loggedInAdminId) {
+    req.flash("error", "Acesso negado. Você só pode editar seu próprio perfil.");
+    return res.status(403).redirect('/api/dataUser');
+  }
+
+  if (!name && !email && !sobrenome && !password && !cpf && !telefone && !atuacao && !empresa && !faculdade) {
+    req.flash("error", "Informe ao menos um campo para atualização.");
+    return res.status(400).redirect('/api/dataUser');
+  }
+
+  try {
+    const adminToUpdate = await prisma.admin.findUnique({
+      where: { id: loggedInAdminId },
+    });
+
+    if (!adminToUpdate) {
+      req.flash("error", "Administrador não encontrado.");
+      return res.status(404).redirect('/api/dataUser');
+    }
+
+    const dataForPrismaUpdate = {};
+    if (name !== undefined) dataForPrismaUpdate.name = name;
+    if (sobrenome !== undefined) dataForPrismaUpdate.sobrenome = sobrenome;
+    if (email !== undefined) dataForPrismaUpdate.email = email;
+    if (cpf !== undefined && cpf !== null) dataForPrismaUpdate.cpf = String(cpf).replace(/\D/g, '');
+    if (telefone !== undefined && telefone !== null) dataForPrismaUpdate.telefone = String(telefone).replace(/\D/g, '');
+    if (atuacao !== undefined) dataForPrismaUpdate.atuacao = atuacao;
+    if (empresa !== undefined) dataForPrismaUpdate.empresa = empresa;
+    if (faculdade !== undefined) dataForPrismaUpdate.faculdade = faculdade;
+
+    if (password && password.trim() !== "") {
+      if (!currentPassword) {
+        req.flash("error", "Senha atual é obrigatória para definir uma nova senha.");
+        return res.status(400).redirect('/api/dataUser');
+      }
+      const isCurrentPasswordCorrect = await bcrypt.compare(currentPassword, adminToUpdate.password);
+      if (!isCurrentPasswordCorrect) {
+        req.flash("error", "Senha atual incorreta.");
+        return res.status(400).redirect('/api/dataUser');
+      }
+      dataForPrismaUpdate.password = await bcrypt.hash(password, 10);
+    }
+
+    await prisma.admin.update({
+      where: { id: loggedInAdminId },
+      data: dataForPrismaUpdate,
+    });
+
+    req.session.showEditMessage = true;
+    req.flash("success", "Dados do administrador atualizados com sucesso!");
+    res.redirect("/api/dataUser");
+
+  } catch (error) {
+    console.error("Erro ao atualizar perfil do administrador:", error);
+    if (error.code === 'P2002') { // Falha na restrição de unicidade (ex: e-mail ou CPF já em uso)
+      const target = error.meta && error.meta.target ? error.meta.target.join(', ') : "campo";
+      req.flash("error", `Erro ao atualizar: ${target} já está em uso por outro administrador.`);
+    } else {
+      req.flash("error", "Erro interno ao atualizar perfil do administrador.");
+    }
+    res.status(500).redirect("/api/dataUser");
+  }
+};

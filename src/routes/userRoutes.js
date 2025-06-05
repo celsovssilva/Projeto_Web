@@ -7,6 +7,7 @@ import {
   updateUser,
   dataUser
 } from "../controllers/userController.js";
+import { authenticateToken } from "../Middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get("/userCad", (req, res) => {
   res.render("cadastro"); 
 });
 
-router.get("/dataUser", dataUser)
+router.get("/dataUser", authenticateToken, dataUser);
 
 
 router.get("/user" ,getUsers);

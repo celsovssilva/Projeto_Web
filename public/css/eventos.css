@@ -18,6 +18,9 @@ body {
   background: var(--bg);
   color: var(--dark);
   line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 .icone_perfil {
   position: absolute;
@@ -72,6 +75,7 @@ header {
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  width: 100%; /* Garante que o header ocupe a largura */
 }
 header h1 {
   font-size: 2.5rem;
@@ -207,6 +211,7 @@ main {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 2rem;
+  flex-grow: 1; /* Faz o conteúdo principal expandir */
 }
 section#eventos {
   margin-bottom: 3rem;
@@ -308,7 +313,8 @@ footer {
   text-align: center;
   padding: 1.5rem;
   font-size: 0.9rem;
-  margin-top: 3rem;
+  /* margin-top: 3rem; /* Removido, pois flex-grow do main já faz isso */
+  width: 100%; /* Garante que o footer ocupe a largura */
 }
 @media (max-width: 768px) {
   header h1 {
