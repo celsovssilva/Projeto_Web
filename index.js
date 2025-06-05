@@ -6,7 +6,7 @@ import flash from "connect-flash";
 import path from "path";
 import { fileURLToPath } from "url";
 import methodOverride from "method-override";
-
+import ticketRoutes from './src/routes/ticketRoutes.js'; 
 import userRoutes from "./src/routes/userRoutes.js";
 import adminRoutes from "./src/routes/adminRoutes.js";
 import authRoutes from "./src/routes/authRoutes.js";
@@ -37,7 +37,7 @@ app.use(session({
 }));
 
 app.use(flash());
-
+app.use("/api", ticketRoutes);
 app.use("/api", userRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", authRoutes);
@@ -58,3 +58,4 @@ app.get('/api/logout', (req, res) => {
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
+

@@ -1,0 +1,169 @@
+<%# views/pagamento_fake.ejs %>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <% if (typeof event !== 'undefined' && event && event.name) { %>
+    <title>Ingresso Confirmado - <%= event.name %></title>
+  <% } else { %>
+    <title>Ingresso Confirmado - Entrada Express</title>
+  <% } %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; font-family: 'Poppins', sans-serif; background-color: #f4f7f6; margin:0; box-sizing: border-box; }
+    .container-geral { width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .payment-container, #ticketConfirmationContainer { background-color: white; padding: 25px 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; max-width: 500px; width: 90%; margin-bottom: 20px; }
+    .payment-container h1 { color: #2c3e50; margin-bottom: 10px; font-size: 1.8em; }
+    .payment-container h2 { color: #3498db; margin-bottom: 20px; font-size: 1.4em; }
+    .payment-container p { color: #555; margin: 8px 0; font-size: 0.95em; }
+    .price { font-size: 1.8em; color: #27ae60; margin: 20px 0; font-weight: 600; }
+    button#btnConfirmarPagamento { background-color: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em; font-weight: 500; transition: background-color 0.3s ease; width: 100%; box-sizing: border-box; }
+    button#btnConfirmarPagamento:hover:not(:disabled) { background-color: #218838; }
+    button#btnConfirmarPagamento:disabled { background-color: #aaa; cursor: not-allowed; }
+    a.cancel-link { display: inline-block; margin-top: 20px; color: #7f8c8d; text-decoration: none; font-size: 0.9em; }
+    a.cancel-link:hover { text-decoration: underline; }
+    
+    #ticketConfirmationContainer h3 { color: #2c3e50; margin-bottom: 20px; font-size: 1.6em; }
+    .ticket-info-display { text-align: left; margin-bottom:20px; padding:20px; border: 2px dashed #3498db; border-radius: 8px; background-color: #f0f8ff; }
+    .ticket-info-display p { margin: 10px 0; color: #333; font-size: 1em; }
+    .ticket-info-display strong { display: inline-block; min-width: 110px; color: #2c3e50; font-weight: 600; }
+    .nav-links { margin-top: 25px; }
+    .nav-links a { margin: 0 12px; color: #007bff; text-decoration: none; font-size: 1em; }
+    .nav-links a:hover { text-decoration: underline; }
+    .alert-message { padding: 10px; margin-bottom: 15px; border-radius: 4px; text-align: center; }
+    .alert-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;}
+    footer.page-footer { text-align: center; padding: 20px 0; margin-top: auto; font-size: 0.9em; color: #6c757d; width:100%; border-top: 1px solid #e9ecef; background-color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="container-geral">
+    <% if (typeof event !== 'undefined' && event && event.id) { %>
+      <div class="payment-container" id="paymentFormContainer">
+        <h1>Confirmar Compra</h1>
+        <h2><%= event.name %></h2>
+        <% 
+          const formatDate = (dateString) => {
+            if (!dateString) return 'Data não informada';
+            const date = new Date(dateString);
+            return isNaN(date.getTime()) ? 'Data inválida' : date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+          };
+          const formatTime = (dateString) => {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return isNaN(date.getTime()) ? '' : date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          };
+        %>
+        <p>Data: <%= formatDate(event.eventDate) %> às <%= formatTime(event.eventDate) %></p>
+        <p>Local: <%= event.endereco || 'A definir' %></p>
+        <p class="price">Valor Total: R$ <%= parseFloat(event.ticketPrice).toFixed(2).replace('.', ',') %></p>
+        
+        <p style="font-size: 0.9em; color: #777;">Este é um ambiente de simulação. Nenhum valor real será cobrado.</p>
+        
+        <div id="paymentError" class="alert-message alert-danger" style="display:none; margin-top:15px;"></div>
+
+        <button id="btnConfirmarPagamento" onclick="confirmarPagamento('<%= event.id %>')">Confirmar Pagamento (Simulado)</button>
+        <a href="/api/events" class="cancel-link">Cancelar e voltar aos eventos</a>
+      </div>
+
+      <%# Container para exibir os dados do ingresso confirmado (sem QR Code) %>
+      <div id="ticketConfirmationContainer" style="display:none;">
+        <h3>Ingresso Confirmado!</h3>
+        <div class="ticket-info-display">
+            <p><strong>Evento:</strong> <span id="ticketInfoEventName"><%= event.name %></span></p>
+            <p><strong>Data:</strong> <span id="ticketInfoEventDate"><%= formatDate(event.eventDate) %> às <%= formatTime(event.eventDate) %></span></p>
+            <p><strong>Local:</strong> <span id="ticketInfoEventLocation"><%= event.endereco || 'A definir' %></span></p>
+            <p><strong>Seu Ingresso ID:</strong> <span id="ticketInfoTicketId"></span></p>
+            <% if (typeof currentUser !== 'undefined' && currentUser && currentUser.name) { %>
+                <p><strong>Comprador:</strong> <span id="ticketInfoUserName"><%= currentUser.name %> <%= currentUser.sobrenome || '' %></span></p>
+            <% } else { %>
+                <p><strong>Comprador:</strong> <span id="ticketInfoUserName">Não identificado</span></p>
+            <% } %>
+            <p><em>Guarde o ID do seu ingresso. Ele será necessário para o check-in no evento.</em></p>
+        </div>
+        <div class="nav-links">
+          <a href="/api/events">Ver outros eventos</a>
+          <% if (typeof currentUser !== 'undefined' && currentUser && currentUser.id) { %>
+            <a href="/api/dataUser">Meus Ingressos (Em breve)</a>
+          <% } %>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="payment-container">
+          <h1>Erro no Evento</h1>
+          <p>Não foi possível carregar os detalhes do evento para pagamento. Por favor, tente selecionar um evento novamente.</p>
+          <a href="/api/events" class="cancel-link">Voltar à lista de eventos</a>
+      </div>
+    <% } %>
+  </div>
+
+  <footer class="page-footer">
+    <p>&copy; <%= new Date().getFullYear() %> Entrada Express. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    async function confirmarPagamento(eventId) {
+      const btn = document.getElementById('btnConfirmarPagamento');
+      const paymentErrorDiv = document.getElementById('paymentError');
+      
+      if (paymentErrorDiv) {
+        paymentErrorDiv.textContent = '';
+        paymentErrorDiv.style.display = 'none';
+      }
+      if(btn) {
+        btn.disabled = true;
+        btn.textContent = 'Processando...';
+      }
+
+      try {
+        const response = await fetch(`/api/events/${eventId}/processar-compra`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        const result = await response.json();
+
+        if (response.ok && result.ticket) { // Verifica se o ticket foi retornado
+          const paymentFormContainer = document.getElementById('paymentFormContainer');
+          if (paymentFormContainer) paymentFormContainer.style.display = 'none';
+          
+          if(result.ticket.id) {
+            const ticketIdDisplay = document.getElementById('ticketInfoTicketId');
+            if (ticketIdDisplay) ticketIdDisplay.textContent = result.ticket.id;
+          }
+          
+          const ticketConfirmationContainer = document.getElementById('ticketConfirmationContainer');
+          if (ticketConfirmationContainer) ticketConfirmationContainer.style.display = 'block';
+
+        } else {
+          const errorMessage = result.error || 'Não foi possível gerar o ingresso. Verifique se ainda há ingressos disponíveis ou tente novamente.';
+          if (paymentErrorDiv) {
+            paymentErrorDiv.textContent = errorMessage;
+            paymentErrorDiv.style.display = 'block';
+          } else {
+            alert('Erro no pagamento: ' + errorMessage);
+          }
+          if(btn) {
+            btn.disabled = false;
+            btn.textContent = 'Confirmar Pagamento (Simulado)';
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao confirmar pagamento:', error);
+        const networkErrorMessage = 'Erro de conexão ao processar o pagamento simulado. Verifique sua internet e tente novamente.';
+        if (paymentErrorDiv) {
+            paymentErrorDiv.textContent = networkErrorMessage;
+            paymentErrorDiv.style.display = 'block';
+        } else {
+            alert(networkErrorMessage);
+        }
+        if(btn) {
+            btn.disabled = false;
+            btn.textContent = 'Confirmar Pagamento (Simulado)';
+        }
+      }
+    }
+  </script>
+</body>
+</html>

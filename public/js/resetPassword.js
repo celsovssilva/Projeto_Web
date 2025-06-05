@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const specialCrit = document.getElementById('specialCrit');
   const matchCrit = document.getElementById('matchCrit');
 
-  // Pega o token da URL
   const params = new URLSearchParams(window.location.search);
   tokenInput.value = params.get('token');
 

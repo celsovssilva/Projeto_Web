@@ -20,7 +20,6 @@ function mostrarModal(btn) {
         }
     });
 
-    // Salva o ID do evento globalmente para usar na compra
     window.eventoSelecionadoId = btn.dataset.id;
 
     const modal = document.getElementById('modal');
@@ -50,11 +49,9 @@ function fecharModal() {
 }
 
 function showToast(message, type = 'error') {
-    // Remove toast antigo se existir
     const oldToast = document.getElementById('custom-toast');
     if (oldToast) oldToast.remove();
-
-    // Cria o toast
+    
     const toast = document.createElement('div');
     toast.id = 'custom-toast';
     toast.className = `custom-toast custom-toast-${type}`;
@@ -62,12 +59,10 @@ function showToast(message, type = 'error') {
 
     document.body.appendChild(toast);
 
-    // Animação de entrada
     setTimeout(() => {
         toast.classList.add('show');
     }, 100);
 
-    // Remover após 4s
     setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);

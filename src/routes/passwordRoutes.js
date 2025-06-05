@@ -3,6 +3,7 @@ import rateLimit from 'express-rate-limit';
 import { forgotPassword, resetPassword } from '../controllers/passwordController.js';
 
 const router = express.Router();
+
 const forgotPasswordLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hora
   max: 5,

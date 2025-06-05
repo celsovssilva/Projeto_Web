@@ -27,7 +27,7 @@ model Usuario {
   updatedAt   DateTime @updatedAt
   passwordResetToken   String?   @unique
   passwordResetExpires DateTime?
-  tickets              Ticket[] // Campo de relação para os tickets do usuário
+  tickets              Ticket[]
 }
 
 model Admin {

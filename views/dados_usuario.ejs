@@ -139,4 +139,35 @@
 
     <script src="/js/dadosUser.js"></script>
 </body>
+<script>
+    function abrirModalEditar(campo, valor) {
+      document.getElementById('modalEditarCampo').style.display = 'flex';
+      document.getElementById('campoTitulo').innerText = campo.charAt(0).toUpperCase() + campo.slice(1);
+      document.getElementById('labelCampo').innerText = campo.charAt(0).toUpperCase() + campo.slice(1) + ':';
+      document.getElementById('campoNome').value = campo;
+      document.getElementById('campoValor').value = valor || '';
+      document.getElementById('formEditarCampo').action = "/api/user/<%= usuario.id %>?_method=PUT";
+    }
+    document.getElementById('fecharModalCampo').onclick = fecharModalEditar;
+    document.getElementById('btnCancelar').onclick = function(e) {
+      e.preventDefault();
+      fecharModalEditar();
+    };
+    function fecharModalEditar() {
+      document.getElementById('modalEditarCampo').style.display = 'none';
+    }
+    window.onclick = function(event) {
+      if (event.target == document.getElementById('modalEditarCampo')) {
+        fecharModalEditar();
+      }
+    };
+    function fecharPopupSucesso() {
+      document.getElementById('popupSucesso').style.display = 'none';
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    document.getElementById('fecharPopupSucesso').onclick = fecharPopupSucesso;
+    if (window.location.search.includes('msg=sucesso')) {
+      document.getElementById('popupSucesso').style.display = 'flex';
+    }
+    </script>
 </html>
