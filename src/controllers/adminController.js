@@ -4,19 +4,22 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 export const createAdmin = async (req, res) => {
-  const { name, sobrenome, email, password } = req.body;
+  const { name, sobrenome, email, password, cpf, telefone, atuacao, empresa, faculdade } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newAdmin = await prisma.admin.create({
-      data: { name, sobrenome, email, password: hashedPassword },
+    await prisma.admin.create({
+      data: { name, sobrenome, email, password: hashedPassword, cpf, telefone, atuacao, empresa, faculdade },
     });
-    res.status(201).json(newAdmin);
+    req.flash('success', 'Gestor cadastrado com sucesso!');
+    res.json({ success: true, message: 'Gestor cadastrado com sucesso!' });
   } catch (error) {
     console.error("Error creating admin:", error);
     if (error.code === "P2002") {
-      res.status(400).json({ error: "Email already in use" });
+      req.flash('error', 'E-mail já cadastrado!');
+      res.redirect('/api/admin');
     } else {
-      res.status(500).json({ error: "Internal server error" });
+      req.flash('error', 'Erro interno ao cadastrar Gestor.');
+      res.redirect('/api/admin');
     }
   }
 };
@@ -311,27 +314,5 @@ export const deleteEvent = async (req, res) => {
     console.error("Error deleting event:", error);
     req.flash("error", "Erro interno ao excluir o evento.");
     res.status(500).json({ error: "Internal server error", success: false });
-  }
-};
-
-export const loginAdmin = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const admin = await prisma.admin.findUnique({ where: { email } });
-    if (!admin) {
-      return res.status(401).send('Admin não encontrado');
-    }
-
-    const senhaCorreta = await bcrypt.compare(password, admin.password);
-    if (!senhaCorreta) {
-      return res.status(401).send('Senha incorreta');
-    }
-
-    req.session.tipo = 'admin';
-    req.session.adminId = admin.id;
-
-    res.redirect('/dataUser'); 
-  } catch (error) {
-    res.status(500).send('Erro ao fazer login');
   }
 };

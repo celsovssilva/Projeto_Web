@@ -23,7 +23,11 @@ export const authenticateToken = (req, res, next) => {
     if (err) {
       console.error('Erro na verificação do JWT:', err.message);
       if (req.session) {
-        req.session.destroy();
+        req.session.destroy((sessionErr) => {
+            if(sessionErr) {
+                console.error('Erro ao destruir sessão:', sessionErr);
+            }
+        });
       }
       req.flash('error', 'Sessão inválida ou expirada. Faça login novamente.');
       if (req.accepts('html')) {
@@ -35,6 +39,7 @@ export const authenticateToken = (req, res, next) => {
       return res.status(403).json({ message: 'Token inválido.' });
     }
     req.user = decodedUser;
+
     next();
   });
 };

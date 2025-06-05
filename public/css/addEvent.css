@@ -24,8 +24,7 @@ header {
   padding: 2rem 1rem;
   text-align: center;
   color: var(--light);
-  position: sticky;
-  top: 0;
+  position: relative; /* <-- importante para o posicionamento absoluto */
   z-index: 1000;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
@@ -230,4 +229,47 @@ footer {
   table th, table td {
     font-size: 0.9rem;
   }
+}
+
+.icone_perfil {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px; /* Espaço entre os botões */
+}
+
+.profile-btn, .logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  font-size: 1.6rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  transition: background 0.25s, box-shadow 0.25s;
+  outline: none;
+  text-decoration: none;
+  padding: 0;
+}
+
+.profile-btn:hover, .logout-btn:hover {
+  background: rgba(255,255,255,0.32);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.profile-btn:active, .logout-btn:active {
+  background: rgba(255,255,255,0.4);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.profile-btn:focus-visible, .logout-btn:focus-visible {
+  outline: 3px solid #ffb74d;
+  outline-offset: 4px;
 }

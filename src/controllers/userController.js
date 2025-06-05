@@ -37,7 +37,6 @@ export const createUser = async (req, res) => {
   }
 
   try {
- 
     const emailExists = await prisma.usuario.findUnique({ where: { email } });
     if (emailExists) {
       return res.status(409).json({ error: "Usuário já existente, por favor realize o login" });
@@ -68,7 +67,6 @@ export const createUser = async (req, res) => {
   }
 };
 
-
 export const deleteUser = async (req, res) => {
   const { userId } = req.params;
   try {
@@ -84,27 +82,45 @@ export const deleteUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const { userId } = req.params;
-  const { name, email, sobrenome, password } = req.body;
+  const { name, email, sobrenome, password, currentPassword, cpf, telefone, atuacao, empresa, faculdade } = req.body;
 
-  if (!name && !email && !sobrenome && !password) {
-    return res.status(400).json({ error: "Informe ao menos um campo para atualização" });
+  if (!name && !email && !sobrenome && !password && !cpf && !telefone && !atuacao && !empresa && !faculdade) {
+    req.flash("error", "Informe ao menos um campo para atualização");
+    return res.status(400).send("Informe ao menos um campo para atualização");
   }
 
   try {
-    let data = { name, email, sobrenome };
+    if (req.body.cpf) {
+      req.body.cpf = req.body.cpf.replace(/\D/g, '');
+    }
 
-    if (password) {
+    let data = { name, email, sobrenome, cpf, telefone, atuacao, empresa, faculdade };
+
+    if (password && password.trim() !== "") {
+      const usuario = await prisma.usuario.findUnique({
+        where: { id: parseInt(userId, 10) }
+      });
+
+      const senhaCorreta = await bcrypt.compare(currentPassword, usuario.password);
+      if (!senhaCorreta) {
+        req.flash("error", "Senha atual incorreta");
+        return res.status(400).send("Senha atual incorreta");
+      }
+
       data.password = await bcrypt.hash(password, 10);
     }
 
-    const updatedUser = await prisma.usuario.update({
+    await prisma.usuario.update({
       where: { id: parseInt(userId, 10) },
       data,
     });
-    res.json(updatedUser);
+
+    req.flash("success", "Dados atualizados com sucesso!");
+    res.redirect("/api/dataUser");
   } catch (error) {
+    req.flash("error", "Erro ao atualizar usuário");
     console.error("Erro ao atualizar usuário:", error);
-    res.status(500).json({ error: "Erro interno do servidor" });
+    res.status(500).send("Erro interno do servidor");
   }
 };
 
@@ -113,7 +129,7 @@ export const loginUser = async (req, res) => {
   try {
     const usuario = await prisma.usuario.findUnique({ where: { email } });
     if (!usuario) {
-      return res.status(401).send('Usuário não encontrado');
+      return res.status(401).send('Usuário não encontrado. Por favor, verifique seu e-mail ou crie uma conta.');
     }
 
     const senhaCorreta = await bcrypt.compare(password, usuario.password);
@@ -124,7 +140,7 @@ export const loginUser = async (req, res) => {
     req.session.tipo = 'usuario';
     req.session.userId = usuario.id;
 
-    res.redirect('/dataUser'); 
+    res.redirect('/api/dataUser'); 
   } catch (error) {
     res.status(500).send('Erro ao fazer login');
   }
@@ -148,11 +164,13 @@ export const dataUser = async (req, res) => {
     }
 
     if (!usuario) {
-      return res.status(404).send('Usuário não encontrado');
+      req.flash("error", "Usuário não encontrado");
+      return res.render('dados_usuario', { usuario: {}, isAdmin, messages: req.flash() });
     }
 
-    res.render('dados_usuario', { usuario, isAdmin });
+    res.render('dados_usuario', { usuario, isAdmin, messages: req.flash() });
   } catch (error) {
-    res.status(500).send('Erro ao buscar dados do usuário');
+    req.flash("error", "Erro ao buscar dados do usuário");
+    res.render('dados_usuario', { usuario: {}, isAdmin: false, messages: req.flash() });
   }
 };

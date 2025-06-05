@@ -22,15 +22,10 @@ export const forgotPassword = async (req, res) => {
     } else {
       return res.status(400).json({ error: "Tipo de conta inválido." });
     }
-
-    // Sempre retorna a mesma mensagem, mesmo se o usuário não existir
     if (!user) {
-      // Simula um tempo de resposta semelhante ao caso de sucesso
       await new Promise(resolve => setTimeout(resolve, 1000));
       return res.json({ message: "Enviamos um link para redefinir sua senha para o seu e-mail." });
     }
-
-    // Salva a data/hora do pedido de redefinição
     const now = new Date();
     if (role === "user") {
       await prisma.usuario.update({
@@ -43,8 +38,6 @@ export const forgotPassword = async (req, res) => {
         data: { resetPasswordRequestedAt: now }
       });
     }
-
-    // Inclui a data no token
     const resetToken = jwt.sign(
       { userId: user.id, role, requestedAt: now },
       process.env.JWT_SECRET,
@@ -76,17 +69,19 @@ export const forgotPassword = async (req, res) => {
 
     const emailJsResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(emailJsPayload)
     });
+    const emailJsText = await emailJsResponse.text();
+    console.log('EmailJS status:', emailJsResponse.status, emailJsText);
 
-    // Sempre retorna a mesma mensagem, mesmo se o envio falhar
+    if (!emailJsResponse.ok) {
+      console.error('Falha ao enviar e-mail:', emailJsText);
+    }
+
     res.json({ message: "Enviamos um link para redefinir sua senha para o seu e-mail." });
 
   } catch (error) {
-    // Loga o erro, mas retorna mensagem genérica para o usuário
     console.error("Erro inesperado ao processar a solicitação de redefinição de senha:", error);
     res.json({ message: "Enviamos um link para redefinir sua senha para o seu e-mail." });
   }
@@ -114,23 +109,17 @@ export const resetPassword = async (req, res) => {
     } else {
       return res.status(400).json({ error: "Tipo de conta inválido no token." });
     }
-
-    // Verifica se o token é o mais recente
     if (
       !user.resetPasswordRequestedAt ||
       new Date(requestedAt).getTime() !== new Date(user.resetPasswordRequestedAt).getTime()
     ) {
       return res.status(400).json({ error: "Este link de redefinição já foi utilizado ou não é mais válido." });
     }
-
-    // Validação de força de senha (opcional)
     if (password.length < 8) {
       return res.status(400).json({ error: "A senha deve ter pelo menos 8 caracteres." });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Atualiza a senha e zera o campo de controle
     await model.update({
       where: { id: userId },
       data: { password: hashedPassword, resetPasswordRequestedAt: null }

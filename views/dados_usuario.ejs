@@ -3,65 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/reset.css"> 
     <link rel="stylesheet" href="/css/dados_usuario.css">
-    <link rel="stylesheet" href="/css/reset.css">
-    <title>Dados do Usuário/Gestor</title>
+    <title>Dados do Usuário</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <header>
-        <h1>Dados do Usuário</h1>
-    <div class="icone_perfil">
-        <button><img src="/public/img/login-cadastro/user.png"></button>
+  <% if (messages && messages.error && messages.error.length > 0) { %>
+    <div class="popup-error" id="popupError">
+      <%= messages.error[0] %>
     </div>
+  <% } %>
+  <% if (messages && messages.success && messages.success.length > 0) { %>
+    <div class="popup-success" id="popupSuccess">
+      <%= messages.success[0] %>
+    </div>
+  <% } %>
+    <header>
+        <div class="back-button">
+          <button aria-label="Voltar"
+                    onclick="window.location.href='/api/events/user'">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/>
+              </svg>
+          </button>
+        </div>
+        <h1>Dados do Usuário</h1>
     </header>
+
     <main>
-        <div class="dados-usuario">
-           <table>
-                 <tr>
-                    <td><strong>Nome</strong></td>
-                    <td class="campo-dado"><%= usuario?.name %></td>
-                </tr>
-                 <tr>
-                    <td><strong>Sobrenome</strong></td>
-                    <td class="campo-dado"><%= usuario.sobrenome %></td>
-                </tr>
-                 <tr>
-                    <td><strong>Email</strong></td>
-                    <td class="campo-dado"><%= usuario?.email %></td>
-                </tr>
-                <tr>
-                    <td><strong>Senha</strong></td>
-                    <td class="campo-dado"><%= usuario?.password ? '*'.repeat(usuario.password.length) : '' %></td>
-                </tr>
-                <tr>
-                    <% if (!isAdmin) { %>
-                    <td><strong>CPF</strong></td>
-                    <td class="campo-dado"><%= usuario?.cpf %></td>
-                </tr>
-                <tr>
-                    <td><strong>Telefone</strong></td>
-                    <td class="campo-dado"><%= usuario?.telefone %></td>
-                </tr>
-                <tr>
-                    <td><strong>Atuação</strong></td>
-                    <td class="campo-dado"><%= usuario?.atuacao %></td>
-                </tr>
-                <tr>
-                    <td><strong>Empresa</strong></td>
-                    <td class="campo-dado"><%= usuario?.empresa %></td>
-                </tr>
-                <tr>
-                    <td><strong>Faculdade</strong></td>
-                    <td class="campo-dado"><%= usuario?.faculdade %></td>
-                </tr>
-                <% } %>
-           </table>
+        <img src="/img/login-cadastro/user.png" alt="Foto de Perfil" class="profile-image">
+
+        <div class="user-data-card">
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <td><strong>Nome</strong></td>
+                        <td class="data-field"><%= usuario?.name %></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sobrenome</strong></td>
+                        <td class="data-field"><%= usuario.sobrenome %></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email</strong></td>
+                        <td class="data-field"><%= usuario?.email %></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Senha</strong></td>
+                        <td class="data-field">********</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CPF</strong></td>
+                        <td class="data-field"><%= usuario?.cpf %></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Telefone</strong></td>
+                        <td class="data-field"><%= usuario?.telefone %></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Atuação</strong></td>
+                        <td class="data-field"><%= usuario?.atuacao %></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Empresa</strong></td>
+                        <td class="data-field"><%= usuario?.empresa %></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Faculdade</strong></td>
+                        <td class="data-field"><%= usuario?.faculdade %></td>
+                    </tr>
+                </table>
+            </div>
+            <button type="button" class="action-button" id="openModalBtn">Editar Perfil</button>
         </div>
     </main>
-    <footer>
-      <div class="copyright">
-         &copy; <%= new Date().getFullYear() %> Entrada Express. Todos os direitos reservados.
+    <div id="editProfileModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeModalBtn">&times;</span>
+        <h2>Editar Perfil</h2>
+        <form id="editProfileForm" method="POST" action="/api/user/<%= usuario.id %>?_method=PUT">
+          <input type="hidden" name="id" value="<%= usuario.id %>">
+
+          <label>Nome <span style="color:#42a5f5">*</span></label>
+          <input type="text" name="name" value="<%= usuario.name %>" required>
+
+          <label>Sobrenome <span style="color:#42a5f5">*</span></label>
+          <input type="text" name="sobrenome" value="<%= usuario.sobrenome %>" required>
+
+          <label>Email <span style="color:#42a5f5">*</span></label>
+          <input type="email" name="email" value="<%= usuario.email %>" required>
+
+          <label>CPF <span style="color:#42a5f5">*</span></label>
+          <input type="text" name="cpf" value="<%= usuario.cpf %>" required readonly style="background:#f0f0f0; color:#888; cursor:not-allowed;">
+
+          <label>Telefone <span style="color:#42a5f5">*</span></label>
+          <input type="text" name="telefone" value="<%= usuario.telefone %>" required>
+
+          <label>Área de Atuação</label>
+          <input type="text" name="atuacao" value="<%= usuario.atuacao %>">
+
+          <label>Empresa</label>
+          <input type="text" name="empresa" value="<%= usuario.empresa %>">
+
+          <label>Faculdade</label>
+          <input type="text" name="faculdade" value="<%= usuario.faculdade %>">
+
+          <label>Senha Atual <span style="color:#42a5f5">*</span></label>
+          <input type="password" name="currentPassword" placeholder="Digite sua senha atual">
+
+          <label>Nova Senha</label>
+          <input type="password" name="password" id="editPassword" placeholder="Deixe em branco para não alterar">
+          <div class="validation-criteria" id="editPasswordCriteriaContainer" style="display:none;">
+            <div id="editLengthCrit" class="criterion">Mínimo 8 caracteres</div>
+            <div id="editUpperCrit" class="criterion">Uma letra maiúscula</div>
+            <div id="editLowerCrit" class="criterion">Uma letra minúscula</div>
+            <div id="editNumberCrit" class="criterion">Um número</div>
+            <div id="editSpecialCrit" class="criterion">Um caractere especial</div>
+          </div>
+          <small style="color:#888; display:block; margin-bottom:1rem;">
+            Para alterar sua senha, preencha os dois campos acima.<br>
+            <span style="color:#42a5f5;">A senha atual é obrigatória para trocar a senha.</span>
+          </small>
+          <button type="submit" class="action-button">Salvar</button>
+        </form>
       </div>
+    </div>
+
+    <footer>
+        <div class="copyright">
+            &copy; <%= new Date().getFullYear() %> Entrada Express. Todos os direitos reservados.
+        </div>
     </footer>
+
+    <script src="/js/dadosUser.js"></script>
 </body>
 </html>

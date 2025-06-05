@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Middleware de autenticação JWT
 export const authenticateToken = (req, res, next) => {
   if (req.session && req.session.user) {
     req.user = req.session.user;
@@ -29,7 +28,6 @@ export const authenticateToken = (req, res, next) => {
   });
 };
 
-// Listar eventos para o usuário
 export const listEventsForUser = async (req, res) => {
   try {
     const agora = new Date();
@@ -83,7 +81,10 @@ export const listEventsForUser = async (req, res) => {
       }
     });
 
-    res.render('events', { eventos: eventosCategorizados });
+    res.render('events', { 
+      eventos: eventosCategorizados,
+      usuario: req.session.user || null
+    });
 
   } catch (error) {
     console.error("Erro ao listar eventos para o usuário:", error);
@@ -91,7 +92,6 @@ export const listEventsForUser = async (req, res) => {
   }
 };
 
-// Buscar evento por ID
 export const getEventById = async (req, res) => {
   try {
     const eventId = parseInt(req.params.id);
@@ -124,30 +124,34 @@ export const comprarEvento = async (req, res) => {
     if (!evento) {
       return res.status(404).json({ sucesso: false, message: 'Evento não encontrado.' });
     }
-    if (!req.user || !req.user.email) {
-      return res.status(401).json({ sucesso: false, message: 'Usuário não autenticado.' });
+    if (!req.session || !req.session.userId) {
+      return res.status(401).json({ sucesso: false, message: 'Faça login para comprar seu ingresso!' });
     }
 
-    // Verifica se ainda há ingressos disponíveis
+    const usuario = await prisma.usuario.findUnique({
+      where: { id: req.session.userId }
+    });
+    if (!usuario) {
+      return res.status(401).json({ sucesso: false, message: 'Faça login para comprar seu ingresso!' });
+    }
+
     if (evento.ticketsSold >= evento.maxTickets) {
       return res.status(400).json({ sucesso: false, message: 'Ingressos esgotados para este evento.' });
     }
 
     try {
-      // Primeiro realiza a compra
       await prisma.event.update({
         where: { id: Number(eventId) },
         data: { ticketsSold: { increment: 1 } }
       });
 
-      // Tenta enviar o e-mail
       let emailStatus = {
         enviado: false,
         erro: null
       };
 
       try {
-        const userEmail = req.user.email;
+        const userEmail = usuario.email;
         const emailJsPayload = {
           service_id: String(process.env.EMAILJS_SERVICE_ID),
           template_id: String(process.env.EMAILJS_TEMPLATE_COMPRA),
@@ -180,12 +184,11 @@ export const comprarEvento = async (req, res) => {
         emailStatus.erro = 'Erro no serviço de e-mail';
       }
 
-      // Retorna resposta com status do e-mail
       return res.json({
         sucesso: true,
         emailEnviado: emailStatus.enviado,
         message: emailStatus.enviado
-          ? 'Compra realizada e confirmação enviada para o seu e-mail!'
+          ? 'Compra realizada. Confirmação enviada para o seu e-mail!'
           : 'Compra realizada! Porém houve um problema ao enviar o e-mail de confirmação.',
         erro: emailStatus.erro
       });
