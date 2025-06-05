@@ -124,7 +124,7 @@
         });
         const result = await response.json();
 
-        if (response.ok && result.ticket) { // Verifica se o ticket foi retornado
+        if (response.ok && result.ticket) {
           const paymentFormContainer = document.getElementById('paymentFormContainer');
           if (paymentFormContainer) paymentFormContainer.style.display = 'none';
           
