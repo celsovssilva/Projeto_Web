@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Middleware de autenticação JWT
 export const authenticateToken = (req, res, next) => {
   if (req.session && req.session.user) {
     req.user = req.session.user;
@@ -29,7 +28,6 @@ export const authenticateToken = (req, res, next) => {
   });
 };
 
-// Listar eventos para o usuário
 export const listEventsForUser = async (req, res) => {
   try {
     const agora = new Date();
@@ -91,7 +89,6 @@ export const listEventsForUser = async (req, res) => {
   }
 };
 
-// Buscar evento por ID
 export const getEventById = async (req, res) => {
   try {
     const eventId = parseInt(req.params.id);
@@ -128,19 +125,16 @@ export const comprarEvento = async (req, res) => {
       return res.status(401).json({ sucesso: false, message: 'Usuário não autenticado.' });
     }
 
-    // Verifica se ainda há ingressos disponíveis
     if (evento.ticketsSold >= evento.maxTickets) {
       return res.status(400).json({ sucesso: false, message: 'Ingressos esgotados para este evento.' });
     }
 
     try {
-      // Primeiro realiza a compra
       await prisma.event.update({
         where: { id: Number(eventId) },
         data: { ticketsSold: { increment: 1 } }
       });
 
-      // Tenta enviar o e-mail
       let emailStatus = {
         enviado: false,
         erro: null
@@ -180,7 +174,6 @@ export const comprarEvento = async (req, res) => {
         emailStatus.erro = 'Erro no serviço de e-mail';
       }
 
-      // Retorna resposta com status do e-mail
       return res.json({
         sucesso: true,
         emailEnviado: emailStatus.enviado,

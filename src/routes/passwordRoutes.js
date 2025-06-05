@@ -4,7 +4,6 @@ import { forgotPassword, resetPassword } from '../controllers/passwordController
 
 const router = express.Router();
 
-// Limite: 5 requisições por hora por IP na rota de recuperação
 const forgotPasswordLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hora
   max: 5,
