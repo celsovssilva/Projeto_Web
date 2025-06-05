@@ -2508,6 +2508,11 @@ export namespace Prisma {
     name: string | null
     sobrenome: string | null
     email: string | null
+    cpf: string | null
+    telefone: string | null
+    atuacao: string | null
+    empresa: string | null
+    faculdade: string | null
     password: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2520,6 +2525,11 @@ export namespace Prisma {
     name: string | null
     sobrenome: string | null
     email: string | null
+    cpf: string | null
+    telefone: string | null
+    atuacao: string | null
+    empresa: string | null
+    faculdade: string | null
     password: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2532,6 +2542,11 @@ export namespace Prisma {
     name: number
     sobrenome: number
     email: number
+    cpf: number
+    telefone: number
+    atuacao: number
+    empresa: number
+    faculdade: number
     password: number
     createdAt: number
     updatedAt: number
@@ -2554,6 +2569,11 @@ export namespace Prisma {
     name?: true
     sobrenome?: true
     email?: true
+    cpf?: true
+    telefone?: true
+    atuacao?: true
+    empresa?: true
+    faculdade?: true
     password?: true
     createdAt?: true
     updatedAt?: true
@@ -2566,6 +2586,11 @@ export namespace Prisma {
     name?: true
     sobrenome?: true
     email?: true
+    cpf?: true
+    telefone?: true
+    atuacao?: true
+    empresa?: true
+    faculdade?: true
     password?: true
     createdAt?: true
     updatedAt?: true
@@ -2578,6 +2603,11 @@ export namespace Prisma {
     name?: true
     sobrenome?: true
     email?: true
+    cpf?: true
+    telefone?: true
+    atuacao?: true
+    empresa?: true
+    faculdade?: true
     password?: true
     createdAt?: true
     updatedAt?: true
@@ -2677,6 +2707,11 @@ export namespace Prisma {
     name: string
     sobrenome: string
     email: string
+    cpf: string
+    telefone: string
+    atuacao: string | null
+    empresa: string | null
+    faculdade: string | null
     password: string
     createdAt: Date
     updatedAt: Date
@@ -2708,6 +2743,11 @@ export namespace Prisma {
     name?: boolean
     sobrenome?: boolean
     email?: boolean
+    cpf?: boolean
+    telefone?: boolean
+    atuacao?: boolean
+    empresa?: boolean
+    faculdade?: boolean
     password?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2722,6 +2762,11 @@ export namespace Prisma {
     name?: boolean
     sobrenome?: boolean
     email?: boolean
+    cpf?: boolean
+    telefone?: boolean
+    atuacao?: boolean
+    empresa?: boolean
+    faculdade?: boolean
     password?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2734,6 +2779,11 @@ export namespace Prisma {
     name?: boolean
     sobrenome?: boolean
     email?: boolean
+    cpf?: boolean
+    telefone?: boolean
+    atuacao?: boolean
+    empresa?: boolean
+    faculdade?: boolean
     password?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2746,6 +2796,11 @@ export namespace Prisma {
     name?: boolean
     sobrenome?: boolean
     email?: boolean
+    cpf?: boolean
+    telefone?: boolean
+    atuacao?: boolean
+    empresa?: boolean
+    faculdade?: boolean
     password?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2753,7 +2808,7 @@ export namespace Prisma {
     passwordResetExpires?: boolean
   }
 
-  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sobrenome" | "email" | "password" | "createdAt" | "updatedAt" | "passwordResetToken" | "passwordResetExpires", ExtArgs["result"]["admin"]>
+  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sobrenome" | "email" | "cpf" | "telefone" | "atuacao" | "empresa" | "faculdade" | "password" | "createdAt" | "updatedAt" | "passwordResetToken" | "passwordResetExpires", ExtArgs["result"]["admin"]>
   export type AdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     events?: boolean | Admin$eventsArgs<ExtArgs>
     _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
@@ -2771,6 +2826,11 @@ export namespace Prisma {
       name: string
       sobrenome: string
       email: string
+      cpf: string
+      telefone: string
+      atuacao: string | null
+      empresa: string | null
+      faculdade: string | null
       password: string
       createdAt: Date
       updatedAt: Date
@@ -3204,6 +3264,11 @@ export namespace Prisma {
     readonly name: FieldRef<"Admin", 'String'>
     readonly sobrenome: FieldRef<"Admin", 'String'>
     readonly email: FieldRef<"Admin", 'String'>
+    readonly cpf: FieldRef<"Admin", 'String'>
+    readonly telefone: FieldRef<"Admin", 'String'>
+    readonly atuacao: FieldRef<"Admin", 'String'>
+    readonly empresa: FieldRef<"Admin", 'String'>
+    readonly faculdade: FieldRef<"Admin", 'String'>
     readonly password: FieldRef<"Admin", 'String'>
     readonly createdAt: FieldRef<"Admin", 'DateTime'>
     readonly updatedAt: FieldRef<"Admin", 'DateTime'>
@@ -6156,6 +6221,11 @@ export namespace Prisma {
     name: 'name',
     sobrenome: 'sobrenome',
     email: 'email',
+    cpf: 'cpf',
+    telefone: 'telefone',
+    atuacao: 'atuacao',
+    empresa: 'empresa',
+    faculdade: 'faculdade',
     password: 'password',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -6386,6 +6456,11 @@ export namespace Prisma {
     name?: StringFilter<"Admin"> | string
     sobrenome?: StringFilter<"Admin"> | string
     email?: StringFilter<"Admin"> | string
+    cpf?: StringFilter<"Admin"> | string
+    telefone?: StringFilter<"Admin"> | string
+    atuacao?: StringNullableFilter<"Admin"> | string | null
+    empresa?: StringNullableFilter<"Admin"> | string | null
+    faculdade?: StringNullableFilter<"Admin"> | string | null
     password?: StringFilter<"Admin"> | string
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
@@ -6399,6 +6474,11 @@ export namespace Prisma {
     name?: SortOrder
     sobrenome?: SortOrder
     email?: SortOrder
+    cpf?: SortOrder
+    telefone?: SortOrder
+    atuacao?: SortOrderInput | SortOrder
+    empresa?: SortOrderInput | SortOrder
+    faculdade?: SortOrderInput | SortOrder
     password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6410,24 +6490,34 @@ export namespace Prisma {
   export type AdminWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     email?: string
+    cpf?: string
     passwordResetToken?: string
     AND?: AdminWhereInput | AdminWhereInput[]
     OR?: AdminWhereInput[]
     NOT?: AdminWhereInput | AdminWhereInput[]
     name?: StringFilter<"Admin"> | string
     sobrenome?: StringFilter<"Admin"> | string
+    telefone?: StringFilter<"Admin"> | string
+    atuacao?: StringNullableFilter<"Admin"> | string | null
+    empresa?: StringNullableFilter<"Admin"> | string | null
+    faculdade?: StringNullableFilter<"Admin"> | string | null
     password?: StringFilter<"Admin"> | string
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     passwordResetExpires?: DateTimeNullableFilter<"Admin"> | Date | string | null
     events?: EventListRelationFilter
-  }, "id" | "email" | "passwordResetToken">
+  }, "id" | "email" | "cpf" | "passwordResetToken">
 
   export type AdminOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     sobrenome?: SortOrder
     email?: SortOrder
+    cpf?: SortOrder
+    telefone?: SortOrder
+    atuacao?: SortOrderInput | SortOrder
+    empresa?: SortOrderInput | SortOrder
+    faculdade?: SortOrderInput | SortOrder
     password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6448,6 +6538,11 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Admin"> | string
     sobrenome?: StringWithAggregatesFilter<"Admin"> | string
     email?: StringWithAggregatesFilter<"Admin"> | string
+    cpf?: StringWithAggregatesFilter<"Admin"> | string
+    telefone?: StringWithAggregatesFilter<"Admin"> | string
+    atuacao?: StringNullableWithAggregatesFilter<"Admin"> | string | null
+    empresa?: StringNullableWithAggregatesFilter<"Admin"> | string | null
+    faculdade?: StringNullableWithAggregatesFilter<"Admin"> | string | null
     password?: StringWithAggregatesFilter<"Admin"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
@@ -6791,6 +6886,11 @@ export namespace Prisma {
     name: string
     sobrenome: string
     email: string
+    cpf: string
+    telefone: string
+    atuacao?: string | null
+    empresa?: string | null
+    faculdade?: string | null
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6804,6 +6904,11 @@ export namespace Prisma {
     name: string
     sobrenome: string
     email: string
+    cpf: string
+    telefone: string
+    atuacao?: string | null
+    empresa?: string | null
+    faculdade?: string | null
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6816,6 +6921,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    atuacao?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    faculdade?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6829,6 +6939,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    atuacao?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    faculdade?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6842,6 +6957,11 @@ export namespace Prisma {
     name: string
     sobrenome: string
     email: string
+    cpf: string
+    telefone: string
+    atuacao?: string | null
+    empresa?: string | null
+    faculdade?: string | null
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6853,6 +6973,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    atuacao?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    faculdade?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6865,6 +6990,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    atuacao?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    faculdade?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7332,6 +7462,11 @@ export namespace Prisma {
     name?: SortOrder
     sobrenome?: SortOrder
     email?: SortOrder
+    cpf?: SortOrder
+    telefone?: SortOrder
+    atuacao?: SortOrder
+    empresa?: SortOrder
+    faculdade?: SortOrder
     password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -7348,6 +7483,11 @@ export namespace Prisma {
     name?: SortOrder
     sobrenome?: SortOrder
     email?: SortOrder
+    cpf?: SortOrder
+    telefone?: SortOrder
+    atuacao?: SortOrder
+    empresa?: SortOrder
+    faculdade?: SortOrder
     password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -7360,6 +7500,11 @@ export namespace Prisma {
     name?: SortOrder
     sobrenome?: SortOrder
     email?: SortOrder
+    cpf?: SortOrder
+    telefone?: SortOrder
+    atuacao?: SortOrder
+    empresa?: SortOrder
+    faculdade?: SortOrder
     password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8205,6 +8350,11 @@ export namespace Prisma {
     name: string
     sobrenome: string
     email: string
+    cpf: string
+    telefone: string
+    atuacao?: string | null
+    empresa?: string | null
+    faculdade?: string | null
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8217,6 +8367,11 @@ export namespace Prisma {
     name: string
     sobrenome: string
     email: string
+    cpf: string
+    telefone: string
+    atuacao?: string | null
+    empresa?: string | null
+    faculdade?: string | null
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8273,6 +8428,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    atuacao?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    faculdade?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8285,6 +8445,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     sobrenome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    cpf?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    atuacao?: NullableStringFieldUpdateOperationsInput | string | null
+    empresa?: NullableStringFieldUpdateOperationsInput | string | null
+    faculdade?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

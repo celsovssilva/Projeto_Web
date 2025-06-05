@@ -9,22 +9,29 @@
 </head>
 <body>
   <main>
-    <form action="/api/userCad" method="post" class="form-cadastro" id="formCadastro">
+    <form action="/api/cadastro" method="post" class="form-cadastro" id="formCadastro">
 
       <fieldset class="form-step" id="step1">
         <legend>Dados Pessoais</legend>
         <div id="step1Error" class="step-error-message" style="display:none;"></div>
         <div class="input-group">
           <input type="text" name="name" id="name" placeholder=" " required>
-          <label for="name">Nome</label>
+          <label for="name">Nome <span style="color:#42a5f5">*</span></label>
         </div>
         <div class="input-group">
           <input type="text" name="sobrenome" id="sobrenome" placeholder=" " required>
-          <label for="sobrenome">Sobrenome</label>
+          <label for="sobrenome">Sobrenome <span style="color:#42a5f5">*</span></label>
         </div>
         <div class="input-group">
           <input type="text" name="cpf" id="cpf" placeholder=" " required>
-          <label for="cpf">Cpf</label>
+          <label for="cpf">Cpf <span style="color:#42a5f5">*</span></label>
+        </div>
+        <div class="input-group">
+            <select id="role" name="role" required>
+              <option value="">Selecione <span style="color:#42a5f5">*</span></option>
+              <option value="user">Usuário</option>
+              <option value="admin">Gestor</option>
+            </select>
         </div>
         <button type="button" class="btn-cadastro" onclick="nextStep(2)">Próximo</button>
       </fieldset>
@@ -33,11 +40,11 @@
         <div id="step2Error" class="step-error-message" style="display:none;"></div>
         <div class="input-group">
           <input type="email" name="email" id="email" placeholder=" " required>
-          <label for="email">E-mail</label>
+          <label for="email">E-mail <span style="color:#42a5f5">*</span></label>
         </div>
         <div class="input-group">
           <input type="text" name="telefone" id="telefone" placeholder=" " required>
-          <label for="telefone">Telefone</label>
+          <label for="telefone">Telefone <span style="color:#42a5f5">*</span></label>
         </div>
         <button type="button" class="btn-cadastro" onclick="nextStep(3)">Próximo</button>
         <button type="button" class="btn-cadastro" onclick="prevStep(1)">Voltar</button>
@@ -64,7 +71,7 @@
         <div id="step4Error" class="step-error-message" style="display:none;"></div>
         <div class="input-group">
           <input type="password" name="password" id="password" placeholder=" " required>
-          <label for="password">Senha</label>
+          <label for="password">Senha <span style="color:#42a5f5">*</span></label>
           <div class="validation-criteria" id="passwordCriteriaContainer" style="display:none;">
             <div id="lengthCrit" class="criterion">Mínimo 8 caracteres</div>
             <div id="upperCrit" class="criterion">Uma letra maiúscula</div>
@@ -75,7 +82,7 @@
         </div>
         <div class="input-group">
           <input type="password" name="confirmarSenha" id="confirmarSenha" placeholder=" " required>
-          <label for="confirmarSenha">Confirmar Senha</label>
+          <label for="confirmarSenha">Confirmar Senha <span style="color:#42a5f5">*</span></label>
           <div class="validation-criteria" id="confirmPasswordCriteriaContainer" style="display:none;">
             <div id="matchCrit" class="criterion">As senhas devem coincidir</div>
           </div>

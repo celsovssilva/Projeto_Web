@@ -13,9 +13,7 @@ import { authenticateToken, isAdmin } from "../Middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/admin/register", createAdmin);
-
-router.post("/loginAdmin", loginAdmin);
+router.post("/admin", createAdmin);
 
 router.get("/admin/events", authenticateToken, isAdmin, listEvents);
 router.post("/admin/events", authenticateToken, isAdmin, createEvent);

@@ -12,6 +12,7 @@ import adminRoutes from "./src/routes/adminRoutes.js";
 import authRoutes from "./src/routes/authRoutes.js";
 import passwordRoutes from "./src/routes/passwordRoutes.js";
 import eventsRoutes from "./src/routes/eventsRoutes.js";
+import registerRoutes from "./src/routes/registerRoutes.js";
 
 const app = express();
 
@@ -41,10 +42,17 @@ app.use("/api", userRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", authRoutes);
 app.use("/api", passwordRoutes);
-app.use("/api",eventsRoutes);
+app.use("/api", eventsRoutes);
+app.use("/api", registerRoutes);
 
 app.get("/", (req, res) => {
   res.render("landingPage");
+});
+
+app.get('/api/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/');
+  });
 });
 
 app.listen(3000, () => {

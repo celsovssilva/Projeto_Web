@@ -81,7 +81,10 @@ export const listEventsForUser = async (req, res) => {
       }
     });
 
-    res.render('events', { eventos: eventosCategorizados });
+    res.render('events', { 
+      eventos: eventosCategorizados,
+      usuario: req.session.user || null
+    });
 
   } catch (error) {
     console.error("Erro ao listar eventos para o usuário:", error);
@@ -121,8 +124,15 @@ export const comprarEvento = async (req, res) => {
     if (!evento) {
       return res.status(404).json({ sucesso: false, message: 'Evento não encontrado.' });
     }
-    if (!req.user || !req.user.email) {
-      return res.status(401).json({ sucesso: false, message: 'Usuário não autenticado.' });
+    if (!req.session || !req.session.userId) {
+      return res.status(401).json({ sucesso: false, message: 'Faça login para comprar seu ingresso!' });
+    }
+
+    const usuario = await prisma.usuario.findUnique({
+      where: { id: req.session.userId }
+    });
+    if (!usuario) {
+      return res.status(401).json({ sucesso: false, message: 'Faça login para comprar seu ingresso!' });
     }
 
     if (evento.ticketsSold >= evento.maxTickets) {
@@ -141,7 +151,7 @@ export const comprarEvento = async (req, res) => {
       };
 
       try {
-        const userEmail = req.user.email;
+        const userEmail = usuario.email;
         const emailJsPayload = {
           service_id: String(process.env.EMAILJS_SERVICE_ID),
           template_id: String(process.env.EMAILJS_TEMPLATE_COMPRA),
@@ -178,7 +188,7 @@ export const comprarEvento = async (req, res) => {
         sucesso: true,
         emailEnviado: emailStatus.enviado,
         message: emailStatus.enviado
-          ? 'Compra realizada e confirmação enviada para o seu e-mail!'
+          ? 'Compra realizada. Confirmação enviada para o seu e-mail!'
           : 'Compra realizada! Porém houve um problema ao enviar o e-mail de confirmação.',
         erro: emailStatus.erro
       });
