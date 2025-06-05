@@ -46,6 +46,7 @@ model Admin {
   events               Event[]
   passwordResetToken   String?   @unique
   passwordResetExpires DateTime?
+  resetPasswordRequestedAt DateTime?
 }
 
 model Event {

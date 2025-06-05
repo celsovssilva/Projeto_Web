@@ -149,7 +149,8 @@ exports.Prisma.AdminScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   passwordResetToken: 'passwordResetToken',
-  passwordResetExpires: 'passwordResetExpires'
+  passwordResetExpires: 'passwordResetExpires',
+  resetPasswordRequestedAt: 'resetPasswordRequestedAt'
 };
 
 exports.Prisma.EventScalarFieldEnum = {

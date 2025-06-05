@@ -2518,6 +2518,7 @@ export namespace Prisma {
     updatedAt: Date | null
     passwordResetToken: string | null
     passwordResetExpires: Date | null
+    resetPasswordRequestedAt: Date | null
   }
 
   export type AdminMaxAggregateOutputType = {
@@ -2535,6 +2536,7 @@ export namespace Prisma {
     updatedAt: Date | null
     passwordResetToken: string | null
     passwordResetExpires: Date | null
+    resetPasswordRequestedAt: Date | null
   }
 
   export type AdminCountAggregateOutputType = {
@@ -2552,6 +2554,7 @@ export namespace Prisma {
     updatedAt: number
     passwordResetToken: number
     passwordResetExpires: number
+    resetPasswordRequestedAt: number
     _all: number
   }
 
@@ -2579,6 +2582,7 @@ export namespace Prisma {
     updatedAt?: true
     passwordResetToken?: true
     passwordResetExpires?: true
+    resetPasswordRequestedAt?: true
   }
 
   export type AdminMaxAggregateInputType = {
@@ -2596,6 +2600,7 @@ export namespace Prisma {
     updatedAt?: true
     passwordResetToken?: true
     passwordResetExpires?: true
+    resetPasswordRequestedAt?: true
   }
 
   export type AdminCountAggregateInputType = {
@@ -2613,6 +2618,7 @@ export namespace Prisma {
     updatedAt?: true
     passwordResetToken?: true
     passwordResetExpires?: true
+    resetPasswordRequestedAt?: true
     _all?: true
   }
 
@@ -2717,6 +2723,7 @@ export namespace Prisma {
     updatedAt: Date
     passwordResetToken: string | null
     passwordResetExpires: Date | null
+    resetPasswordRequestedAt: Date | null
     _count: AdminCountAggregateOutputType | null
     _avg: AdminAvgAggregateOutputType | null
     _sum: AdminSumAggregateOutputType | null
@@ -2753,6 +2760,7 @@ export namespace Prisma {
     updatedAt?: boolean
     passwordResetToken?: boolean
     passwordResetExpires?: boolean
+    resetPasswordRequestedAt?: boolean
     events?: boolean | Admin$eventsArgs<ExtArgs>
     _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["admin"]>
@@ -2772,6 +2780,7 @@ export namespace Prisma {
     updatedAt?: boolean
     passwordResetToken?: boolean
     passwordResetExpires?: boolean
+    resetPasswordRequestedAt?: boolean
   }, ExtArgs["result"]["admin"]>
 
   export type AdminSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2789,6 +2798,7 @@ export namespace Prisma {
     updatedAt?: boolean
     passwordResetToken?: boolean
     passwordResetExpires?: boolean
+    resetPasswordRequestedAt?: boolean
   }, ExtArgs["result"]["admin"]>
 
   export type AdminSelectScalar = {
@@ -2806,9 +2816,10 @@ export namespace Prisma {
     updatedAt?: boolean
     passwordResetToken?: boolean
     passwordResetExpires?: boolean
+    resetPasswordRequestedAt?: boolean
   }
 
-  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sobrenome" | "email" | "cpf" | "telefone" | "atuacao" | "empresa" | "faculdade" | "password" | "createdAt" | "updatedAt" | "passwordResetToken" | "passwordResetExpires", ExtArgs["result"]["admin"]>
+  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sobrenome" | "email" | "cpf" | "telefone" | "atuacao" | "empresa" | "faculdade" | "password" | "createdAt" | "updatedAt" | "passwordResetToken" | "passwordResetExpires" | "resetPasswordRequestedAt", ExtArgs["result"]["admin"]>
   export type AdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     events?: boolean | Admin$eventsArgs<ExtArgs>
     _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
@@ -2836,6 +2847,7 @@ export namespace Prisma {
       updatedAt: Date
       passwordResetToken: string | null
       passwordResetExpires: Date | null
+      resetPasswordRequestedAt: Date | null
     }, ExtArgs["result"]["admin"]>
     composites: {}
   }
@@ -3274,6 +3286,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Admin", 'DateTime'>
     readonly passwordResetToken: FieldRef<"Admin", 'String'>
     readonly passwordResetExpires: FieldRef<"Admin", 'DateTime'>
+    readonly resetPasswordRequestedAt: FieldRef<"Admin", 'DateTime'>
   }
     
 
@@ -6230,7 +6243,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     passwordResetToken: 'passwordResetToken',
-    passwordResetExpires: 'passwordResetExpires'
+    passwordResetExpires: 'passwordResetExpires',
+    resetPasswordRequestedAt: 'resetPasswordRequestedAt'
   };
 
   export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
@@ -6466,6 +6480,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     passwordResetToken?: StringNullableFilter<"Admin"> | string | null
     passwordResetExpires?: DateTimeNullableFilter<"Admin"> | Date | string | null
+    resetPasswordRequestedAt?: DateTimeNullableFilter<"Admin"> | Date | string | null
     events?: EventListRelationFilter
   }
 
@@ -6484,6 +6499,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     passwordResetToken?: SortOrderInput | SortOrder
     passwordResetExpires?: SortOrderInput | SortOrder
+    resetPasswordRequestedAt?: SortOrderInput | SortOrder
     events?: EventOrderByRelationAggregateInput
   }
 
@@ -6505,6 +6521,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     passwordResetExpires?: DateTimeNullableFilter<"Admin"> | Date | string | null
+    resetPasswordRequestedAt?: DateTimeNullableFilter<"Admin"> | Date | string | null
     events?: EventListRelationFilter
   }, "id" | "email" | "cpf" | "passwordResetToken">
 
@@ -6523,6 +6540,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     passwordResetToken?: SortOrderInput | SortOrder
     passwordResetExpires?: SortOrderInput | SortOrder
+    resetPasswordRequestedAt?: SortOrderInput | SortOrder
     _count?: AdminCountOrderByAggregateInput
     _avg?: AdminAvgOrderByAggregateInput
     _max?: AdminMaxOrderByAggregateInput
@@ -6548,6 +6566,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
     passwordResetToken?: StringNullableWithAggregatesFilter<"Admin"> | string | null
     passwordResetExpires?: DateTimeNullableWithAggregatesFilter<"Admin"> | Date | string | null
+    resetPasswordRequestedAt?: DateTimeNullableWithAggregatesFilter<"Admin"> | Date | string | null
   }
 
   export type EventWhereInput = {
@@ -6896,6 +6915,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     passwordResetToken?: string | null
     passwordResetExpires?: Date | string | null
+    resetPasswordRequestedAt?: Date | string | null
     events?: EventCreateNestedManyWithoutAdminInput
   }
 
@@ -6914,6 +6934,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     passwordResetToken?: string | null
     passwordResetExpires?: Date | string | null
+    resetPasswordRequestedAt?: Date | string | null
     events?: EventUncheckedCreateNestedManyWithoutAdminInput
   }
 
@@ -6931,6 +6952,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     events?: EventUpdateManyWithoutAdminNestedInput
   }
 
@@ -6949,6 +6971,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     events?: EventUncheckedUpdateManyWithoutAdminNestedInput
   }
 
@@ -6967,6 +6990,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     passwordResetToken?: string | null
     passwordResetExpires?: Date | string | null
+    resetPasswordRequestedAt?: Date | string | null
   }
 
   export type AdminUpdateManyMutationInput = {
@@ -6983,6 +7007,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AdminUncheckedUpdateManyInput = {
@@ -7000,6 +7025,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EventCreateInput = {
@@ -7472,6 +7498,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     passwordResetToken?: SortOrder
     passwordResetExpires?: SortOrder
+    resetPasswordRequestedAt?: SortOrder
   }
 
   export type AdminAvgOrderByAggregateInput = {
@@ -7493,6 +7520,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     passwordResetToken?: SortOrder
     passwordResetExpires?: SortOrder
+    resetPasswordRequestedAt?: SortOrder
   }
 
   export type AdminMinOrderByAggregateInput = {
@@ -7510,6 +7538,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     passwordResetToken?: SortOrder
     passwordResetExpires?: SortOrder
+    resetPasswordRequestedAt?: SortOrder
   }
 
   export type AdminSumOrderByAggregateInput = {
@@ -8360,6 +8389,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     passwordResetToken?: string | null
     passwordResetExpires?: Date | string | null
+    resetPasswordRequestedAt?: Date | string | null
   }
 
   export type AdminUncheckedCreateWithoutEventsInput = {
@@ -8377,6 +8407,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     passwordResetToken?: string | null
     passwordResetExpires?: Date | string | null
+    resetPasswordRequestedAt?: Date | string | null
   }
 
   export type AdminCreateOrConnectWithoutEventsInput = {
@@ -8438,6 +8469,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AdminUncheckedUpdateWithoutEventsInput = {
@@ -8455,6 +8487,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
     passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resetPasswordRequestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TicketUpsertWithWhereUniqueWithoutEventInput = {

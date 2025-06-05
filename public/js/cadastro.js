@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function showToastNotification(message, type = 'error') {
     if (toastMessageEl && toastNotification) {
       toastMessageEl.textContent = message;
-      toastNotification.className = 'toast-notification'; // Reseta classes
+      toastNotification.className = 'toast-notification';
       toastNotification.classList.add('show');
       if (type === 'success') {
         toastNotification.classList.add('success');
@@ -253,6 +253,37 @@ document.addEventListener('DOMContentLoaded', () => {
       confirmarSenhaInput.focus();
       return false;
     }
+
+    let isValid = true;
+    let errorMessage = "A senha não atende aos seguintes critérios:<br>";
+
+    if (passwordValue.length < 8) {
+        errorMessage += "- Mínimo 8 caracteres.<br>";
+        isValid = false;
+    }
+    if (!/[A-Z]/.test(passwordValue)) {
+        errorMessage += "- Pelo menos uma letra maiúscula.<br>";
+        isValid = false;
+    }
+    if (!/[a-z]/.test(passwordValue)) {
+        errorMessage += "- Pelo menos uma letra minúscula.<br>";
+        isValid = false;
+    }
+    if (!/\d/.test(passwordValue)) {
+        errorMessage += "- Pelo menos um número.<br>";
+        isValid = false;
+    }
+    if (!/[^A-Za-z0-9]/.test(passwordValue)) {
+        errorMessage += "- Pelo menos um caractere especial.<br>";
+        isValid = false;
+    }
+
+    if (!isValid) {
+        displayStepError(step4ErrorDiv, errorMessage);
+        passwordInput.focus();
+        return false;
+    }
+
     return true;
   }
   function validateStep1() {
@@ -312,8 +343,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!response.ok) {
         const errorMessage = result.error || "Erro ao realizar o cadastro. Verifique os dados.";
         showToastNotification(errorMessage, 'error');
-        if (errorMessage === "Usuário já existente, por favor realize o login") {
-        }
       } else {
         showToastNotification("Cadastro realizado com sucesso! Redirecionando...", 'success');
         setTimeout(() => { window.location.href = "/api/login"; }, 2000);

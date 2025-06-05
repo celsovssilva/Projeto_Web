@@ -202,11 +202,14 @@
               </div>
 
               <div class="modal-footer">
-                  <button class="btn btn-secondary" onclick="fecharModal()">Fechar</button>
+                <button class="btn btn-secondary" onclick="fecharModal()">Fechar</button>
+                <% if (!(usuario && usuario.type === 'admin')) { %>
                   <button class="btn btn-primary" id="comprarIngressoBtn" onclick="comprarIngresso()">
                     Comprar Ingresso
                   </button>
+                <% } %>
               </div>
+
           </div>
       </div>
       <script src="/js/eventos.js"></script>
